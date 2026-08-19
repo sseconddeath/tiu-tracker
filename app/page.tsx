@@ -43,6 +43,7 @@ interface SearchResult extends Applicant {
   contract_seats: number
   total_applicants: number
   consents_count: number
+  consent_position: number
   _applicants: Applicant[]
 }
 
@@ -80,6 +81,8 @@ export default function Page() {
   const [activeId, setActiveId] = useState('')
   const [history, setHistory] = useState<string[]>([])
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null)
+  const [showOnlyConsent, setShowOnlyConsent] = useState(false)
+  const [savedIds, setSavedIds] = useState<{id: string, label: string}[]>([])
 
   // Load data
   useEffect(() => {
@@ -98,12 +101,23 @@ export default function Page() {
       })
   }, [])
 
-  // Load history from localStorage
+  // Load history and saved IDs from localStorage
   useEffect(() => {
     try {
       const saved = localStorage.getItem('tiu_history')
       if (saved) setHistory(JSON.parse(saved))
+      const ids = localStorage.getItem('tiu_saved_ids')
+      if (ids) setSavedIds(JSON.parse(ids))
     } catch {}
+  }, [])
+
+  const toggleSaveId = useCallback((id: string) => {
+    setSavedIds(prev => {
+      const exists = prev.find(x => x.id === id)
+      const next = exists ? prev.filter(x => x.id !== id) : [...prev, { id, label: '' }]
+      try { localStorage.setItem('tiu_saved_ids', JSON.stringify(next)) } catch {}
+      return next
+    })
   }, [])
 
   const doSearch = useCallback((id: string) => {
@@ -126,6 +140,9 @@ export default function Page() {
       for (const a of lst.applicants) {
         if (a.uid === activeId) {
           const consents = lst.applicants.filter(x => x.has_consent).length
+          // Position among only those with consent
+          const consentApplicants = lst.applicants.filter(x => x.has_consent)
+          const consentPos = consentApplicants.findIndex(x => x.uid === activeId)
           found.push({
             ...a,
             institute: lst.institute,
@@ -137,6 +154,7 @@ export default function Page() {
             contract_seats: lst.contract_seats,
             total_applicants: lst.applicants.length,
             consents_count: consents,
+            consent_position: consentPos >= 0 ? consentPos + 1 : 0,
             _applicants: lst.applicants,
           })
         }
@@ -250,11 +268,37 @@ export default function Page() {
 
       {/* Landing */}
       {!activeId && (
-        <div style={{ padding: '40px 20px', textAlign: 'center' }}>
+        <div style={{ padding: '20px 20px', textAlign: 'center' }}>
           <div style={{ fontSize: 48, marginBottom: 16, opacity: 0.25 }}>🎓</div>
           <p style={{ color: t.sub, fontSize: 14, lineHeight: 1.7, maxWidth: 360, margin: '0 auto' }}>
-            Введи свой <strong style={{ color: t.text }}>уникальный идентификатор</strong> из Сервиса Приёма — покажу все направления, позицию и шансы.
+            Введи <strong style={{ color: t.text }}>уникальный идентификатор</strong> из Сервиса Приёма — покажу все направления, позицию и шансы.
           </p>
+
+          {/* Saved IDs */}
+          {savedIds.length > 0 && (
+            <div style={{ marginTop: 20, textAlign: 'left' }}>
+              <div style={{ fontSize: 11, color: t.dim, fontFamily: mono, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>
+                Сохранённые ID
+              </div>
+              {savedIds.map(s => (
+                <div key={s.id} style={{
+                  display: 'flex', alignItems: 'center', gap: 8,
+                  background: t.card, border: `1px solid ${t.border}`,
+                  borderRadius: 8, padding: '10px 14px', marginBottom: 6,
+                  cursor: 'pointer',
+                }} onClick={() => { setQuery(s.id); doSearch(s.id) }}>
+                  <span style={{ fontSize: 16, fontWeight: 800, fontFamily: mono, color: t.cyan, letterSpacing: 1, flex: 1 }}>
+                    {s.id}
+                  </span>
+                  <span style={{ fontSize: 12, color: t.blue }}>→</span>
+                  <button onClick={(e) => { e.stopPropagation(); toggleSaveId(s.id) }}
+                    style={{ background: 'none', border: 'none', color: t.dim, cursor: 'pointer', fontSize: 14, padding: '0 4px' }}>
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
@@ -318,6 +362,12 @@ export default function Page() {
                 cursor: 'pointer', fontSize: 12, fontFamily: sans, padding: 0 }}>
               ← Новый поиск
             </button>
+            <button onClick={() => toggleSaveId(activeId)}
+              style={{ marginTop: 12, marginLeft: 16, background: 'none', border: 'none',
+                color: savedIds.find(x => x.id === activeId) ? t.amber : t.dim,
+                cursor: 'pointer', fontSize: 12, fontFamily: sans, padding: 0 }}>
+              {savedIds.find(x => x.id === activeId) ? '★ Сохранён' : '☆ Сохранить'}
+            </button>
           </div>
 
           {/* Cards */}
@@ -363,9 +413,9 @@ export default function Page() {
                     gap: 1, background: t.border, borderRadius: 8, overflow: 'hidden',
                   }}>
                     <Cell label="Позиция" value={r.position} sub={`из ${r.total_applicants}`} color={accent} big />
-                    <Cell label="Сумма" value={r.total_score} color={t.cyan} big />
-                    <Cell label="ВИ" value={r.vi_score} />
-                    <Cell label="ИД" value={r.id_score} />
+                    <Cell label="Среди согл." value={r.consent_position || '—'} sub={`из ${r.consents_count}`} color={r.consent_position && r.consent_position <= r.budget_seats ? t.green : t.amber} big />
+                    <Cell label="Сумма" value={r.total_score} color={t.cyan} />
+                    <Cell label="ВИ+ИД" value={`${r.vi_score}+${r.id_score}`} />
                   </div>
 
                   <div style={{
@@ -394,6 +444,28 @@ export default function Page() {
                 {/* Expanded table */}
                 {expanded && (
                   <div style={{ borderTop: `1px solid ${t.border}`, overflowX: 'auto' }}>
+                    {/* Consent filter toggle */}
+                    <div style={{
+                      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                      padding: '8px 12px', background: t.surface,
+                      borderBottom: `1px solid ${t.border}`,
+                    }}>
+                      <span style={{ fontSize: 11, color: t.dim }}>
+                        {showOnlyConsent
+                          ? `Только с согласием (${r._applicants.filter(a => a.has_consent).length})`
+                          : `Все (${r._applicants.length})`}
+                      </span>
+                      <button onClick={() => setShowOnlyConsent(!showOnlyConsent)}
+                        style={{
+                          padding: '4px 10px', fontSize: 11, fontFamily: sans,
+                          background: showOnlyConsent ? t.greenBg : t.card,
+                          border: `1px solid ${showOnlyConsent ? t.green : t.border}`,
+                          borderRadius: 5, cursor: 'pointer',
+                          color: showOnlyConsent ? t.green : t.sub,
+                        }}>
+                        {showOnlyConsent ? '✓ Только с согласием' : 'Только с согласием'}
+                      </button>
+                    </div>
                     <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11, fontFamily: mono }}>
                       <thead>
                         <tr style={{ background: t.surface }}>
@@ -408,7 +480,7 @@ export default function Page() {
                         </tr>
                       </thead>
                       <tbody>
-                        {r._applicants.map((a, j) => {
+                        {(showOnlyConsent ? r._applicants.filter(a => a.has_consent) : r._applicants).map((a, j) => {
                           const isMe = a.uid === activeId
                           const rowPass = r.budget_seats > 0 && a.position <= r.budget_seats
                           return (
