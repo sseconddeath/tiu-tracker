@@ -81,7 +81,7 @@ export default function Page() {
   const [activeId, setActiveId] = useState('')
   const [history, setHistory] = useState<string[]>([])
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null)
-  const [showOnlyConsent, setShowOnlyConsent] = useState(false)
+  const [showOnlyConsent, setShowOnlyConsent] = useState<'all'|'consent'|'exam'|'both'>('all')
   const [savedIds, setSavedIds] = useState<{id: string, label: string}[]>([])
 
   // Load data
@@ -409,13 +409,12 @@ export default function Page() {
 
                   {/* Stats */}
                   <div style={{
-                    display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr',
+                    display: 'grid', gridTemplateColumns: '1fr 1fr 1fr',
                     gap: 1, background: t.border, borderRadius: 8, overflow: 'hidden',
                   }}>
                     <Cell label="Позиция" value={r.position} sub={`из ${r.total_applicants}`} color={accent} big />
-                    <Cell label="Среди согл." value={r.consent_position || '—'} sub={`из ${r.consents_count}`} color={r.consent_position && r.consent_position <= r.budget_seats ? t.green : t.amber} big />
-                    <Cell label="Сумма" value={r.total_score} color={t.cyan} />
-                    <Cell label="ВИ+ИД" value={`${r.vi_score}+${r.id_score}`} />
+                    <Cell label="Сумма баллов" value={r.total_score} sub={`ВИ ${r.vi_score} + ИД ${r.id_score}`} color={t.cyan} big />
+                    <Cell label="Среди согл." value={r.consent_position || '—'} sub={`${r.consents_count} из ${r.budget_seats} мест`} color={r.consent_position && r.consent_position <= r.budget_seats ? t.green : t.amber} big />
                   </div>
 
                   <div style={{
@@ -444,27 +443,30 @@ export default function Page() {
                 {/* Expanded table */}
                 {expanded && (
                   <div style={{ borderTop: `1px solid ${t.border}`, overflowX: 'auto' }}>
-                    {/* Consent filter toggle */}
+                    {/* Filter buttons */}
                     <div style={{
-                      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                      padding: '8px 12px', background: t.surface,
-                      borderBottom: `1px solid ${t.border}`,
+                      display: 'flex', gap: 4, padding: '8px 10px',
+                      background: t.surface, borderBottom: `1px solid ${t.border}`,
+                      flexWrap: 'wrap',
                     }}>
-                      <span style={{ fontSize: 11, color: t.dim }}>
-                        {showOnlyConsent
-                          ? `Только с согласием (${r._applicants.filter(a => a.has_consent).length})`
-                          : `Все (${r._applicants.length})`}
-                      </span>
-                      <button onClick={() => setShowOnlyConsent(!showOnlyConsent)}
-                        style={{
-                          padding: '4px 10px', fontSize: 11, fontFamily: sans,
-                          background: showOnlyConsent ? t.greenBg : t.card,
-                          border: `1px solid ${showOnlyConsent ? t.green : t.border}`,
-                          borderRadius: 5, cursor: 'pointer',
-                          color: showOnlyConsent ? t.green : t.sub,
-                        }}>
-                        {showOnlyConsent ? '✓ Только с согласием' : 'Только с согласием'}
-                      </button>
+                      {([
+                        { key: 'all', label: `Все (${r._applicants.length})` },
+                        { key: 'consent', label: `С согласием (${r._applicants.filter(a => a.has_consent).length})` },
+                        { key: 'exam', label: `Сдали ВИ (${r._applicants.filter(a => a.vi_score > 0).length})` },
+                        { key: 'both', label: `Согл. + ВИ (${r._applicants.filter(a => a.has_consent && a.vi_score > 0).length})` },
+                      ] as const).map(f => (
+                        <button key={f.key} onClick={() => setShowOnlyConsent(f.key)}
+                          style={{
+                            padding: '4px 8px', fontSize: 10, fontFamily: sans,
+                            background: showOnlyConsent === f.key ? (f.key === 'all' ? t.blueSoft : t.greenBg) : t.card,
+                            border: `1px solid ${showOnlyConsent === f.key ? (f.key === 'all' ? t.blue : t.green) : t.border}`,
+                            borderRadius: 5, cursor: 'pointer',
+                            color: showOnlyConsent === f.key ? (f.key === 'all' ? t.blue : t.green) : t.sub,
+                            fontWeight: showOnlyConsent === f.key ? 600 : 400,
+                          }}>
+                          {f.label}
+                        </button>
+                      ))}
                     </div>
                     <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11, fontFamily: mono }}>
                       <thead>
@@ -480,7 +482,12 @@ export default function Page() {
                         </tr>
                       </thead>
                       <tbody>
-                        {(showOnlyConsent ? r._applicants.filter(a => a.has_consent) : r._applicants).map((a, j) => {
+                        {r._applicants.filter(a => {
+                          if (showOnlyConsent === 'consent') return a.has_consent
+                          if (showOnlyConsent === 'exam') return a.vi_score > 0
+                          if (showOnlyConsent === 'both') return a.has_consent && a.vi_score > 0
+                          return true
+                        }).map((a, j) => {
                           const isMe = a.uid === activeId
                           const rowPass = r.budget_seats > 0 && a.position <= r.budget_seats
                           return (
