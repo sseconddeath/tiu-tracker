@@ -32,10 +32,11 @@ BASE_URL = "https://incoming.tyuiu.ru/incoming/"
 DATA_DIR = Path(__file__).parent.parent / "public" / "data"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-TIMEOUT = 60_000          # 60 секунд на загрузку страницы
-WAIT_AFTER_LOAD = 3000    # ждать 3 сек после загрузки
-WAIT_AFTER_SELECT = 1500  # ждать после выбора дропдауна
-WAIT_AFTER_SUBMIT = 5000  # ждать после нажатия Отправить
+TIMEOUT = 120_000         # 120 секунд на загрузку страницы
+WAIT_AFTER_LOAD = 4000    # ждать 4 сек после загрузки
+WAIT_AFTER_SELECT = 2000  # ждать после выбора дропдауна
+WAIT_AFTER_SUBMIT = 6000  # ждать после нажатия Отправить
+MAX_RETRIES = 3           # попытки загрузки страницы
 
 
 @dataclass
@@ -83,6 +84,7 @@ class TIUScraper:
             ctx = await browser.new_context(
                 viewport={"width": 1280, "height": 900},
                 locale="ru-RU",
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
             )
             page = await ctx.new_page()
             try:
@@ -94,14 +96,23 @@ class TIUScraper:
     # ── Навигация ────────────────────────────────────────────────────────
 
     async def _goto(self, page: Page):
-        """Загрузить страницу с таймаутом и без ожидания networkidle."""
-        try:
-            await page.goto(BASE_URL, wait_until="domcontentloaded", timeout=TIMEOUT)
-        except Exception:
-            # Повторная попытка
-            await asyncio.sleep(3)
-            await page.goto(BASE_URL, wait_until="domcontentloaded", timeout=TIMEOUT)
-        await page.wait_for_timeout(WAIT_AFTER_LOAD)
+        """Загрузить страницу. 3 попытки с паузами."""
+        for attempt in range(1, MAX_RETRIES + 1):
+            try:
+                log.info("  Загрузка (попытка %d/%d)...", attempt, MAX_RETRIES)
+                await page.goto(BASE_URL, wait_until="commit", timeout=TIMEOUT)
+                # Ждём появления select-ов на странице
+                await page.wait_for_selector("select", timeout=30_000)
+                await page.wait_for_timeout(WAIT_AFTER_LOAD)
+                return
+            except Exception as e:
+                log.warning("  Попытка %d не удалась: %s", attempt, str(e)[:80])
+                if attempt < MAX_RETRIES:
+                    wait = attempt * 10
+                    log.info("  Жду %d сек...", wait)
+                    await asyncio.sleep(wait)
+                else:
+                    raise Exception(f"Не удалось загрузить страницу после {MAX_RETRIES} попыток")
 
     async def _get_options(self, page: Page, idx: int) -> list[dict]:
         """Получить все option из select по индексу. Возвращает [{text, value}]."""
