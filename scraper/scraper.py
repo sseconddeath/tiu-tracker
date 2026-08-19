@@ -1,21 +1,18 @@
 """
-ТИУ Incoming Lists Scraper
-Автоматизирует сбор данных с https://incoming.tyuiu.ru/incoming/
+ТИУ Incoming Lists Scraper v2
+Парсит https://incoming.tyuiu.ru/incoming/ через Playwright.
 
-Реальная структура таблицы (из скриншотов):
-  №  | Уникальный идентификатор | Баллы ВИ | Баллы ИД | Сумма | Вид приёма | Приоритет | Согласие
+Дропдауны на сайте (по порядку):
+  0: Институт
+  1: Форма обучения (Очная / Заочная / Очно-заочная)
+  2: Категория (Договор / Бюджет)
+  3: Вид приема (общий конкурс / Без ВИ / квота / ...)
+  4: Специальность (загружается динамически)
+  5: Наличие оплаты (фильтр)
+  6: Согласие на зачисление (фильтр)
 
-Шапка таблицы содержит:
-  "Всего мест по направлению: 22  Общий конкурс: 20  По договору: 2"
-
-Форма на сайте (дропдауны):
-  Институт → Форма обучения → Категория → Специальность → Согласие (фильтр)
-  НЕТ отдельного дропдауна "Вид приёма" — он в колонке таблицы.
-
-Использование:
-    pip install playwright
-    playwright install chromium
-    python scraper.py
+Таблица результатов:
+  №  |  Уник. ID  |  ВИ  |  ИД  |  Сумма  |  Вид приёма  |  Приоритет  |  Согласие
 """
 
 import asyncio
@@ -25,7 +22,6 @@ import re
 from datetime import datetime
 from dataclasses import dataclass, asdict, field
 from pathlib import Path
-from typing import Optional
 
 from playwright.async_api import async_playwright, Page
 
@@ -34,19 +30,24 @@ log = logging.getLogger(__name__)
 
 BASE_URL = "https://incoming.tyuiu.ru/incoming/"
 DATA_DIR = Path(__file__).parent.parent / "public" / "data"
-DATA_DIR.mkdir(exist_ok=True)
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+TIMEOUT = 60_000          # 60 секунд на загрузку страницы
+WAIT_AFTER_LOAD = 3000    # ждать 3 сек после загрузки
+WAIT_AFTER_SELECT = 1500  # ждать после выбора дропдауна
+WAIT_AFTER_SUBMIT = 5000  # ждать после нажатия Отправить
 
 
 @dataclass
 class Applicant:
     position: int
-    uid: str                     # Уникальный идентификатор (7 цифр)
-    vi_score: int                # Баллы за вступительное испытание
-    id_score: int                # Баллы за индивидуальные достижения
-    total_score: int             # Сумма конкурсных баллов
-    admission_type: str          # Вид приёма (Общий конкурс и т.д.)
-    priority: int                # Приоритет
-    has_consent: bool            # Согласие на зачисление
+    uid: str
+    vi_score: int
+    id_score: int
+    total_score: int
+    admission_type: str
+    priority: int
+    has_consent: bool
 
 
 @dataclass
@@ -55,9 +56,9 @@ class CompetitionList:
     education_form: str
     category: str
     specialty: str
-    total_seats: int = 0         # Всего мест по направлению
-    budget_seats: int = 0        # Общий конкурс (бюджет)
-    contract_seats: int = 0      # По договору
+    total_seats: int = 0
+    budget_seats: int = 0
+    contract_seats: int = 0
     applicants: list = field(default_factory=list)
     scraped_at: str = ""
 
@@ -71,12 +72,7 @@ class TIUScraper:
         self.headless = headless
         self.results: list[CompetitionList] = []
 
-    async def run(
-        self,
-        institutes: list[str] | None = None,
-        education_forms: list[str] | None = None,
-        categories: list[str] | None = None,
-    ):
+    async def run(self, institutes=None, education_forms=None, categories=None):
         if education_forms is None:
             education_forms = ["Очная"]
         if categories is None:
@@ -84,7 +80,10 @@ class TIUScraper:
 
         async with async_playwright() as pw:
             browser = await pw.chromium.launch(headless=self.headless)
-            ctx = await browser.new_context(viewport={"width": 1280, "height": 900}, locale="ru-RU")
+            ctx = await browser.new_context(
+                viewport={"width": 1280, "height": 900},
+                locale="ru-RU",
+            )
             page = await ctx.new_page()
             try:
                 await self._scrape_all(page, institutes, education_forms, categories)
@@ -92,117 +91,143 @@ class TIUScraper:
                 await browser.close()
         return self.results
 
-    async def _scrape_all(self, page: Page, institutes, edu_forms, categories):
-        log.info("Загружаю %s", BASE_URL)
-        await page.goto(BASE_URL, wait_until="networkidle", timeout=30_000)
-        await page.wait_for_timeout(2000)
+    # ── Навигация ────────────────────────────────────────────────────────
 
+    async def _goto(self, page: Page):
+        """Загрузить страницу с таймаутом и без ожидания networkidle."""
+        try:
+            await page.goto(BASE_URL, wait_until="domcontentloaded", timeout=TIMEOUT)
+        except Exception:
+            # Повторная попытка
+            await asyncio.sleep(3)
+            await page.goto(BASE_URL, wait_until="domcontentloaded", timeout=TIMEOUT)
+        await page.wait_for_timeout(WAIT_AFTER_LOAD)
+
+    async def _get_options(self, page: Page, idx: int) -> list[dict]:
+        """Получить все option из select по индексу. Возвращает [{text, value}]."""
+        selects = await page.query_selector_all("select")
+        if idx >= len(selects):
+            return []
+        options = await selects[idx].query_selector_all("option")
+        result = []
+        for opt in options:
+            text = (await opt.inner_text()).strip()
+            value = await opt.get_attribute("value")
+            if text and text != "---" and value:
+                result.append({"text": text, "value": value})
+        return result
+
+    async def _select(self, page: Page, idx: int, text: str) -> bool:
+        """Выбрать option по тексту (частичное совпадение)."""
+        selects = await page.query_selector_all("select")
+        if idx >= len(selects):
+            log.warning("  Select %d не найден (всего %d)", idx, len(selects))
+            return False
+        for opt in await selects[idx].query_selector_all("option"):
+            opt_text = (await opt.inner_text()).strip()
+            if text.lower() in opt_text.lower():
+                value = await opt.get_attribute("value")
+                if value:
+                    await selects[idx].select_option(value=value)
+                    await page.wait_for_timeout(WAIT_AFTER_SELECT)
+                    return True
+        log.warning("  Не нашёл '%s' в select %d", text, idx)
+        return False
+
+    # ── Скрейпинг ────────────────────────────────────────────────────────
+
+    async def _scrape_all(self, page, institutes, edu_forms, categories):
+        log.info("Загружаю %s", BASE_URL)
+        await self._goto(page)
+
+        # Получить институты (select 0)
         all_insts = await self._get_options(page, 0)
-        log.info("Институты: %s", all_insts)
+        log.info("Найдено институтов: %d", len(all_insts))
+        for i in all_insts:
+            log.info("  - %s", i["text"])
 
         if institutes:
-            all_insts = [i for i in all_insts if any(t.lower() in i.lower() for t in institutes)]
+            all_insts = [i for i in all_insts
+                         if any(t.lower() in i["text"].lower() for t in institutes)]
+            log.info("После фильтра: %d", len(all_insts))
 
         for inst in all_insts:
             for edu in edu_forms:
                 for cat in categories:
-                    await self._scrape_combo(page, inst, edu, cat)
+                    try:
+                        await self._scrape_combo(page, inst["text"], edu, cat)
+                    except Exception as e:
+                        log.error("Ошибка [%s|%s|%s]: %s", inst["text"], edu, cat, e)
 
-    async def _get_options(self, page: Page, select_idx: int) -> list[str]:
-        selects = await page.query_selector_all("select")
-        if select_idx >= len(selects):
-            return []
-        options = await selects[select_idx].query_selector_all("option")
-        result = []
-        for opt in options:
-            text = (await opt.inner_text()).strip()
-            val = await opt.get_attribute("value")
-            if text and text != "---" and val:
-                result.append(text)
-        return result
+    async def _scrape_combo(self, page, institute, edu_form, category):
+        log.info("═══ %s | %s | %s ═══", institute, edu_form, category)
+        await self._goto(page)
 
-    async def _select(self, page: Page, idx: int, text: str) -> bool:
-        selects = await page.query_selector_all("select")
-        if idx >= len(selects):
-            return False
-        options = await selects[idx].query_selector_all("option")
-        for opt in options:
-            opt_text = (await opt.inner_text()).strip()
-            if text.lower() in opt_text.lower():
-                val = await opt.get_attribute("value")
-                if val:
-                    await selects[idx].select_option(value=val)
-                    await page.wait_for_timeout(500)
-                    return True
-        return False
-
-    async def _scrape_combo(self, page: Page, institute: str, edu_form: str, category: str):
-        log.info("── %s | %s | %s ──", institute, edu_form, category)
-        await page.goto(BASE_URL, wait_until="networkidle", timeout=30_000)
-        await page.wait_for_timeout(1500)
-
-        # Институт (select 0)
+        # 0: Институт
         if not await self._select(page, 0, institute):
-            log.warning("  Не выбрать институт: %s", institute)
             return
+        # 1: Форма обучения
+        if not await self._select(page, 1, edu_form):
+            return
+        # 2: Категория
+        if not await self._select(page, 2, category):
+            return
+
         await page.wait_for_timeout(1000)
 
-        # Форма обучения (select 1)
-        if not await self._select(page, 1, edu_form):
-            log.warning("  Не выбрать форму: %s", edu_form)
-            return
-        await page.wait_for_timeout(500)
-
-        # Категория (select 2)
-        if not await self._select(page, 2, category):
-            log.warning("  Не выбрать категорию: %s", category)
-            return
-        await page.wait_for_timeout(800)
-
-        # Специальности (select 3, загружается динамически)
-        specialties = await self._get_options(page, 3)
-        log.info("  Специальности: %d шт.", len(specialties))
+        # 4: Специальности (индекс 4, после "Вид приёма" который на индексе 3)
+        specialties = await self._get_options(page, 4)
+        log.info("  Специальностей: %d", len(specialties))
 
         for spec in specialties:
-            await self._scrape_spec(page, institute, edu_form, category, spec)
+            try:
+                await self._scrape_spec(page, institute, edu_form, category, spec["text"])
+            except Exception as e:
+                log.error("  Ошибка [%s]: %s", spec["text"], e)
 
     async def _scrape_spec(self, page, institute, edu_form, category, specialty):
-        log.info("    → %s", specialty)
+        log.info("  → %s", specialty)
 
-        await page.goto(BASE_URL, wait_until="networkidle", timeout=30_000)
-        await page.wait_for_timeout(1000)
+        # Заново загрузить и выбрать всё
+        await self._goto(page)
 
         await self._select(page, 0, institute)
-        await page.wait_for_timeout(800)
         await self._select(page, 1, edu_form)
-        await page.wait_for_timeout(300)
         await self._select(page, 2, category)
-        await page.wait_for_timeout(800)
-        await self._select(page, 3, specialty)
-        await page.wait_for_timeout(300)
+        await page.wait_for_timeout(1000)
+        await self._select(page, 4, specialty)
 
-        # Нажать "Отправить"
-        btn = await page.query_selector("input[type='submit'], button[type='submit']")
+        # Нажать Отправить
+        btn = await page.query_selector("input[type='submit']")
         if not btn:
-            btn = await page.query_selector("text=Отправить")
+            btn = await page.query_selector("button[type='submit']")
         if not btn:
-            log.warning("    Кнопка не найдена")
+            # Поиск по тексту
+            for el in await page.query_selector_all("input, button"):
+                val = await el.get_attribute("value") or ""
+                txt = await el.inner_text() if await el.get_attribute("type") != "submit" else val
+                if "отправить" in (val + txt).lower():
+                    btn = el
+                    break
+
+        if not btn:
+            log.warning("  Кнопка Отправить не найдена!")
             return
 
         await btn.click()
-        await page.wait_for_timeout(3000)
+        await page.wait_for_timeout(WAIT_AFTER_SUBMIT)
 
-        # ── Парсим шапку: "Всего мест: 22  Общий конкурс: 20  По договору: 2"
+        # Парсим шапку
+        body_text = await page.inner_text("body")
         total_seats, budget_seats, contract_seats = 0, 0, 0
-        header_text = await page.inner_text("body")
-        m_total = re.search(r"Всего мест по направлению:\s*(\d+)", header_text)
-        m_budget = re.search(r"Общий конкурс:\s*(\d+)", header_text)
-        m_contract = re.search(r"По договору:\s*(\d+)", header_text)
-        if m_total: total_seats = int(m_total.group(1))
-        if m_budget: budget_seats = int(m_budget.group(1))
-        if m_contract: contract_seats = int(m_contract.group(1))
+        m = re.search(r"Всего мест по направлению:\s*(\d+)", body_text)
+        if m: total_seats = int(m.group(1))
+        m = re.search(r"Общий конкурс:\s*(\d+)", body_text)
+        if m: budget_seats = int(m.group(1))
+        m = re.search(r"По договору:\s*(\d+)", body_text)
+        if m: contract_seats = int(m.group(1))
 
-        # ── Парсим таблицу
+        # Парсим таблицу
         applicants = await self._parse_table(page)
 
         if applicants:
@@ -216,15 +241,21 @@ class TIUScraper:
                 contract_seats=contract_seats,
                 applicants=applicants,
             ))
-            log.info("    ✓ %d чел. | %d мест", len(applicants), budget_seats)
+            log.info("  ✓ %d чел. | %d/%d мест", len(applicants), budget_seats, total_seats)
         else:
-            log.info("    ✗ Пусто")
+            log.info("  ✗ Пусто или ошибка")
 
     async def _parse_table(self, page: Page) -> list[Applicant]:
         """
-        Парсит таблицу с реальной структурой:
-        №  |  Уник. ID  |  Баллы ВИ  |  Баллы ИД  |  Сумма  |  Вид приёма  |  Приоритет  |  Согласие
-        0      1             2             3           4          5              6             7
+        Колонки:
+        0: №
+        1: Уникальный идентификатор
+        2: Баллы за ВИ
+        3: Баллы за ИД
+        4: Сумма
+        5: Вид приёма
+        6: Приоритет
+        7: Согласие на зачисление
         """
         table = await page.query_selector("table")
         if not table:
@@ -233,57 +264,39 @@ class TIUScraper:
         rows = await table.query_selector_all("tr")
         applicants = []
 
-        for row in rows[1:]:  # пропускаем заголовок
+        for row in rows[1:]:
             cells = await row.query_selector_all("td")
             if len(cells) < 7:
                 continue
-
             texts = []
             for c in cells:
                 texts.append((await c.inner_text()).strip())
 
             try:
-                position = int(texts[0])
+                pos = int(texts[0]) if texts[0].isdigit() else 0
                 uid = texts[1].strip()
-                vi_score = int(texts[2]) if texts[2].isdigit() else 0
-                id_score = int(texts[3]) if texts[3].isdigit() else 0
-                total_score = int(texts[4]) if texts[4].isdigit() else 0
-                admission_type = texts[5].strip() if len(texts) > 5 else ""
+                vi = int(texts[2]) if texts[2].isdigit() else 0
+                ид = int(texts[3]) if texts[3].isdigit() else 0
+                total = int(texts[4]) if texts[4].isdigit() else 0
+                adm_type = texts[5] if len(texts) > 5 else ""
                 priority = int(texts[6]) if len(texts) > 6 and texts[6].isdigit() else 0
-                consent_text = texts[7].lower() if len(texts) > 7 else ""
-                has_consent = consent_text in ("да", "+", "yes", "1")
+                consent = texts[7].strip().lower() if len(texts) > 7 else ""
+                has_consent = consent in ("да", "+", "yes")
 
-                applicants.append(Applicant(
-                    position=position,
-                    uid=uid,
-                    vi_score=vi_score,
-                    id_score=id_score,
-                    total_score=total_score,
-                    admission_type=admission_type,
-                    priority=priority,
-                    has_consent=has_consent,
-                ))
-            except (ValueError, IndexError) as e:
-                log.debug("    Пропуск строки: %s", e)
+                if uid:
+                    applicants.append(Applicant(
+                        position=pos, uid=uid,
+                        vi_score=vi, id_score=ид, total_score=total,
+                        admission_type=adm_type, priority=priority,
+                        has_consent=has_consent,
+                    ))
+            except Exception as e:
+                log.debug("  Пропуск: %s", e)
 
         return applicants
 
-    def save(self, filename: str | None = None):
-        if filename is None:
-            ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-            filename = f"scrape_{ts}.json"
-        path = DATA_DIR / filename
-        data = self._to_dict()
-        path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
-        log.info("Сохранено: %s", path)
-
-        # latest.json
-        latest = DATA_DIR / "latest.json"
-        latest.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
-        return path
-
-    def _to_dict(self):
-        return {
+    def save(self):
+        data = {
             "scraped_at": datetime.now().isoformat(),
             "total_lists": len(self.results),
             "total_applicants": sum(len(r.applicants) for r in self.results),
@@ -302,18 +315,20 @@ class TIUScraper:
                 for r in self.results
             ],
         }
+        path = DATA_DIR / "latest.json"
+        path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+        log.info("Сохранено: %s (%d списков, %d чел.)",
+                 path, data["total_lists"], data["total_applicants"])
 
 
 async def main():
     scraper = TIUScraper(headless=True)
     await scraper.run(
-        institutes=None,          # все (или ["Высшая школа цифровых технологий"])
+        institutes=None,
         education_forms=["Очная"],
         categories=["Бюджет"],
     )
     scraper.save()
-    total = sum(len(r.applicants) for r in scraper.results)
-    print(f"\n✓ {len(scraper.results)} списков, {total} абитуриентов")
 
 
 if __name__ == "__main__":
