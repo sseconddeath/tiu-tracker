@@ -1,0 +1,8 @@
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# Keep latest.json but ignore timestamped scrapes
+public/data/scrape_*.json

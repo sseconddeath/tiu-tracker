@@ -1,0 +1,79 @@
+name: Scrape TIU Lists
+
+on:
+  # Каждые 2 часа с 6:00 до 22:00 MSK (UTC+5, значит 01:00-17:00 UTC)
+  schedule:
+    - cron: '0 1,3,5,7,9,11,13,15,17 * * *'
+  # Ручной запуск
+  workflow_dispatch:
+    inputs:
+      institutes:
+        description: 'Институты (через запятую, пусто = все)'
+        required: false
+        default: ''
+      categories:
+        description: 'Категории'
+        required: false
+        default: 'Бюджет'
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install playwright
+          playwright install chromium
+          pip install beautifulsoup4
+
+      - name: Run scraper
+        run: |
+          cd scraper
+          python scraper.py
+        env:
+          INSTITUTES: ${{ github.event.inputs.institutes || '' }}
+
+      - name: Check if data changed
+        id: check
+        run: |
+          if git diff --quiet public/data/latest.json 2>/dev/null; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No changes detected"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Changes detected!"
+          fi
+
+      - name: Commit and push
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name "TIU Scraper Bot"
+          git config user.email "bot@tiu-tracker.local"
+          git add public/data/latest.json
+          # Также сохраняем снапшот с датой
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          cp public/data/latest.json "public/data/scrape_${TIMESTAMP}.json"
+          git add "public/data/scrape_${TIMESTAMP}.json"
+          git commit -m "📊 Update lists $(date +'%Y-%m-%d %H:%M')"
+          git push
+
+      - name: Summary
+        run: |
+          if [ -f public/data/latest.json ]; then
+            LISTS=$(python3 -c "import json; d=json.load(open('public/data/latest.json')); print(d.get('total_lists', 0))")
+            APPS=$(python3 -c "import json; d=json.load(open('public/data/latest.json')); print(d.get('total_applicants', 0))")
+            echo "### ✅ Scrape complete" >> $GITHUB_STEP_SUMMARY
+            echo "- Lists: ${LISTS}" >> $GITHUB_STEP_SUMMARY
+            echo "- Applicants: ${APPS}" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ⚠️ No data file found" >> $GITHUB_STEP_SUMMARY
+          fi
