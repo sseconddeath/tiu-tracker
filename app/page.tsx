@@ -88,11 +88,7 @@ export default function Page(){
       {/* Scan lines overlay */}
       <div style={styles.scanlines}/>
       {/* Matrix bg */}
-      <div style={styles.matrixWrap}>{Array.from({length:30}).map((_,i)=>{
-        const c='@#$%&*!=+<>{}[]|/\\~^;:.'.split('')
-        const col=Array.from({length:80}).map(()=>c[Math.floor(Math.random()*c.length)]).join('\n')
-        return<div key={i}className="matrix-col"style={{left:`${(i/30)*100}%`,animationDuration:`${20+Math.random()*25}s`,animationDelay:`-${Math.random()*30}s`}}>{col}</div>
-      })}</div>
+      <MatrixBg/>
 
       <div style={styles.content}>
       {/* Header */}
@@ -388,4 +384,20 @@ const styles:Record<string,React.CSSProperties>={
   dotLabel:{display:'flex',alignItems:'center',gap:5,fontSize:10,fontWeight:600},
   dotSmall:{width:6,height:6,borderRadius:'50%',display:'inline-block'},
   expandBtn:{marginTop:12,width:'100%',padding:'8px',background:'#0e0e0e',border:'1px solid #222',color:'#555',cursor:'pointer',fontSize:10,fontFamily:mono,letterSpacing:2},
+}
+
+const matrixCols=(()=>{
+  const c='@#$%&*!=+<>{}[]|/\\~^;:.'.split('')
+  return Array.from({length:30}).map((_,i)=>({
+    text:Array.from({length:80}).map(()=>c[Math.floor(Math.random()*c.length)]).join('\n'),
+    left:`${(i/30)*100}%`,
+    dur:`${20+Math.random()*25}s`,
+    delay:`-${Math.random()*30}s`,
+  }))
+})()
+
+function MatrixBg(){
+  return<div style={{position:'fixed',top:0,left:0,right:0,bottom:0,zIndex:0,overflow:'hidden',pointerEvents:'none'}}>
+    {matrixCols.map((m,i)=><div key={i}className="matrix-col"style={{left:m.left,animationDuration:m.dur,animationDelay:m.delay}}>{m.text}</div>)}
+  </div>
 }
