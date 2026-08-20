@@ -29,12 +29,24 @@ const mono="'JetBrains Mono','SF Mono','Fira Code',monospace"
 
 function BgAnim(){
   return <div style={{position:'fixed',top:0,left:0,right:0,bottom:0,zIndex:0,overflow:'hidden',pointerEvents:'none'}}>
-    <style>{`@keyframes drift{0%{opacity:0.02}50%{opacity:0.05}100%{opacity:0.02}}
-      .ascii-bg{position:absolute;font-family:${mono};font-size:10px;color:#ffffff;white-space:pre;line-height:1.6;animation:drift 10s ease-in-out infinite}`}</style>
-    {Array.from({length:10}).map((_,i)=>{
-      const chars='01░▒▓█╔╗╚╝═║─│┌┐└┘'.split('')
-      const col=Array.from({length:45}).map(()=>chars[Math.floor(Math.random()*chars.length)]).join('\n')
-      return <div key={i} className="ascii-bg" style={{left:`${(i/10)*100}%`,top:0,animationDelay:`${i*1}s`}}>{col}</div>
+    <style>{`
+      @keyframes matrix{0%{transform:translateY(-100%)}100%{transform:translateY(100vh)}}
+      @keyframes glow{0%{opacity:0.04}50%{opacity:0.08}100%{opacity:0.04}}
+      .mx{position:absolute;top:-100%;font-family:${mono};font-size:12px;color:#fff;white-space:pre;line-height:1.5;animation:matrix linear infinite;opacity:0.06}
+      .mx2{position:absolute;font-family:${mono};font-size:11px;color:#fff;white-space:pre;line-height:1.7;animation:glow 6s ease-in-out infinite;opacity:0.03}
+    `}</style>
+    {Array.from({length:14}).map((_,i)=>{
+      const c='01█▓▒░╔╗╚╝═║─│┌┐└┘╠╣╦╩╬▀▄<>{}[];:'.split('')
+      const col=Array.from({length:50}).map(()=>c[Math.floor(Math.random()*c.length)]).join('\n')
+      const left=(i/14)*100+Math.random()*2
+      const dur=15+Math.random()*25
+      const delay=Math.random()*15
+      return <div key={i} className="mx" style={{left:`${left}%`,animationDuration:`${dur}s`,animationDelay:`-${delay}s`}}>{col}</div>
+    })}
+    {Array.from({length:8}).map((_,i)=>{
+      const c='ABCDEF0123456789#@$%&'.split('')
+      const col=Array.from({length:35}).map(()=>c[Math.floor(Math.random()*c.length)]).join('\n')
+      return <div key={`s${i}`} className="mx2" style={{left:`${(i/8)*100+3}%`,top:0,animationDelay:`${i*0.8}s`}}>{col}</div>
     })}
   </div>
 }
