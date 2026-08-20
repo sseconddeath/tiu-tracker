@@ -30,16 +30,15 @@ const sans="'Inter',-apple-system,sans-serif"
 function BgAnim(){
   return <div style={{position:'fixed',top:0,left:0,right:0,bottom:0,zIndex:0,overflow:'hidden',pointerEvents:'none'}}>
     <style>{`
-      @keyframes fall{0%{transform:translateY(-100vh) translateX(0);opacity:0}10%{opacity:0.15}90%{opacity:0.15}100%{transform:translateY(100vh) translateX(20px);opacity:0}}
-      .ascii-col{position:absolute;top:0;font-family:${mono};font-size:10px;color:#a78bfa;opacity:0.06;white-space:pre;line-height:1.4;animation:fall linear infinite}
+      @keyframes drift{0%{opacity:0.03}50%{opacity:0.06}100%{opacity:0.03}}
+      .ascii-bg{position:absolute;font-family:${mono};font-size:10px;color:#a78bfa;white-space:pre;line-height:1.6;animation:drift 8s ease-in-out infinite}
     `}</style>
-    {Array.from({length:18}).map((_,i)=>{
-      const chars='01アイウエオカキクケコ█▓▒░╔╗╚╝═║'.split('')
-      const col=Array.from({length:30}).map(()=>chars[Math.floor(Math.random()*chars.length)]).join('\n')
-      const left=(i/18)*100+Math.random()*3
-      const dur=12+Math.random()*18
-      const delay=Math.random()*20
-      return <div key={i} className="ascii-col" style={{left:`${left}%`,animationDuration:`${dur}s`,animationDelay:`${delay}s`}}>{col}</div>
+    {Array.from({length:12}).map((_,i)=>{
+      const chars='01░▒▓█╔╗╚╝═║'.split('')
+      const col=Array.from({length:40}).map(()=>chars[Math.floor(Math.random()*chars.length)]).join('\n')
+      const left=(i/12)*100
+      const delay=i*0.7
+      return <div key={i} className="ascii-bg" style={{left:`${left}%`,top:0,bottom:0,animationDelay:`${delay}s`,opacity:0.04}}>{col}</div>
     })}
   </div>
 }
@@ -70,8 +69,8 @@ export default function Page(){
     for(const lst of data.lists){
       for(const a of lst.applicants){
         if(a.uid===activeId){
-          // Consent list = same as TIU site: has_consent AND priority=1
-          const consentList=(lst.consent_applicants||[]).filter(x=>x.priority===1)
+          // Consent list directly from TIU API — no filtering
+          const consentList=lst.consent_applicants||[]
           const cp=consentList.findIndex(x=>x.uid===activeId)
           found.push({...a,institute:lst.institute,specialty:lst.specialty,
             budget_seats:lst.budget_seats,total_seats:lst.total_seats,contract_seats:lst.contract_seats,
@@ -80,9 +79,8 @@ export default function Page(){
           break
         }
       }
-      // Also check consent list
       if(!found.find(f=>f.specialty===lst.specialty)){
-        const consentList=(lst.consent_applicants||[]).filter(x=>x.priority===1)
+        const consentList=lst.consent_applicants||[]
         for(const a of consentList){
           if(a.uid===activeId){
             const cp=consentList.findIndex(x=>x.uid===activeId)
@@ -124,11 +122,11 @@ export default function Page(){
       {/* Search */}
       <div style={{padding:'24px 16px 8px'}}>
         <div style={{display:'flex',border:`1px solid ${activeId&&results?.length?t.grnBdr:t.bdr}`,borderRadius:8,overflow:'hidden',background:t.s1,transition:'border-color 0.3s'}}>
-          <input type="text" inputMode="numeric" value={query}
-            onChange={e=>setQuery(e.target.value.replace(/\D/g,''))}
+          <input type="text" inputMode="numeric" value={query} maxLength={7}
+            onChange={e=>{const v=e.target.value.replace(/\D/g,'').slice(0,7);setQuery(v)}}
             onKeyDown={e=>e.key==='Enter'&&doSearch(query)}
-            placeholder="_ _ _ _ _ _ _"
-            style={{flex:1,padding:'16px',background:'transparent',border:'none',outline:'none',color:t.txt,fontSize:20,fontFamily:mono,letterSpacing:4,minWidth:0,textAlign:'center'}}
+            placeholder="0000000"
+            style={{flex:1,padding:'16px',background:'transparent',border:'none',outline:'none',color:t.txt,fontSize:20,fontFamily:mono,letterSpacing:4,minWidth:0,textAlign:'center',width:'100%'}}
           />
           <button onClick={()=>doSearch(query)}
             style={{padding:'16px 24px',background:t.acc,border:'none',color:'#000',fontWeight:800,fontSize:13,cursor:'pointer',fontFamily:mono,letterSpacing:1}}>
