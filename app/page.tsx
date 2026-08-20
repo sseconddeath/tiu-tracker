@@ -68,10 +68,10 @@ export default function Page(){
     if(!activeId||!data)return null
     const found:Found[]=[]
     for(const lst of data.lists){
-      // Search in full list
       for(const a of lst.applicants){
         if(a.uid===activeId){
-          const consentList=lst.consent_applicants||[]
+          // Consent list = same as TIU site: has_consent AND priority=1
+          const consentList=(lst.consent_applicants||[]).filter(x=>x.priority===1)
           const cp=consentList.findIndex(x=>x.uid===activeId)
           found.push({...a,institute:lst.institute,specialty:lst.specialty,
             budget_seats:lst.budget_seats,total_seats:lst.total_seats,contract_seats:lst.contract_seats,
@@ -80,9 +80,9 @@ export default function Page(){
           break
         }
       }
-      // Also check consent list in case not in full
+      // Also check consent list
       if(!found.find(f=>f.specialty===lst.specialty)){
-        const consentList=lst.consent_applicants||[]
+        const consentList=(lst.consent_applicants||[]).filter(x=>x.priority===1)
         for(const a of consentList){
           if(a.uid===activeId){
             const cp=consentList.findIndex(x=>x.uid===activeId)
