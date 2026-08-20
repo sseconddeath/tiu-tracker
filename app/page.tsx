@@ -88,10 +88,10 @@ export default function Page(){
       {/* Scan lines overlay */}
       <div style={styles.scanlines}/>
       {/* Matrix bg */}
-      <div style={styles.matrixWrap}>{Array.from({length:16}).map((_,i)=>{
-        const c='01░▒▓█╔╗╚╝═║<>{}[];:$/\\@#&%!?~^'.split('')
-        const col=Array.from({length:60}).map(()=>c[Math.floor(Math.random()*c.length)]).join('\n')
-        return<div key={i}className="matrix-col"style={{left:`${(i/16)*100}%`,animationDuration:`${18+Math.random()*20}s`,animationDelay:`-${Math.random()*20}s`}}>{col}</div>
+      <div style={styles.matrixWrap}>{Array.from({length:30}).map((_,i)=>{
+        const c='01001101001011010110100101'.split('')
+        const col=Array.from({length:80}).map(()=>c[Math.floor(Math.random()*c.length)]).join('\n')
+        return<div key={i}className="matrix-col"style={{left:`${(i/30)*100}%`,animationDuration:`${20+Math.random()*25}s`,animationDelay:`-${Math.random()*30}s`}}>{col}</div>
       })}</div>
 
       <div style={styles.content}>
@@ -99,7 +99,7 @@ export default function Page(){
       <header style={styles.header}>
         <div className="glitch" data-text="ТИУ://ТРЕКЕР" style={styles.logo}>ТИУ://ТРЕКЕР</div>
         <div style={styles.headerSub}>СИСТЕМА МОНИТОРИНГА КОНКУРСНЫХ СПИСКОВ</div>
-        {ts&&<div style={styles.headerTime}><span style={styles.dot}/>SYNC: {ts}</div>}
+        {ts&&<div style={styles.headerTime}><span style={styles.dot}/>SYNC: {ts} МСК</div>}
       </header>
 
       {/* Search */}
@@ -322,13 +322,13 @@ export default function Page(){
 const mono="'JetBrains Mono','SF Mono','Fira Code',monospace"
 
 const globalCSS=`
-  @keyframes matrixFall{0%{transform:translateY(-100%)}100%{transform:translateY(100vh)}}
+  @keyframes matrixFall{0%{transform:translateY(-50%);opacity:0}5%{opacity:1}95%{opacity:1}100%{transform:translateY(100vh);opacity:0}}
   @keyframes scanline{0%{top:-100%}100%{top:100%}}
   @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
   @keyframes glitchAnim{0%{clip-path:inset(40% 0 61% 0)}20%{clip-path:inset(92% 0 1% 0)}40%{clip-path:inset(43% 0 1% 0)}60%{clip-path:inset(25% 0 58% 0)}80%{clip-path:inset(54% 0 7% 0)}100%{clip-path:inset(58% 0 43% 0)}}
   @keyframes glow{0%,100%{text-shadow:0 0 5px rgba(255,255,255,0.1)}50%{text-shadow:0 0 20px rgba(255,255,255,0.15),0 0 40px rgba(255,255,255,0.05)}}
   .blink{animation:blink 1s infinite}
-  .matrix-col{position:absolute;top:-100%;font-family:${mono};font-size:11px;color:rgba(255,255,255,0.04);white-space:pre;line-height:1.5;animation:matrixFall linear infinite;pointer-events:none}
+  .matrix-col{position:absolute;top:-100%;font-family:${mono};font-size:12px;color:rgba(255,255,255,0.06);white-space:pre;line-height:1.8;animation:matrixFall linear infinite;pointer-events:none;text-shadow:0 0 3px rgba(255,255,255,0.03)}
   .glitch{position:relative;animation:glow 4s ease-in-out infinite}
   .glitch::before,.glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%}
   .glitch::before{animation:glitchAnim 3s infinite linear alternate-reverse;color:rgba(255,255,255,0.03);left:2px}
@@ -353,10 +353,10 @@ const styles:Record<string,React.CSSProperties>={
   headerTime:{display:'flex',justifyContent:'center',alignItems:'center',gap:6,marginTop:10,fontSize:11,color:'#444',fontFamily:mono},
   dot:{width:5,height:5,borderRadius:'50%',background:'#4ade80',display:'inline-block',boxShadow:'0 0 8px #4ade80'},
   searchWrap:{padding:'24px 16px 8px'},
-  searchBox:{display:'flex',alignItems:'center',border:'1px solid #333',borderRadius:0,background:'#111',transition:'border-color 0.3s'},
-  searchPrefix:{padding:'0 0 0 14px',color:'#555',fontFamily:mono,fontSize:14,fontWeight:700},
+  searchBox:{display:'flex',alignItems:'stretch',border:'1px solid #333',borderRadius:4,background:'#111',transition:'border-color 0.3s',overflow:'hidden'},
+  searchPrefix:{padding:'14px 0 14px 14px',color:'#555',fontFamily:mono,fontSize:14,fontWeight:700,display:'flex',alignItems:'center'},
   searchInput:{flex:1,padding:'14px 10px',background:'transparent',border:'none',outline:'none',color:'#fff',fontSize:18,fontFamily:mono,letterSpacing:3,minWidth:0},
-  searchBtn:{padding:'14px 20px',background:'#fff',border:'none',color:'#000',fontWeight:800,fontSize:12,cursor:'pointer',fontFamily:mono,letterSpacing:2},
+  searchBtn:{padding:'0 24px',background:'#fff',border:'none',color:'#000',fontWeight:800,fontSize:12,cursor:'pointer',fontFamily:mono,letterSpacing:2,display:'flex',alignItems:'center'},
   searchBtnText:{},
   landing:{padding:'24px 20px',textAlign:'center'},
   ascii:{fontFamily:mono,fontSize:11,color:'#333',lineHeight:1.4,margin:'0 auto 0',textAlign:'left',display:'inline-block'},
