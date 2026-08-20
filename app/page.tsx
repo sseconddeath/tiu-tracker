@@ -120,16 +120,15 @@ export default function Page(){
       {/* Landing */}
       {!activeId&&(
         <div style={styles.landing}>
-          <pre style={styles.ascii}>{`
- ┌─────────────────────────────────┐
- │  ВВЕДИТЕ 7-ЗНАЧНЫЙ             │
- │  ИДЕНТИФИКАТОР ИЗ              │
- │  СЕРВИСА ПРИЁМА                │
- │                                │
- │  > TRACKING ALL DIRECTIONS     │
- │  > REAL-TIME CONSENT LISTS     │
- │  > BUDGET SEAT MONITORING      │
- └─────────────────────────────────┘`}</pre>
+          <AsciiRadar/>
+          <div style={{marginTop:20,textAlign:'center'}}>
+            <div style={{fontFamily:mono,fontSize:10,color:'#555',letterSpacing:2,marginBottom:8}}>{'>'} ВВЕДИТЕ 7-ЗНАЧНЫЙ ИДЕНТИФИКАТОР</div>
+            <div style={{fontFamily:mono,fontSize:9,color:'#333',letterSpacing:1,lineHeight:2}}>
+              ОТСЛЕЖИВАНИЕ ВСЕХ НАПРАВЛЕНИЙ<br/>
+              СПИСКИ С СОГЛАСИЯМИ<br/>
+              МОНИТОРИНГ БЮДЖЕТНЫХ МЕСТ
+            </div>
+          </div>
 
           {savedIds.length>0&&(
             <div style={{marginTop:24}}>
@@ -388,4 +387,110 @@ const styles:Record<string,React.CSSProperties>={
   dotLabel:{display:'flex',alignItems:'center',gap:5,fontSize:10,fontWeight:600},
   dotSmall:{width:6,height:6,borderRadius:'50%',display:'inline-block'},
   expandBtn:{marginTop:12,width:'100%',padding:'8px',background:'#0e0e0e',border:'1px solid #222',color:'#555',cursor:'pointer',fontSize:10,fontFamily:mono,letterSpacing:2},
+}
+
+function AsciiRadar(){
+  const canvasRef=useRef<HTMLCanvasElement>(null)
+  const frame=useRef(0)
+  const blips=useRef<{x:number,y:number,age:number,maxAge:number}[]>([])
+
+  useEffect(()=>{
+    const canvas=canvasRef.current
+    if(!canvas)return
+    const ctx=canvas.getContext('2d')
+    if(!ctx)return
+    const W=280,H=280
+    canvas.width=W;canvas.height=H
+    const cx=W/2,cy=H/2,R=120
+
+    const chars='.·:;+*#@'.split('')
+    let angle=0
+    let tick=0
+
+    const draw=()=>{
+      ctx.fillStyle='rgba(10,10,10,0.15)'
+      ctx.fillRect(0,0,W,H)
+
+      // Grid circles
+      ctx.strokeStyle='rgba(255,255,255,0.06)'
+      ctx.lineWidth=1
+      for(let r=30;r<=R;r+=30){
+        ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke()
+      }
+      // Cross
+      ctx.beginPath();ctx.moveTo(cx-R,cy);ctx.lineTo(cx+R,cy);ctx.stroke()
+      ctx.beginPath();ctx.moveTo(cx,cy-R);ctx.lineTo(cx,cy+R);ctx.stroke()
+
+      // Sweep line with fade trail
+      for(let t=0;t<20;t++){
+        const a=angle-t*0.015
+        const alpha=0.3*(1-t/20)
+        ctx.strokeStyle=`rgba(255,255,255,${alpha})`
+        ctx.lineWidth=1.5-t*0.05
+        ctx.beginPath()
+        ctx.moveTo(cx,cy)
+        ctx.lineTo(cx+Math.cos(a)*R,cy+Math.sin(a)*R)
+        ctx.stroke()
+      }
+
+      // Sweep glow
+      ctx.beginPath()
+      ctx.moveTo(cx,cy)
+      ctx.arc(cx,cy,R,angle-0.4,angle)
+      ctx.closePath()
+      const grad=ctx.createConicGradient(angle,cx,cy)
+      grad.addColorStop(0,'rgba(255,255,255,0)')
+      grad.addColorStop(0.06,'rgba(255,255,255,0.04)')
+      grad.addColorStop(1,'rgba(255,255,255,0)')
+      ctx.fillStyle=grad
+      ctx.fill()
+
+      // Add new blips occasionally
+      if(tick%60===0){
+        const ba=Math.random()*Math.PI*2
+        const br=30+Math.random()*(R-40)
+        blips.current.push({x:cx+Math.cos(ba)*br,y:cy+Math.sin(ba)*br,age:0,maxAge:120+Math.random()*60})
+      }
+
+      // Draw blips
+      blips.current=blips.current.filter(b=>{
+        b.age++
+        if(b.age>b.maxAge)return false
+        const fade=b.age<20?b.age/20:b.age>b.maxAge-30?(b.maxAge-b.age)/30:1
+        const pulse=1+0.3*Math.sin(b.age*0.15)
+        const sz=2*pulse
+
+        ctx.fillStyle=`rgba(255,255,255,${0.7*fade})`
+        ctx.fillRect(b.x-sz/2,b.y-sz/2,sz,sz)
+
+        // Glow
+        ctx.fillStyle=`rgba(255,255,255,${0.15*fade})`
+        ctx.fillRect(b.x-sz-1,b.y-sz-1,sz*2+2,sz*2+2)
+        return true
+      })
+
+      // Center dot
+      ctx.fillStyle='rgba(255,255,255,0.6)'
+      ctx.fillRect(cx-1,cy-1,3,3)
+
+      // Corner text
+      ctx.font=`9px ${mono}`
+      ctx.fillStyle='rgba(255,255,255,0.15)'
+      ctx.fillText('SCAN ACTIVE',8,16)
+      ctx.fillText(`AZ: ${(angle*180/Math.PI%360).toFixed(0)}°`,8,H-8)
+      ctx.fillText(`BL: ${blips.current.length}`,W-50,H-8)
+      ctx.fillText('TIU://RADAR',W-85,16)
+
+      angle+=0.025
+      tick++
+      frame.current=requestAnimationFrame(draw)
+    }
+
+    draw()
+    return()=>cancelAnimationFrame(frame.current)
+  },[])
+
+  return<div style={{display:'flex',justifyContent:'center',marginBottom:8}}>
+    <canvas ref={canvasRef} style={{width:240,height:240,opacity:0.9}}/>
+  </div>
 }
