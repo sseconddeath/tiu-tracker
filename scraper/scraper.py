@@ -1,10 +1,8 @@
 """
-TIU Scraper v5 — WORKING version.
-Uses raw jQuery-style POST to /wp-admin/admin-ajax.php.
-
-Tested format:
-  action=disciplines&ratingForm=org=15&eduform=1&direction=2&...&contractValue=false
-  action=rating&ratingForm=org=15&eduform=1&direction=2&...&prof=ENCODED_VALUE&...
+TIU Scraper v6 — final working version.
+Two API calls per specialty:
+  1) originals=1 → full list with consent column (all applicants)
+  2) originals=2 → consent-only list (correct seat counts)
 """
 
 import json
@@ -29,15 +27,15 @@ except ImportError:
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger(__name__)
 
-AJAX_URL = "https://incoming.tyuiu.ru/wp-admin/admin-ajax.php"
-BASE_URL = "https://incoming.tyuiu.ru/incoming/"
+AJAX = "https://incoming.tyuiu.ru/wp-admin/admin-ajax.php"
+BASE = "https://incoming.tyuiu.ru/incoming/"
 DATA_DIR = Path(__file__).parent.parent / "public" / "data"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+HDR = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
     "X-Requested-With": "XMLHttpRequest",
-    "Referer": BASE_URL,
+    "Referer": BASE,
     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
 }
 
@@ -56,7 +54,6 @@ class Applicant:
     priority: int
     has_consent: bool
 
-
 @dataclass
 class CompetitionList:
     institute: str
@@ -72,193 +69,153 @@ class CompetitionList:
 
 class TIUScraper:
     def __init__(self):
-        self.session = requests.Session()
-        self.session.headers.update({
-            "User-Agent": HEADERS["User-Agent"],
-            "Accept-Language": "ru-RU,ru;q=0.9",
-        })
+        self.s = requests.Session()
+        self.s.headers.update({"User-Agent": HDR["User-Agent"], "Accept-Language": "ru-RU,ru;q=0.9"})
         self.results = []
         self.institutes = {}
 
     def run(self, institute_ids=None, eduform_ids=None, direction_ids=None):
-        if eduform_ids is None:
-            eduform_ids = ["1"]
-        if direction_ids is None:
-            direction_ids = ["2"]
+        if eduform_ids is None: eduform_ids = ["1"]
+        if direction_ids is None: direction_ids = ["2"]
 
-        # Load page to discover institutes
-        log.info("Loading %s ...", BASE_URL)
-        r = self.session.get(BASE_URL, timeout=30)
+        log.info("Loading page...")
+        r = self.s.get(BASE, timeout=30)
         r.raise_for_status()
-        log.info("Page: %d bytes", len(r.text))
 
         soup = BeautifulSoup(r.text, "html.parser")
-        org_select = soup.find("select", {"name": "org"})
-        if org_select:
-            for opt in org_select.find_all("option"):
-                val = opt.get("value", "0")
-                text = opt.get_text(strip=True)
-                if val != "0" and text != "---":
-                    self.institutes[val] = text
+        for opt in soup.find("select", {"name": "org"}).find_all("option"):
+            v = opt.get("value", "0")
+            t = opt.get_text(strip=True)
+            if v != "0" and t != "---":
+                self.institutes[v] = t
 
-        log.info("Found %d institutes", len(self.institutes))
+        orgs = institute_ids or list(self.institutes.keys())
+        log.info("Institutes: %d", len(orgs))
 
-        orgs = institute_ids if institute_ids else list(self.institutes.keys())
-
-        for org_id in orgs:
-            for ef_id in eduform_ids:
-                for dir_id in direction_ids:
+        for org in orgs:
+            for ef in eduform_ids:
+                for di in direction_ids:
                     try:
-                        self._scrape_combo(org_id, ef_id, dir_id)
+                        self._scrape(org, ef, di)
                     except Exception as e:
-                        log.error("Error [%s|%s|%s]: %s",
-                                  self.institutes.get(org_id, org_id), ef_id, dir_id, e)
+                        log.error("Error: %s", e)
 
-        return self.results
-
-    def _ajax(self, raw_data):
-        """Send raw POST to admin-ajax.php (jQuery style)."""
-        r = self.session.post(AJAX_URL, data=raw_data, headers=HEADERS, timeout=30)
+    def _post(self, data):
+        r = self.s.post(AJAX, data=data, headers=HDR, timeout=30)
         r.raise_for_status()
-        if r.text.strip() == "0":
-            return None
-        return r.text
+        return None if r.text.strip() == "0" else r.text
 
-    def _get_specs(self, org_id, ef_id, dir_id):
-        """Get specialties via action=disciplines."""
-        form = f"org={org_id}&eduform={ef_id}&direction={dir_id}&competitionType=0&prof=&paid=0&originals=1"
-        raw = f"action=disciplines&ratingForm={form}&contractValue=false"
-        html = self._ajax(raw)
+    def _scrape(self, org, ef, di):
+        inst = self.institutes.get(org, org)
+        log.info("\n=== %s | %s | %s ===", inst, EDUFORMS.get(ef, ef), DIRECTIONS.get(di, di))
+
+        form = f"org={org}&eduform={ef}&direction={di}&competitionType=0&prof=&paid=0&originals=1"
+        html = self._post(f"action=disciplines&ratingForm={form}&contractValue=false")
         if not html:
-            return []
-        soup = BeautifulSoup(html, "html.parser")
-        return [{"value": o.get("value", ""), "text": o.get_text(strip=True)}
-                for o in soup.find_all("option") if o.get("value")]
+            log.info("  No specialties"); return
 
-    def _get_rating(self, org_id, ef_id, dir_id, prof_value):
-        """Get rating table via action=rating."""
-        form = f"org={org_id}&eduform={ef_id}&direction={dir_id}&competitionType=0&prof={quote(prof_value, safe='')}&paid=0&originals=1"
-        raw = f"action=rating&ratingForm={form}"
-        return self._ajax(raw)
-
-    def _scrape_combo(self, org_id, ef_id, dir_id):
-        inst = self.institutes.get(org_id, f"org_{org_id}")
-        edu = EDUFORMS.get(ef_id, ef_id)
-        cat = DIRECTIONS.get(dir_id, dir_id)
-        log.info("")
-        log.info("=== %s | %s | %s ===", inst, edu, cat)
-
-        specs = self._get_specs(org_id, ef_id, dir_id)
-        if not specs:
-            log.info("  No specialties")
-            return
+        specs = [{"v": o.get("value",""), "t": o.get_text(strip=True)}
+                 for o in BeautifulSoup(html, "html.parser").find_all("option") if o.get("value")]
         log.info("  %d specialties", len(specs))
 
-        for spec in specs:
-            log.info("  -> %s", spec["text"][:70])
-            html = self._get_rating(org_id, ef_id, dir_id, spec["value"])
-            if not html:
-                log.info("     Empty")
-                continue
+        for sp in specs:
+            log.info("  -> %s", sp["t"][:70])
+            prof = quote(sp["v"], safe="")
 
-            soup = BeautifulSoup(html, "html.parser")
-            text = soup.get_text()
+            # Call 1: originals=1 → full list with consent info
+            form1 = f"org={org}&eduform={ef}&direction={di}&competitionType=0&prof={prof}&paid=0&originals=1"
+            html1 = self._post(f"action=rating&ratingForm={form1}")
 
+            # Call 2: originals=2 → consent only, correct seat counts
+            form2 = f"org={org}&eduform={ef}&direction={di}&competitionType=0&prof={prof}&paid=0&originals=2"
+            html2 = self._post(f"action=rating&ratingForm={form2}")
+
+            if not html1 and not html2:
+                log.info("     Empty"); continue
+
+            # Parse seats from call 2 (correct numbers)
             total_seats = budget_seats = contract_seats = 0
-            m = re.search(r"Всего мест[^:]*:\s*(\d+)", text)
-            if m: total_seats = int(m.group(1))
-            m = re.search(r"Общий конкурс:\s*(\d+)", text)
-            if m: budget_seats = int(m.group(1))
-            m = re.search(r"По договору:\s*(\d+)", text)
-            if m: contract_seats = int(m.group(1))
+            if html2:
+                txt2 = BeautifulSoup(html2, "html.parser").get_text()
+                m = re.search(r"Всего мест[^:]*:\s*(\d+)", txt2)
+                if m: total_seats = int(m.group(1))
+                m = re.search(r"Общий конкурс:\s*(\d+)", txt2)
+                if m: budget_seats = int(m.group(1))
+                m = re.search(r"По договору:\s*(\d+)", txt2)
+                if m: contract_seats = int(m.group(1))
 
-            applicants = self._parse_table(soup)
+            # Parse applicants from call 1 (full list with consent)
+            applicants = []
+            if html1:
+                applicants = self._parse(BeautifulSoup(html1, "html.parser"))
+                # If seats were 0 from call 2, try from call 1
+                if total_seats == 0:
+                    txt1 = BeautifulSoup(html1, "html.parser").get_text()
+                    m = re.search(r"Всего мест[^:]*:\s*(\d+)", txt1)
+                    if m: total_seats = int(m.group(1))
+                    m = re.search(r"Общий конкурс:\s*(\d+)", txt1)
+                    if m: budget_seats = int(m.group(1))
+                    m = re.search(r"По договору:\s*(\d+)", txt1)
+                    if m: contract_seats = int(m.group(1))
+
             if applicants:
                 self.results.append(CompetitionList(
-                    institute=inst, education_form=edu, category=cat,
-                    specialty=spec["text"],
+                    institute=inst, education_form=EDUFORMS.get(ef,ef),
+                    category=DIRECTIONS.get(di,di), specialty=sp["t"],
                     total_seats=total_seats, budget_seats=budget_seats,
-                    contract_seats=contract_seats,
-                    applicants=applicants,
+                    contract_seats=contract_seats, applicants=applicants,
                     scraped_at=datetime.now().isoformat(),
                 ))
-                log.info("     %d people, %d/%d seats", len(applicants), budget_seats, total_seats)
-            else:
-                log.info("     No data")
+                consents = sum(1 for a in applicants if a.has_consent)
+                log.info("     %d people (%d consent), %d/%d seats",
+                         len(applicants), consents, budget_seats, total_seats)
 
-    def _parse_table(self, soup):
-        """Parse the rating table. Auto-detect column layout."""
+    def _parse(self, soup):
         for table in soup.find_all("table"):
             rows = table.find_all("tr")
-            if len(rows) < 2:
-                continue
+            if len(rows) < 2: continue
 
-            # Detect columns from header
-            header_cells = rows[0].find_all(["th", "td"])
-            headers = [c.get_text(strip=True).lower() for c in header_cells]
-
+            # Auto-detect columns from header
+            hdr = [c.get_text(strip=True).lower() for c in rows[0].find_all(["th","td"])]
             col = {}
-            for i, h in enumerate(headers):
-                if "№" in h or "п/п" in h:
-                    col["pos"] = i
-                elif "идентификатор" in h or "уникальн" in h:
-                    col["uid"] = i
-                elif "вступительн" in h or ("балл" in h and "инд" not in h and "сумм" not in h and "конкурс" not in h):
-                    col["vi"] = i
-                elif "индивидуальн" in h or "достиж" in h:
-                    col["id"] = i
-                elif "сумм" in h or "конкурсн" in h:
-                    col["total"] = i
-                elif "вид" in h and "приём" in h or "вид" in h and "прием" in h:
-                    col["adm"] = i
-                elif "приоритет" in h:
-                    col["pri"] = i
-                elif "согласи" in h or "зачисл" in h:
-                    col["consent"] = i
+            for i, h in enumerate(hdr):
+                if "№" in h or "п/п" in h: col["pos"] = i
+                elif "идентиф" in h or "уникальн" in h: col["uid"] = i
+                elif "вступительн" in h: col["vi"] = i
+                elif "индивидуальн" in h or "достиж" in h: col["id"] = i
+                elif "сумм" in h or "конкурсн" in h: col["total"] = i
+                elif "вид" in h and ("приём" in h or "прием" in h): col["adm"] = i
+                elif "приоритет" in h: col["pri"] = i
+                elif "согласи" in h or "зачисл" in h: col["con"] = i
 
             if "uid" not in col:
-                # Fallback: assume standard layout
-                col = {"pos": 0, "uid": 1, "vi": 2, "id": 3, "total": 4,
-                       "adm": 5, "pri": 6, "consent": 7}
+                col = {"pos":0,"uid":1,"vi":2,"id":3,"total":4,"adm":5,"pri":6,"con":7}
 
-            applicants = []
+            apps = []
             for row in rows[1:]:
-                cells = row.find_all("td")
-                if len(cells) < 5:
-                    continue
-                t = [c.get_text(strip=True) for c in cells]
-
-                def g(key, default=""):
-                    idx = col.get(key)
-                    return t[idx] if idx is not None and idx < len(t) else default
-
+                cells = [c.get_text(strip=True) for c in row.find_all("td")]
+                if len(cells) < 5: continue
+                def g(k, d=""): return cells[col[k]] if k in col and col[k] < len(cells) else d
                 try:
                     uid = g("uid")
-                    if not uid or not uid[0].isdigit():
-                        continue
-
-                    pos_s = g("pos", "0")
-                    vi_s = g("vi", "0").replace("-", "0")
-                    id_s = g("id", "0").replace("-", "0")
-                    tot_s = g("total", "0").replace("-", "0")
-                    pri_s = g("pri", "0")
-                    con_s = g("consent", "").lower().strip()
-
-                    applicants.append(Applicant(
-                        position=int(pos_s) if pos_s.isdigit() else 0,
+                    if not uid or not uid[0].isdigit(): continue
+                    vi_s = g("vi","0").replace("—","0").replace("-","0")
+                    id_s = g("id","0").replace("—","0").replace("-","0")
+                    tot_s = g("total","0").replace("—","0").replace("-","0")
+                    pri_s = g("pri","0")
+                    con_s = g("con","").lower().strip()
+                    apps.append(Applicant(
+                        position=int(g("pos","0")) if g("pos","0").isdigit() else 0,
                         uid=uid,
                         vi_score=int(vi_s) if vi_s.isdigit() else 0,
                         id_score=int(id_s) if id_s.isdigit() else 0,
                         total_score=int(tot_s) if tot_s.isdigit() else 0,
                         admission_type=g("adm"),
                         priority=int(pri_s) if pri_s.isdigit() else 0,
-                        has_consent=con_s in ("да", "+", "yes", "1"),
+                        has_consent=con_s in ("да","+","yes","1"),
                     ))
-                except (ValueError, IndexError):
-                    pass
-
-            if applicants:
-                return applicants
+                except (ValueError, IndexError): pass
+            if apps: return apps
         return []
 
     def save(self):
@@ -267,34 +224,26 @@ class TIUScraper:
             "total_lists": len(self.results),
             "total_applicants": sum(len(r.applicants) for r in self.results),
             "lists": [{
-                "institute": r.institute,
-                "education_form": r.education_form,
-                "category": r.category,
-                "specialty": r.specialty,
-                "total_seats": r.total_seats,
-                "budget_seats": r.budget_seats,
-                "contract_seats": r.contract_seats,
-                "scraped_at": r.scraped_at,
+                "institute": r.institute, "education_form": r.education_form,
+                "category": r.category, "specialty": r.specialty,
+                "total_seats": r.total_seats, "budget_seats": r.budget_seats,
+                "contract_seats": r.contract_seats, "scraped_at": r.scraped_at,
                 "applicants": [asdict(a) for a in r.applicants],
             } for r in self.results],
         }
         path = DATA_DIR / "latest.json"
         path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
-        log.info("")
-        log.info("=== DONE ===")
-        log.info("Saved: %s", path)
-        log.info("Lists: %d, Applicants: %d", data["total_lists"], data["total_applicants"])
+        log.info("\n=== DONE: %d lists, %d applicants ===", data["total_lists"], data["total_applicants"])
 
 
 def main():
-    scraper = TIUScraper()
-    scraper.run(
-        institute_ids=None,    # None=all, ["15"]=ВШЦТ only
+    s = TIUScraper()
+    s.run(
+        institute_ids=None,    # None=all, ["15"]=ВШЦТ
         eduform_ids=["1"],     # 1=Очная
         direction_ids=["2"],   # 2=Бюджет
     )
-    scraper.save()
-
+    s.save()
 
 if __name__ == "__main__":
     main()

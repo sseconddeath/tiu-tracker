@@ -524,14 +524,17 @@ export default function Page() {
                           return pass
                         }).map((a, j) => {
                           const isMe = a.uid === activeId
-                          const rowPass = r.budget_seats > 0 && a.position <= r.budget_seats
+                          const filteredPos = j + 1
+                          const isFiltered = showOnlyConsent !== 'all' || priorityFilter > 0
+                          const displayPos = isFiltered ? filteredPos : a.position
+                          const rowPass = r.budget_seats > 0 && displayPos <= r.budget_seats
                           return (
                             <tr key={j} style={{
                               background: isMe ? t.blueSoft : rowPass ? 'rgba(16,185,129,0.04)' : 'transparent',
                               borderBottom: `1px solid ${t.border}`,
                             }}>
                               <td style={{ padding: '7px 6px', textAlign: 'center', fontWeight: 700,
-                                color: isMe ? t.blue : rowPass ? t.green : t.dim }}>{a.position}</td>
+                                color: isMe ? t.blue : rowPass ? t.green : t.dim }}>{displayPos}</td>
                               <td style={{ padding: '7px 6px', fontWeight: isMe ? 800 : 400,
                                 color: isMe ? t.cyan : t.text }}>
                                 {a.uid}{isMe && <span style={{ color: t.blue, fontSize: 9, marginLeft: 6 }}>← ты</span>}
