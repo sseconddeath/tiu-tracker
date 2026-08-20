@@ -43,7 +43,9 @@ interface SearchResult extends Applicant {
   contract_seats: number
   total_applicants: number
   consents_count: number
+  consent_pri1_count: number
   consent_position: number
+  consent_pri1_position: number
   _applicants: Applicant[]
 }
 
@@ -81,7 +83,8 @@ export default function Page() {
   const [activeId, setActiveId] = useState('')
   const [history, setHistory] = useState<string[]>([])
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null)
-  const [showOnlyConsent, setShowOnlyConsent] = useState<'all'|'consent'|'exam'|'both'>('all')
+  const [showOnlyConsent, setShowOnlyConsent] = useState<'all'|'consent'|'exam'|'both'>('consent')
+  const [priorityFilter, setPriorityFilter] = useState<number>(1) // 0=all, 1=only pri 1, 2=pri 1-2, etc
   const [savedIds, setSavedIds] = useState<{id: string, label: string}[]>([])
 
   // Load data
@@ -140,9 +143,10 @@ export default function Page() {
       for (const a of lst.applicants) {
         if (a.uid === activeId) {
           const consents = lst.applicants.filter(x => x.has_consent).length
-          // Position among only those with consent
-          const consentApplicants = lst.applicants.filter(x => x.has_consent)
-          const consentPos = consentApplicants.findIndex(x => x.uid === activeId)
+          const consentPri1 = lst.applicants.filter(x => x.has_consent && x.priority === 1)
+          const consentPos = consentPri1.findIndex(x => x.uid === activeId)
+          const allConsents = lst.applicants.filter(x => x.has_consent)
+          const consentPosAll = allConsents.findIndex(x => x.uid === activeId)
           found.push({
             ...a,
             institute: lst.institute,
@@ -154,7 +158,9 @@ export default function Page() {
             contract_seats: lst.contract_seats,
             total_applicants: lst.applicants.length,
             consents_count: consents,
-            consent_position: consentPos >= 0 ? consentPos + 1 : 0,
+            consent_pri1_count: consentPri1.length,
+            consent_position: consentPosAll >= 0 ? consentPosAll + 1 : 0,
+            consent_pri1_position: consentPos >= 0 ? consentPos + 1 : 0,
             _applicants: lst.applicants,
           })
         }
@@ -409,12 +415,13 @@ export default function Page() {
 
                   {/* Stats */}
                   <div style={{
-                    display: 'grid', gridTemplateColumns: '1fr 1fr 1fr',
+                    display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr',
                     gap: 1, background: t.border, borderRadius: 8, overflow: 'hidden',
                   }}>
                     <Cell label="Позиция" value={r.position} sub={`из ${r.total_applicants}`} color={accent} big />
-                    <Cell label="Сумма баллов" value={r.total_score} sub={`ВИ ${r.vi_score} + ИД ${r.id_score}`} color={t.cyan} big />
-                    <Cell label="Среди согл." value={r.consent_position || '—'} sub={`${r.consents_count} из ${r.budget_seats} мест`} color={r.consent_position && r.consent_position <= r.budget_seats ? t.green : t.amber} big />
+                    <Cell label="Баллы" value={r.total_score} sub={`ВИ ${r.vi_score} + ИД ${r.id_score}`} color={t.cyan} big />
+                    <Cell label="Согл.+Пр.1" value={r.consent_pri1_position || '—'} sub={`из ${r.consent_pri1_count}`} color={r.consent_pri1_position && r.consent_pri1_position <= r.budget_seats ? t.green : t.amber} big />
+                    <Cell label="Все согл." value={r.consent_position || '—'} sub={`${r.consents_count} чел.`} color={t.sub} big />
                   </div>
 
                   <div style={{
@@ -468,6 +475,32 @@ export default function Page() {
                         </button>
                       ))}
                     </div>
+                    {/* Priority filter */}
+                    <div style={{
+                      display: 'flex', gap: 4, padding: '4px 10px 8px',
+                      background: t.surface, borderBottom: `1px solid ${t.border}`,
+                      flexWrap: 'wrap', alignItems: 'center',
+                    }}>
+                      <span style={{ fontSize: 10, color: t.dim, marginRight: 4 }}>Приоритет:</span>
+                      {[
+                        { val: 0, label: 'Все' },
+                        { val: 1, label: '1' },
+                        { val: 2, label: '1-2' },
+                        { val: 3, label: '1-3' },
+                      ].map(p => (
+                        <button key={p.val} onClick={() => setPriorityFilter(p.val)}
+                          style={{
+                            padding: '3px 8px', fontSize: 10, fontFamily: mono,
+                            background: priorityFilter === p.val ? t.amberBg : t.card,
+                            border: `1px solid ${priorityFilter === p.val ? t.amber : t.border}`,
+                            borderRadius: 4, cursor: 'pointer',
+                            color: priorityFilter === p.val ? t.amber : t.sub,
+                            fontWeight: priorityFilter === p.val ? 700 : 400,
+                          }}>
+                          {p.label}
+                        </button>
+                      ))}
+                    </div>
                     <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11, fontFamily: mono }}>
                       <thead>
                         <tr style={{ background: t.surface }}>
@@ -483,10 +516,12 @@ export default function Page() {
                       </thead>
                       <tbody>
                         {r._applicants.filter(a => {
-                          if (showOnlyConsent === 'consent') return a.has_consent
-                          if (showOnlyConsent === 'exam') return a.vi_score > 0
-                          if (showOnlyConsent === 'both') return a.has_consent && a.vi_score > 0
-                          return true
+                          let pass = true
+                          if (showOnlyConsent === 'consent') pass = a.has_consent
+                          if (showOnlyConsent === 'exam') pass = a.vi_score > 0
+                          if (showOnlyConsent === 'both') pass = a.has_consent && a.vi_score > 0
+                          if (priorityFilter > 0) pass = pass && a.priority >= 1 && a.priority <= priorityFilter
+                          return pass
                         }).map((a, j) => {
                           const isMe = a.uid === activeId
                           const rowPass = r.budget_seats > 0 && a.position <= r.budget_seats
