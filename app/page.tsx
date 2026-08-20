@@ -1,5 +1,5 @@
 'use client'
-import { useState, useMemo, useCallback, useEffect } from 'react'
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
 
 interface Applicant {
   position:number; uid:string; vi_score:number; id_score:number
@@ -16,40 +16,7 @@ interface Found extends Applicant {
   contract_seats:number; full_count:number; consent_count:number
   consent_pos:number; full:Applicant[]; consent:Applicant[]
 }
-
-const t={
-  bg:'#0a0a0a',s1:'#121212',s2:'#1a1a1a',bdr:'#2a2a2a',bdrH:'#404040',
-  txt:'#f5f5f5',sub:'#999999',dim:'#666666',dimmer:'#444444',
-  white:'#ffffff',wSoft:'rgba(255,255,255,0.06)',wBdr:'rgba(255,255,255,0.12)',
-  grn:'#4ade80',grnBg:'rgba(74,222,128,0.08)',grnBdr:'rgba(74,222,128,0.2)',
-  red:'#f87171',redBg:'rgba(248,113,113,0.08)',
-  amb:'#fbbf24',ambBg:'rgba(251,191,36,0.08)',
-  cyn:'#e2e2e2'}
-const mono="'JetBrains Mono','SF Mono','Fira Code',monospace"
-
-function BgAnim(){
-  return <div style={{position:'fixed',top:0,left:0,right:0,bottom:0,zIndex:0,overflow:'hidden',pointerEvents:'none'}}>
-    <style>{`
-      @keyframes matrix{0%{transform:translateY(-100%)}100%{transform:translateY(100vh)}}
-      @keyframes glow{0%{opacity:0.04}50%{opacity:0.08}100%{opacity:0.04}}
-      .mx{position:absolute;top:-100%;font-family:${mono};font-size:12px;color:#fff;white-space:pre;line-height:1.5;animation:matrix linear infinite;opacity:0.06}
-      .mx2{position:absolute;font-family:${mono};font-size:11px;color:#fff;white-space:pre;line-height:1.7;animation:glow 6s ease-in-out infinite;opacity:0.03}
-    `}</style>
-    {Array.from({length:14}).map((_,i)=>{
-      const c='01█▓▒░╔╗╚╝═║─│┌┐└┘╠╣╦╩╬▀▄<>{}[];:'.split('')
-      const col=Array.from({length:50}).map(()=>c[Math.floor(Math.random()*c.length)]).join('\n')
-      const left=(i/14)*100+Math.random()*2
-      const dur=15+Math.random()*25
-      const delay=Math.random()*15
-      return <div key={i} className="mx" style={{left:`${left}%`,animationDuration:`${dur}s`,animationDelay:`-${delay}s`}}>{col}</div>
-    })}
-    {Array.from({length:8}).map((_,i)=>{
-      const c='ABCDEF0123456789#@$%&'.split('')
-      const col=Array.from({length:35}).map(()=>c[Math.floor(Math.random()*c.length)]).join('\n')
-      return <div key={`s${i}`} className="mx2" style={{left:`${(i/8)*100+3}%`,top:0,animationDelay:`${i*0.8}s`}}>{col}</div>
-    })}
-  </div>
-}
+interface SavedId { id:string; label:string }
 
 export default function Page(){
   const [data,setData]=useState<Data|null>(null)
@@ -58,16 +25,23 @@ export default function Page(){
   const [activeId,setActiveId]=useState('')
   const [expandedIdx,setExpandedIdx]=useState<number|null>(null)
   const [listMode,setListMode]=useState<'consent'|'full'>('consent')
-  const [savedIds,setSavedIds]=useState<string[]>([])
+  const [savedIds,setSavedIds]=useState<SavedId[]>([])
+  const [editingId,setEditingId]=useState<string|null>(null)
+  const editRef=useRef<HTMLInputElement>(null)
 
   useEffect(()=>{
     fetch('/data/latest.json').then(r=>r.json()).then(d=>{setData(d);setLoading(false)})
       .catch(()=>fetch('/api/data').then(r=>r.json()).then(d=>{setData(d);setLoading(false)}).catch(()=>setLoading(false)))
   },[])
-  useEffect(()=>{try{const s=localStorage.getItem('tiu_ids');if(s)setSavedIds(JSON.parse(s))}catch{}},[])
+  useEffect(()=>{try{const s=localStorage.getItem('tiu_ids2');if(s)setSavedIds(JSON.parse(s))}catch{}},[])
+  useEffect(()=>{if(editingId&&editRef.current)editRef.current.focus()},[editingId])
 
+  const savePersist=(next:SavedId[])=>{try{localStorage.setItem('tiu_ids2',JSON.stringify(next))}catch{}}
   const toggleSave=useCallback((id:string)=>{
-    setSavedIds(p=>{const n=p.includes(id)?p.filter(x=>x!==id):[...p,id];try{localStorage.setItem('tiu_ids',JSON.stringify(n))}catch{};return n})
+    setSavedIds(p=>{const ex=p.find(x=>x.id===id);const n=ex?p.filter(x=>x.id!==id):[...p,{id,label:''}];savePersist(n);return n})
+  },[])
+  const updateLabel=useCallback((id:string,label:string)=>{
+    setSavedIds(p=>{const n=p.map(x=>x.id===id?{...x,label}:x);savePersist(n);return n})
   },[])
   const doSearch=useCallback((id:string)=>{if(id.trim().length>=3){setActiveId(id.trim());setExpandedIdx(null);setListMode('consent')}},[])
 
@@ -104,64 +78,81 @@ export default function Page(){
     return found
   },[activeId,data])
 
-  if(loading)return<div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100vh',fontFamily:mono,color:t.dim}}>
-    <BgAnim/><span style={{position:'relative',zIndex:1}}>Загрузка...</span></div>
-
+  const savedLabel=savedIds.find(x=>x.id===activeId)?.label||''
+  if(loading)return<div style={styles.loadWrap}><style>{globalCSS}</style><div style={styles.loadText}>INITIALIZING<span className="blink">_</span></div></div>
   const ts=data?.scraped_at?new Date(data.scraped_at).toLocaleString('ru-RU'):null
 
   return(
-    <div style={{fontFamily:"'Inter',-apple-system,sans-serif",background:t.bg,color:t.txt,minHeight:'100vh',position:'relative'}}>
-      <BgAnim/>
-      <div style={{position:'relative',zIndex:1,maxWidth:640,margin:'0 auto'}}>
+    <div style={styles.root}>
+      <style>{globalCSS}</style>
+      {/* Scan lines overlay */}
+      <div style={styles.scanlines}/>
+      {/* Matrix bg */}
+      <div style={styles.matrixWrap}>{Array.from({length:16}).map((_,i)=>{
+        const c='01░▒▓█╔╗╚╝═║<>{}[];:$/\\@#&%!?~^'.split('')
+        const col=Array.from({length:60}).map(()=>c[Math.floor(Math.random()*c.length)]).join('\n')
+        return<div key={i}className="matrix-col"style={{left:`${(i/16)*100}%`,animationDuration:`${18+Math.random()*20}s`,animationDelay:`-${Math.random()*20}s`}}>{col}</div>
+      })}</div>
 
-      <header style={{padding:'28px 20px 0',textAlign:'center'}}>
-        <div style={{fontFamily:mono,fontWeight:800,fontSize:30,letterSpacing:4}}>
-          <span style={{color:t.white}}>ТИУ</span><span style={{color:t.dimmer}}> // </span><span style={{color:t.sub}}>ТРЕКЕР</span>
-        </div>
-        <p style={{color:t.dimmer,fontSize:10,fontFamily:mono,marginTop:6,letterSpacing:2}}>МОНИТОРИНГ КОНКУРСНЫХ СПИСКОВ</p>
-        {ts&&<div style={{display:'flex',justifyContent:'center',alignItems:'center',gap:6,marginTop:10,fontSize:11,color:t.dim}}>
-          <span style={{width:5,height:5,borderRadius:'50%',background:t.grn,display:'inline-block',boxShadow:'0 0 6px '+t.grn}}/>
-          Обновлено: {ts}
-        </div>}
+      <div style={styles.content}>
+      {/* Header */}
+      <header style={styles.header}>
+        <div className="glitch" data-text="ТИУ://ТРЕКЕР" style={styles.logo}>ТИУ://ТРЕКЕР</div>
+        <div style={styles.headerSub}>СИСТЕМА МОНИТОРИНГА КОНКУРСНЫХ СПИСКОВ</div>
+        {ts&&<div style={styles.headerTime}><span style={styles.dot}/>SYNC: {ts}</div>}
       </header>
 
-      <div style={{padding:'24px 16px 8px'}}>
-        <div style={{display:'flex',border:`1px solid ${activeId&&results?.length?t.grnBdr:t.bdr}`,borderRadius:8,overflow:'hidden',background:t.s1,transition:'border-color 0.3s'}}>
+      {/* Search */}
+      <div style={styles.searchWrap}>
+        <div style={{...styles.searchBox,borderColor:activeId&&results?.length?'#4ade80':'#333'}}>
+          <span style={styles.searchPrefix}>&gt;_</span>
           <input type="text" inputMode="numeric" value={query} maxLength={7}
-            onChange={e=>{const v=e.target.value.replace(/\D/g,'').slice(0,7);setQuery(v)}}
+            onChange={e=>setQuery(e.target.value.replace(/\D/g,'').slice(0,7))}
             onKeyDown={e=>e.key==='Enter'&&doSearch(query)}
-            placeholder="0000000"
-            style={{flex:1,padding:'16px',background:'transparent',border:'none',outline:'none',color:t.txt,fontSize:20,fontFamily:mono,letterSpacing:4,minWidth:0,textAlign:'center',width:'100%'}}
-          />
-          <button onClick={()=>doSearch(query)}
-            style={{padding:'16px 24px',background:t.white,border:'none',color:'#000',fontWeight:800,fontSize:13,cursor:'pointer',fontFamily:mono,letterSpacing:1}}>
-            НАЙТИ
+            placeholder="ВВЕДИТЕ ID"
+            style={styles.searchInput}/>
+          <button onClick={()=>doSearch(query)} style={styles.searchBtn}>
+            <span style={styles.searchBtnText}>ПОИСК</span>
           </button>
         </div>
       </div>
 
+      {/* Landing */}
       {!activeId&&(
-        <div style={{padding:'30px 20px',textAlign:'center'}}>
-          <pre style={{fontFamily:mono,fontSize:11,color:t.dimmer,lineHeight:1.5,margin:'0 auto 20px'}}>{`
-  ╔════════════════════════════════╗
-  ║  ВВЕДИТЕ ИДЕНТИФИКАТОР ВЫШЕ   ║
-  ║  ДЛЯ ПРОВЕРКИ ВСЕХ ЗАПИСЕЙ   ║
-  ╚════════════════════════════════╝`}</pre>
-          <p style={{color:t.dim,fontSize:13,lineHeight:1.7,maxWidth:340,margin:'0 auto'}}>
-            Уникальный идентификатор из Сервиса Приёма
-          </p>
+        <div style={styles.landing}>
+          <pre style={styles.ascii}>{`
+ ┌─────────────────────────────────┐
+ │  ВВЕДИТЕ 7-ЗНАЧНЫЙ             │
+ │  ИДЕНТИФИКАТОР ИЗ              │
+ │  СЕРВИСА ПРИЁМА                │
+ │                                │
+ │  > TRACKING ALL DIRECTIONS     │
+ │  > REAL-TIME CONSENT LISTS     │
+ │  > BUDGET SEAT MONITORING      │
+ └─────────────────────────────────┘`}</pre>
+
           {savedIds.length>0&&(
-            <div style={{marginTop:24,textAlign:'left'}}>
-              <div style={{fontSize:10,color:t.dimmer,fontFamily:mono,letterSpacing:2,marginBottom:8}}>СОХРАНЁННЫЕ</div>
-              {savedIds.map(id=>(
-                <div key={id} onClick={()=>{setQuery(id);doSearch(id)}}
-                  style={{display:'flex',alignItems:'center',gap:8,background:t.s1,border:`1px solid ${t.bdr}`,borderRadius:6,padding:'10px 14px',marginBottom:4,cursor:'pointer',transition:'border-color 0.2s'}}
-                  onMouseEnter={e=>e.currentTarget.style.borderColor=t.bdrH}
-                  onMouseLeave={e=>e.currentTarget.style.borderColor=t.bdr}>
-                  <span style={{fontFamily:mono,fontSize:15,fontWeight:700,color:t.white,letterSpacing:2,flex:1}}>{id}</span>
-                  <span style={{fontSize:12,color:t.dim}}>→</span>
-                  <button onClick={e=>{e.stopPropagation();toggleSave(id)}}
-                    style={{background:'none',border:'none',color:t.dim,cursor:'pointer',fontSize:13}}>✕</button>
+            <div style={{marginTop:24}}>
+              <div style={styles.sectionLabel}>{'>'} СОХРАНЁННЫЕ ЗАПИСИ</div>
+              {savedIds.map(s=>(
+                <div key={s.id} style={styles.savedCard} className="card-hover"
+                  onClick={()=>{if(editingId!==s.id){setQuery(s.id);doSearch(s.id)}}}>
+                  <div style={{display:'flex',alignItems:'center',gap:10,flex:1}}>
+                    <span style={styles.savedId}>{s.id}</span>
+                    {editingId===s.id?(
+                      <input ref={editRef} value={s.label} placeholder="Имя..."
+                        onClick={e=>e.stopPropagation()}
+                        onChange={e=>updateLabel(s.id,e.target.value)}
+                        onBlur={()=>setEditingId(null)}
+                        onKeyDown={e=>{if(e.key==='Enter')setEditingId(null)}}
+                        style={styles.labelInput}/>
+                    ):s.label?(
+                      <span style={styles.savedLabel} onClick={e=>{e.stopPropagation();setEditingId(s.id)}}>{s.label}</span>
+                    ):(
+                      <span style={styles.addLabel} onClick={e=>{e.stopPropagation();setEditingId(s.id)}}>+ подпись</span>
+                    )}
+                  </div>
+                  <button onClick={e=>{e.stopPropagation();toggleSave(s.id)}} style={styles.removeBtn}>✕</button>
                 </div>
               ))}
             </div>
@@ -169,103 +160,124 @@ export default function Page(){
         </div>
       )}
 
+      {/* Not found */}
       {activeId&&results?.length===0&&(
-        <div style={{padding:'40px 20px',textAlign:'center'}}>
-          <pre style={{fontFamily:mono,fontSize:11,color:t.dim}}>{`[!] ID ${activeId} НЕ НАЙДЕН`}</pre>
-          <button onClick={()=>{setActiveId('');setQuery('')}}
-            style={{marginTop:16,padding:'8px 20px',background:t.s1,border:`1px solid ${t.bdr}`,borderRadius:6,color:t.sub,cursor:'pointer',fontSize:12,fontFamily:mono}}>← НАЗАД</button>
+        <div style={styles.notFound}>
+          <pre style={{fontFamily:'inherit',color:'#ef4444',fontSize:12}}>{`[ERROR] ID_NOT_FOUND: ${activeId}`}</pre>
+          <button onClick={()=>{setActiveId('');setQuery('')}} style={styles.backBtn}>← НАЗАД</button>
         </div>
       )}
 
+      {/* Results */}
       {results&&results.length>0&&(
         <div style={{padding:'4px 16px 32px'}}>
-          <div style={{background:t.s1,border:`1px solid ${t.bdr}`,borderRadius:10,padding:'18px',marginBottom:14}}>
-            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+          <div style={styles.idCard}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start'}}>
               <div>
-                <div style={{fontSize:9,color:t.dimmer,fontFamily:mono,letterSpacing:2}}>ИДЕНТИФИКАТОР</div>
-                <div style={{fontSize:26,fontWeight:800,fontFamily:mono,letterSpacing:3,color:t.white,marginTop:2}}>{activeId}</div>
+                <div style={styles.idLabel}>ID</div>
+                <div className="glitch" data-text={activeId} style={styles.idValue}>{activeId}</div>
+                {savedLabel&&<div style={{fontSize:12,color:'#888',marginTop:2}}>{savedLabel}</div>}
               </div>
-              <div style={{padding:'5px 12px',borderRadius:6,background:t.wSoft,border:`1px solid ${t.wBdr}`,color:t.sub,fontSize:13,fontWeight:700,fontFamily:mono}}>
-                {results.length} напр.
-              </div>
+              <div style={styles.idBadge}>{results.length} направл.</div>
             </div>
             <div style={{display:'flex',gap:8,marginTop:14,flexWrap:'wrap'}}>
               {(()=>{
-                const pass=results.filter(r=>r.consent_pos>0&&r.consent_pos<=r.budget_seats).length
-                const edge=results.filter(r=>r.consent_pos>0&&r.consent_pos>r.budget_seats&&r.consent_pos<=r.budget_seats+3).length
-                const no=results.filter(r=>r.consent_pos===0).length
+                const p=results.filter(r=>r.consent_pos>0&&r.consent_pos<=r.budget_seats).length
+                const e=results.filter(r=>r.consent_pos>0&&r.consent_pos>r.budget_seats&&r.consent_pos<=r.budget_seats+3).length
+                const f=results.filter(r=>r.consent_pos>0&&r.consent_pos>r.budget_seats+3).length
+                const n=results.filter(r=>r.consent_pos===0).length
                 return<>
-                  {pass>0&&<Tag bg={t.grnBg} c={t.grn} b={t.grnBdr}>ПРОХОДИТ: {pass}</Tag>}
-                  {edge>0&&<Tag bg={t.ambBg} c={t.amb} b="rgba(251,191,36,0.2)">НА ГРАНИ: {edge}</Tag>}
-                  {no>0&&<Tag bg={t.redBg} c={t.red} b="rgba(248,113,113,0.2)">НЕТ СОГЛАСИЯ: {no}</Tag>}
+                  {p>0&&<span style={{...styles.tag,background:'rgba(74,222,128,0.1)',color:'#4ade80',borderColor:'rgba(74,222,128,0.3)'}}>ПРОХОДИТ: {p}</span>}
+                  {e>0&&<span style={{...styles.tag,background:'rgba(251,191,36,0.1)',color:'#fbbf24',borderColor:'rgba(251,191,36,0.3)'}}>НА ГРАНИ: {e}</span>}
+                  {f>0&&<span style={{...styles.tag,background:'rgba(248,113,113,0.1)',color:'#f87171',borderColor:'rgba(248,113,113,0.3)'}}>НЕ ПРОХОДИТ: {f}</span>}
+                  {n>0&&<span style={{...styles.tag,background:'rgba(255,255,255,0.03)',color:'#666',borderColor:'rgba(255,255,255,0.1)'}}>НЕТ В СПИСКЕ: {n}</span>}
                 </>
               })()}
             </div>
             <div style={{display:'flex',gap:12,marginTop:14}}>
-              <button onClick={()=>{setActiveId('');setQuery('')}} style={{background:'none',border:'none',color:t.sub,cursor:'pointer',fontSize:11,fontFamily:mono}}>← НАЗАД</button>
-              <button onClick={()=>toggleSave(activeId)} style={{background:'none',border:'none',color:savedIds.includes(activeId)?t.amb:t.dim,cursor:'pointer',fontSize:11,fontFamily:mono}}>
-                {savedIds.includes(activeId)?'★ СОХРАНЁН':'☆ СОХРАНИТЬ'}
+              <button onClick={()=>{setActiveId('');setQuery('')}} style={styles.linkBtn}>← НАЗАД</button>
+              <button onClick={()=>toggleSave(activeId)} style={{...styles.linkBtn,color:savedIds.find(x=>x.id===activeId)?'#fbbf24':'#555'}}>
+                {savedIds.find(x=>x.id===activeId)?'★ СОХРАНЁН':'☆ СОХРАНИТЬ'}
               </button>
+              {savedIds.find(x=>x.id===activeId)&&!editingId&&(
+                <button onClick={()=>setEditingId(activeId)} style={{...styles.linkBtn,color:'#555'}}>✎ ПОДПИСЬ</button>
+              )}
             </div>
+            {editingId===activeId&&(
+              <input ref={editRef} value={savedLabel} placeholder="Введите имя или заметку..."
+                onChange={e=>updateLabel(activeId,e.target.value)}
+                onBlur={()=>setEditingId(null)} onKeyDown={e=>{if(e.key==='Enter')setEditingId(null)}}
+                style={{...styles.labelInput,marginTop:10,width:'100%'}}/>
+            )}
           </div>
 
           {results.map((r,i)=>{
             const pass=r.consent_pos>0&&r.consent_pos<=r.budget_seats
             const edge=r.consent_pos>0&&r.consent_pos>r.budget_seats&&r.consent_pos<=r.budget_seats+3
-            const accent=pass?t.grn:edge?t.amb:r.consent_pos===0?t.dim:t.red
-            const status=pass?'ПРОХОДИТ':edge?'НА ГРАНИ':r.consent_pos===0?'НЕТ СОГЛАСИЯ':'НЕ ПРОХОДИТ'
-            const statusBg=pass?t.grnBg:edge?t.ambBg:t.redBg
+            const fail=r.consent_pos>0&&r.consent_pos>r.budget_seats+3
+            const noList=r.consent_pos===0
+            const accent=pass?'#4ade80':edge?'#fbbf24':fail?'#f87171':'#444'
+            const status=pass?'ПРОХОДИТ':edge?'НА ГРАНИ':fail?'НЕ ПРОХОДИТ':'НЕТ В СПИСКЕ'
             const expanded=expandedIdx===i
 
             return(
-              <div key={i} style={{background:t.s1,border:`1px solid ${pass?t.grnBdr:edge?'rgba(251,191,36,0.2)':t.bdr}`,borderLeft:`3px solid ${accent}`,borderRadius:8,marginBottom:10,overflow:'hidden'}}>
+              <div key={i} className="card-hover" style={{...styles.dirCard,borderLeftColor:accent}}>
                 <div style={{padding:'16px 18px'}}>
                   <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
-                    <div style={{fontSize:9,fontFamily:mono,color:t.dimmer,letterSpacing:2}}>ПРИОРИТЕТ {r.priority}</div>
-                    <div style={{fontSize:9,fontWeight:700,fontFamily:mono,padding:'3px 10px',borderRadius:3,background:statusBg,color:accent,letterSpacing:1}}>{status}</div>
+                    <div style={styles.prioLabel}>ПРИОРИТЕТ {r.priority}</div>
+                    <div style={{...styles.statusTag,background:pass?'rgba(74,222,128,0.1)':edge?'rgba(251,191,36,0.1)':fail?'rgba(248,113,113,0.1)':'rgba(255,255,255,0.03)',color:accent}}>{status}</div>
                   </div>
-                  <div style={{fontSize:14,fontWeight:700,lineHeight:1.35,marginBottom:4}}>{r.specialty}</div>
-                  <div style={{fontSize:11,color:t.dim,marginBottom:14}}>{r.institute}</div>
+                  <div style={styles.specName}>{r.specialty}</div>
+                  <div style={styles.instName}>{r.institute}</div>
 
-                  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:1,background:t.bdr,borderRadius:6,overflow:'hidden'}}>
-                    <S label="ПОЗИЦИЯ" value={r.consent_pos||'—'} sub={`из ${r.consent_count}`} color={accent} />
-                    <S label="БАЛЛЫ" value={r.total_score} sub={`ВИ ${r.vi_score} + ИД ${r.id_score}`} color={t.white} />
-                    <S label="БЮДЖЕТ" value={r.budget_seats} sub={`всего ${r.total_seats}`} color={t.sub} />
+                  <div style={styles.statsGrid}>
+                    <div style={styles.statCell}>
+                      <div style={styles.statLabel}>ПОЗИЦИЯ</div>
+                      <div style={{...styles.statValue,color:accent}}>{r.consent_pos||'—'}</div>
+                      <div style={styles.statSub}>из {r.consent_count}</div>
+                    </div>
+                    <div style={styles.statCell}>
+                      <div style={styles.statLabel}>БАЛЛЫ</div>
+                      <div style={styles.statValue}>{r.total_score}</div>
+                      <div style={styles.statSub}>ВИ {r.vi_score} + ИД {r.id_score}</div>
+                    </div>
+                    <div style={styles.statCell}>
+                      <div style={styles.statLabel}>БЮДЖЕТ</div>
+                      <div style={{...styles.statValue,color:'#888'}}>{r.budget_seats}</div>
+                      <div style={styles.statSub}>всего {r.total_seats}</div>
+                    </div>
                   </div>
 
                   <div style={{display:'flex',justifyContent:'space-between',marginTop:12}}>
-                    <div style={{display:'flex',gap:12}}>
-                      <Dot on={r.has_consent} label="Согласие"/>
-                      <Dot on={r.vi_score>0} label="ВИ сдан"/>
+                    <div style={{display:'flex',gap:14}}>
+                      <span style={{...styles.dotLabel,color:r.has_consent?'#4ade80':'#333'}}><span style={{...styles.dotSmall,background:r.has_consent?'#4ade80':'#333',boxShadow:r.has_consent?'0 0 8px #4ade80':'none'}}/>Согласие</span>
+                      <span style={{...styles.dotLabel,color:r.vi_score>0?'#4ade80':'#333'}}><span style={{...styles.dotSmall,background:r.vi_score>0?'#4ade80':'#333',boxShadow:r.vi_score>0?'0 0 8px #4ade80':'none'}}/>ВИ</span>
                     </div>
-                    <span style={{fontSize:10,color:t.dimmer,fontFamily:mono}}>общ. #{r.position}/{r.full_count}</span>
+                    <span style={{fontSize:10,color:'#333',fontFamily:mono}}>#{r.position}/{r.full_count}</span>
                   </div>
 
-                  <button onClick={()=>{setExpandedIdx(expanded?null:i);setListMode('consent')}}
-                    style={{marginTop:12,width:'100%',padding:'8px',background:t.s2,border:`1px solid ${t.bdr}`,borderRadius:5,color:t.sub,cursor:'pointer',fontSize:10,fontFamily:mono,letterSpacing:1,transition:'border-color 0.2s'}}
-                    onMouseEnter={e=>e.currentTarget.style.borderColor=t.bdrH}
-                    onMouseLeave={e=>e.currentTarget.style.borderColor=t.bdr}>
-                    {expanded?'СКРЫТЬ ▲':'ПОКАЗАТЬ СПИСОК ▼'}
+                  <button onClick={()=>{setExpandedIdx(expanded?null:i);setListMode('consent')}} className="card-hover" style={styles.expandBtn}>
+                    {expanded?'СКРЫТЬ ▲':'СПИСОК ▼'}
                   </button>
                 </div>
 
                 {expanded&&(
-                  <div style={{borderTop:`1px solid ${t.bdr}`,overflowX:'auto'}}>
-                    <div style={{display:'flex',borderBottom:`1px solid ${t.bdr}`}}>
-                      {([{k:'consent' as const,l:`С согласием (${r.consent.length})`},{k:'full' as const,l:`Полный список (${r.full.length})`}]).map(tab=>(
+                  <div style={{borderTop:'1px solid #222',overflowX:'auto'}}>
+                    <div style={{display:'flex',borderBottom:'1px solid #222'}}>
+                      {([{k:'consent' as const,l:`С согласием (${r.consent.length})`},{k:'full' as const,l:`Полный (${r.full.length})`}]).map(tab=>(
                         <button key={tab.k} onClick={()=>setListMode(tab.k)}
-                          style={{flex:1,padding:'8px',fontSize:10,fontFamily:mono,border:'none',cursor:'pointer',letterSpacing:1,
-                            background:listMode===tab.k?t.s2:t.s1,
-                            color:listMode===tab.k?t.white:t.dim,
-                            borderBottom:listMode===tab.k?`2px solid ${t.white}`:'2px solid transparent'}}>
+                          style={{flex:1,padding:'8px',fontSize:10,fontFamily:mono,border:'none',cursor:'pointer',letterSpacing:1,transition:'all 0.2s',
+                            background:listMode===tab.k?'#1a1a1a':'#111',
+                            color:listMode===tab.k?'#fff':'#444',
+                            borderBottom:listMode===tab.k?'1px solid #fff':'1px solid transparent'}}>
                           {tab.l}
                         </button>
                       ))}
                     </div>
                     <table style={{width:'100%',borderCollapse:'collapse',fontSize:11,fontFamily:mono}}>
-                      <thead><tr style={{background:t.s2}}>
+                      <thead><tr style={{background:'#141414'}}>
                         {['№','ID','ВИ','ИД','Σ','ПР.',listMode==='full'?'СОГЛ.':null].filter(Boolean).map((h,j)=>(
-                          <th key={j} style={{padding:'8px 6px',textAlign:j===1?'left':'center',color:t.dimmer,fontSize:8,fontWeight:600,letterSpacing:1,borderBottom:`1px solid ${t.bdr}`}}>{h}</th>
+                          <th key={j}style={{padding:'8px 6px',textAlign:j===1?'left':'center',color:'#444',fontSize:8,fontWeight:600,letterSpacing:1,borderBottom:'1px solid #222'}}>{h}</th>
                         ))}
                       </tr></thead>
                       <tbody>
@@ -274,52 +286,106 @@ export default function Page(){
                           const pos=listMode==='consent'?j+1:a.position
                           const rp=r.budget_seats>0&&pos<=r.budget_seats
                           return(
-                            <tr key={j} style={{background:isMe?t.wSoft:rp?'rgba(74,222,128,0.03)':'transparent',borderBottom:`1px solid ${t.bdr}`}}>
-                              <td style={{padding:'6px',textAlign:'center',fontWeight:700,color:isMe?t.white:rp?t.grn:t.dim}}>{pos}</td>
-                              <td style={{padding:'6px',fontWeight:isMe?800:400,color:isMe?t.white:t.txt}}>
-                                {a.uid}{isMe&&<span style={{color:t.sub,fontSize:8,marginLeft:6}}>← вы</span>}
+                            <tr key={j}className="row-hover"style={{borderBottom:'1px solid #1a1a1a',background:isMe?'rgba(255,255,255,0.04)':rp?'rgba(74,222,128,0.02)':'transparent'}}>
+                              <td style={{padding:'6px',textAlign:'center',fontWeight:700,color:isMe?'#fff':rp?'#4ade80':'#444'}}>{pos}</td>
+                              <td style={{padding:'6px',fontWeight:isMe?800:400,color:isMe?'#fff':'#ccc'}}>
+                                {a.uid}{isMe&&<span style={{color:'#555',fontSize:8,marginLeft:6}}>← вы</span>}
                               </td>
-                              <td style={{padding:'6px',textAlign:'center',color:a.vi_score>0?t.sub:t.dimmer}}>{a.vi_score||'—'}</td>
-                              <td style={{padding:'6px',textAlign:'center',color:t.sub}}>{a.id_score}</td>
-                              <td style={{padding:'6px',textAlign:'center',fontWeight:700,color:t.white}}>{a.total_score}</td>
-                              <td style={{padding:'6px',textAlign:'center',color:t.sub}}>{a.priority}</td>
-                              {listMode==='full'&&<td style={{padding:'6px',textAlign:'center',color:a.has_consent?t.grn:t.dimmer}}>{a.has_consent?'✓':'—'}</td>}
+                              <td style={{padding:'6px',textAlign:'center',color:a.vi_score>0?'#999':'#333'}}>{a.vi_score||'—'}</td>
+                              <td style={{padding:'6px',textAlign:'center',color:'#999'}}>{a.id_score}</td>
+                              <td style={{padding:'6px',textAlign:'center',fontWeight:700,color:'#fff'}}>{a.total_score}</td>
+                              <td style={{padding:'6px',textAlign:'center',color:'#999'}}>{a.priority}</td>
+                              {listMode==='full'&&<td style={{padding:'6px',textAlign:'center',color:a.has_consent?'#4ade80':'#333'}}>{a.has_consent?'✓':'—'}</td>}
                             </tr>)
                         })}
                       </tbody>
                     </table>
-                    <div style={{padding:'6px',fontSize:9,fontFamily:mono,background:t.s2,color:t.dimmer,textAlign:'center',borderTop:`1px solid ${t.bdr}`,letterSpacing:1}}>
+                    <div style={{padding:'6px',fontSize:9,fontFamily:mono,background:'#111',color:'#333',textAlign:'center',borderTop:'1px solid #222',letterSpacing:1}}>
                       БЮДЖЕТ: {r.budget_seats} · ДОГОВОР: {r.contract_seats} · ВСЕГО: {r.total_seats}
                     </div>
                   </div>
                 )}
               </div>)
           })}
-          <div style={{textAlign:'center',fontSize:9,color:t.dimmer,fontFamily:mono,marginTop:16,letterSpacing:1}}>
-            {ts&&`ДАННЫЕ: ${ts}`}
+          <div style={{textAlign:'center',fontSize:9,color:'#333',fontFamily:mono,marginTop:16,letterSpacing:1}}>
+            {ts&&`SYNC: ${ts}`}
           </div>
         </div>
       )}
-      <footer style={{textAlign:'center',padding:'20px 16px 32px',fontSize:9,color:t.dimmer,fontFamily:mono,borderTop:`1px solid ${t.bdr}`,marginTop:20,letterSpacing:2}}>
-        ТИУ ТРЕКЕР // incoming.tyuiu.ru
+      <footer style={{textAlign:'center',padding:'20px 16px 40px',fontSize:9,color:'#333',fontFamily:mono,borderTop:'1px solid #1a1a1a',marginTop:20,letterSpacing:2}}>
+        ТИУ://ТРЕКЕР · incoming.tyuiu.ru
       </footer>
       </div>
     </div>)
 }
 
-function Tag({children,bg,c,b}:{children:React.ReactNode;bg:string;c:string;b:string}){
-  return<span style={{fontSize:10,fontWeight:700,padding:'3px 10px',borderRadius:4,background:bg,color:c,border:`1px solid ${b}`,fontFamily:"'JetBrains Mono',monospace",letterSpacing:1}}>{children}</span>
-}
-function S({label,value,sub,color}:{label:string;value:number|string;sub?:string;color?:string}){
-  return<div style={{background:'#121212',padding:'12px 8px',textAlign:'center'}}>
-    <div style={{fontSize:8,color:'#444',letterSpacing:2,fontFamily:"'JetBrains Mono',monospace",marginBottom:4}}>{label}</div>
-    <div style={{fontSize:22,fontWeight:800,color:color||'#f5f5f5',fontFamily:"'JetBrains Mono',monospace"}}>{value}</div>
-    {sub&&<div style={{fontSize:9,color:'#444',fontFamily:"'JetBrains Mono',monospace",marginTop:2}}>{sub}</div>}
-  </div>
-}
-function Dot({on,label}:{on:boolean;label:string}){
-  return<div style={{display:'flex',alignItems:'center',gap:5,fontSize:10,color:on?'#4ade80':'#444',fontWeight:on?600:400}}>
-    <span style={{width:6,height:6,borderRadius:'50%',background:on?'#4ade80':'#444',opacity:on?1:0.4,boxShadow:on?'0 0 6px #4ade80':'none'}}/>
-    {label}
-  </div>
+const mono="'JetBrains Mono','SF Mono','Fira Code',monospace"
+
+const globalCSS=`
+  @keyframes matrixFall{0%{transform:translateY(-100%)}100%{transform:translateY(100vh)}}
+  @keyframes scanline{0%{top:-100%}100%{top:100%}}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+  @keyframes glitchAnim{0%{clip-path:inset(40% 0 61% 0)}20%{clip-path:inset(92% 0 1% 0)}40%{clip-path:inset(43% 0 1% 0)}60%{clip-path:inset(25% 0 58% 0)}80%{clip-path:inset(54% 0 7% 0)}100%{clip-path:inset(58% 0 43% 0)}}
+  @keyframes glow{0%,100%{text-shadow:0 0 5px rgba(255,255,255,0.1)}50%{text-shadow:0 0 20px rgba(255,255,255,0.15),0 0 40px rgba(255,255,255,0.05)}}
+  .blink{animation:blink 1s infinite}
+  .matrix-col{position:absolute;top:-100%;font-family:${mono};font-size:11px;color:rgba(255,255,255,0.04);white-space:pre;line-height:1.5;animation:matrixFall linear infinite;pointer-events:none}
+  .glitch{position:relative;animation:glow 4s ease-in-out infinite}
+  .glitch::before,.glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%}
+  .glitch::before{animation:glitchAnim 3s infinite linear alternate-reverse;color:rgba(255,255,255,0.03);left:2px}
+  .glitch::after{animation:glitchAnim 2s infinite linear alternate;color:rgba(255,255,255,0.03);left:-2px}
+  .card-hover{transition:border-color 0.3s,background 0.2s}
+  .card-hover:hover{border-color:#444!important}
+  .row-hover:hover{background:rgba(255,255,255,0.03)!important}
+  ::selection{background:rgba(255,255,255,0.15);color:#fff}
+  input::placeholder{color:#333}
+`
+
+const styles:Record<string,React.CSSProperties>={
+  root:{fontFamily:"'Inter',-apple-system,sans-serif",background:'#0a0a0a',color:'#f5f5f5',minHeight:'100vh',position:'relative',overflow:'hidden'},
+  scanlines:{position:'fixed',top:0,left:0,right:0,bottom:0,zIndex:1,pointerEvents:'none',background:'repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.15) 2px,rgba(0,0,0,0.15) 4px)'},
+  matrixWrap:{position:'fixed',top:0,left:0,right:0,bottom:0,zIndex:0,overflow:'hidden',pointerEvents:'none'},
+  content:{position:'relative',zIndex:2,maxWidth:640,margin:'0 auto'},
+  loadWrap:{display:'flex',justifyContent:'center',alignItems:'center',height:'100vh',background:'#0a0a0a'},
+  loadText:{fontFamily:mono,fontSize:14,color:'#555',letterSpacing:3},
+  header:{padding:'32px 20px 0',textAlign:'center'},
+  logo:{fontFamily:mono,fontWeight:800,fontSize:26,letterSpacing:3,color:'#fff'},
+  headerSub:{color:'#333',fontSize:9,fontFamily:mono,marginTop:8,letterSpacing:3},
+  headerTime:{display:'flex',justifyContent:'center',alignItems:'center',gap:6,marginTop:10,fontSize:11,color:'#444',fontFamily:mono},
+  dot:{width:5,height:5,borderRadius:'50%',background:'#4ade80',display:'inline-block',boxShadow:'0 0 8px #4ade80'},
+  searchWrap:{padding:'24px 16px 8px'},
+  searchBox:{display:'flex',alignItems:'center',border:'1px solid #333',borderRadius:0,background:'#111',transition:'border-color 0.3s'},
+  searchPrefix:{padding:'0 0 0 14px',color:'#555',fontFamily:mono,fontSize:14,fontWeight:700},
+  searchInput:{flex:1,padding:'14px 10px',background:'transparent',border:'none',outline:'none',color:'#fff',fontSize:18,fontFamily:mono,letterSpacing:3,minWidth:0},
+  searchBtn:{padding:'14px 20px',background:'#fff',border:'none',color:'#000',fontWeight:800,fontSize:12,cursor:'pointer',fontFamily:mono,letterSpacing:2},
+  searchBtnText:{},
+  landing:{padding:'24px 20px',textAlign:'center'},
+  ascii:{fontFamily:mono,fontSize:11,color:'#333',lineHeight:1.4,margin:'0 auto 0',textAlign:'left',display:'inline-block'},
+  sectionLabel:{fontSize:10,color:'#555',fontFamily:mono,letterSpacing:2,marginBottom:10,textAlign:'left'},
+  savedCard:{display:'flex',alignItems:'center',gap:8,background:'#111',border:'1px solid #222',borderRadius:0,padding:'10px 14px',marginBottom:2,cursor:'pointer'},
+  savedId:{fontFamily:mono,fontSize:14,fontWeight:700,color:'#fff',letterSpacing:2},
+  savedLabel:{fontSize:12,color:'#666',cursor:'pointer'},
+  addLabel:{fontSize:11,color:'#333',cursor:'pointer',fontFamily:mono},
+  labelInput:{padding:'4px 8px',background:'#1a1a1a',border:'1px solid #333',borderRadius:0,color:'#fff',fontSize:12,fontFamily:mono,outline:'none'},
+  removeBtn:{background:'none',border:'none',color:'#333',cursor:'pointer',fontSize:13,padding:'0 4px'},
+  notFound:{padding:'40px 20px',textAlign:'center',fontFamily:mono},
+  backBtn:{marginTop:16,padding:'8px 20px',background:'#111',border:'1px solid #222',borderRadius:0,color:'#666',cursor:'pointer',fontSize:11,fontFamily:mono,letterSpacing:1},
+  idCard:{background:'#111',border:'1px solid #222',borderRadius:0,padding:'18px',marginBottom:14},
+  idLabel:{fontSize:9,color:'#444',fontFamily:mono,letterSpacing:3},
+  idValue:{fontSize:28,fontWeight:800,fontFamily:mono,letterSpacing:4,color:'#fff',marginTop:2},
+  idBadge:{padding:'5px 12px',background:'rgba(255,255,255,0.04)',border:'1px solid #222',color:'#666',fontSize:12,fontWeight:700,fontFamily:mono},
+  tag:{fontSize:10,fontWeight:700,padding:'3px 10px',border:'1px solid',fontFamily:mono,letterSpacing:1},
+  linkBtn:{background:'none',border:'none',color:'#555',cursor:'pointer',fontSize:11,fontFamily:mono,padding:0,letterSpacing:1},
+  dirCard:{background:'#111',border:'1px solid #222',borderLeft:'3px solid #444',marginBottom:8,overflow:'hidden'},
+  prioLabel:{fontSize:9,fontFamily:mono,color:'#444',letterSpacing:2},
+  statusTag:{fontSize:9,fontWeight:700,fontFamily:mono,padding:'3px 10px',letterSpacing:1},
+  specName:{fontSize:13,fontWeight:700,lineHeight:1.35,marginBottom:4},
+  instName:{fontSize:11,color:'#555',marginBottom:14},
+  statsGrid:{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:1,background:'#222',overflow:'hidden'},
+  statCell:{background:'#0e0e0e',padding:'12px 8px',textAlign:'center'},
+  statLabel:{fontSize:8,color:'#444',letterSpacing:2,fontFamily:mono,marginBottom:4},
+  statValue:{fontSize:22,fontWeight:800,color:'#fff',fontFamily:mono},
+  statSub:{fontSize:9,color:'#333',fontFamily:mono,marginTop:2},
+  dotLabel:{display:'flex',alignItems:'center',gap:5,fontSize:10,fontWeight:600},
+  dotSmall:{width:6,height:6,borderRadius:'50%',display:'inline-block'},
+  expandBtn:{marginTop:12,width:'100%',padding:'8px',background:'#0e0e0e',border:'1px solid #222',color:'#555',cursor:'pointer',fontSize:10,fontFamily:mono,letterSpacing:2},
 }
