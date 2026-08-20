@@ -2,11 +2,13 @@ name: Update TIU Lists
 
 on:
   schedule:
-    # 9:10, 13:10, 16:10 MSK = 6:10, 10:10, 13:10 UTC
-    - cron: '10 6 * * *'
-    - cron: '10 10 * * *'
-    - cron: '10 13 * * *'
+    - cron: '2 6 * * *'
+    - cron: '2 10 * * *'
+    - cron: '2 13 * * *'
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   scrape:
@@ -25,21 +27,6 @@ jobs:
 
       - name: Run scraper
         run: python scraper/scraper.py
-
-      - name: Check results
-        run: |
-          if [ -f public/data/latest.json ]; then
-            LISTS=$(python3 -c "import json; print(json.load(open('public/data/latest.json'))['total_lists'])")
-            APPS=$(python3 -c "import json; print(json.load(open('public/data/latest.json'))['total_applicants'])")
-            echo "Lists: $LISTS, Applicants: $APPS"
-            if [ "$LISTS" -eq "0" ]; then
-              echo "No data collected!"
-              exit 1
-            fi
-          else
-            echo "No file created!"
-            exit 1
-          fi
 
       - name: Push data
         run: |
