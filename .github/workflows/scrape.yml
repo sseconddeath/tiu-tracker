@@ -3,8 +3,11 @@ name: Update TIU Lists
 on:
   schedule:
     - cron: '2 6 * * *'
+    - cron: '15 6 * * *'
     - cron: '2 10 * * *'
+    - cron: '15 10 * * *'
     - cron: '2 13 * * *'
+    - cron: '15 13 * * *'
   workflow_dispatch:
 
 permissions:
@@ -13,7 +16,7 @@ permissions:
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v4
