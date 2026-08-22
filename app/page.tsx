@@ -318,13 +318,10 @@ export default function Page(){
 const mono="'JetBrains Mono','SF Mono','Fira Code',monospace"
 
 const globalCSS=`
-  @keyframes matrixFall{0%{transform:translateY(-50%);opacity:0}5%{opacity:1}95%{opacity:1}100%{transform:translateY(100vh);opacity:0}}
-  @keyframes scanline{0%{top:-100%}100%{top:100%}}
   @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
   @keyframes glitchAnim{0%{clip-path:inset(40% 0 61% 0)}20%{clip-path:inset(92% 0 1% 0)}40%{clip-path:inset(43% 0 1% 0)}60%{clip-path:inset(25% 0 58% 0)}80%{clip-path:inset(54% 0 7% 0)}100%{clip-path:inset(58% 0 43% 0)}}
   @keyframes glow{0%,100%{text-shadow:0 0 5px rgba(255,255,255,0.1)}50%{text-shadow:0 0 20px rgba(255,255,255,0.15),0 0 40px rgba(255,255,255,0.05)}}
   .blink{animation:blink 1s infinite}
-  .matrix-col{position:absolute;top:-100%;font-family:${mono};font-size:12px;color:rgba(255,255,255,0.06);white-space:pre;line-height:1.8;animation:matrixFall linear infinite;pointer-events:none;text-shadow:0 0 3px rgba(255,255,255,0.03)}
   .glitch{position:relative;animation:glow 4s ease-in-out infinite}
   .glitch::before,.glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%}
   .glitch::before{animation:glitchAnim 3s infinite linear alternate-reverse;color:rgba(255,255,255,0.03);left:2px}
@@ -387,17 +384,30 @@ const styles:Record<string,React.CSSProperties>={
 }
 
 const matrixCols=(()=>{
-  const c='@#$%&*!=+<>{}[]|/\\~^;:.'.split('')
-  return Array.from({length:30}).map((_,i)=>({
-    text:Array.from({length:80}).map(()=>c[Math.floor(Math.random()*c.length)]).join('\n'),
-    left:`${(i/30)*100}%`,
-    dur:`${20+Math.random()*25}s`,
-    delay:`-${Math.random()*30}s`,
+  const c='@#$%&*!=+<>{}[]|/\\~^;:.░▒▓'.split('')
+  return Array.from({length:35}).map((_,i)=>({
+    text:Array.from({length:100}).map(()=>c[Math.floor(Math.random()*c.length)]).join('\n'),
+    left:(i/35)*100,
+    dur:18+Math.random()*22,
+    delay:Math.random()*40,
+    flashDelay:Math.random()*20,
+    flashDur:8+Math.random()*12,
   }))
 })()
 
 function MatrixBg(){
-  return<div style={{position:'fixed',top:0,left:0,right:0,bottom:0,zIndex:0,overflow:'hidden',pointerEvents:'none'}}>
-    {matrixCols.map((m,i)=><div key={i}className="matrix-col"style={{left:m.left,animationDuration:m.dur,animationDelay:m.delay}}>{m.text}</div>)}
+  return<div style={{position:'fixed',top:0,left:0,width:'100%',height:'100%',zIndex:0,overflow:'hidden',pointerEvents:'none'}}>
+    <style>{`
+      @keyframes rain{0%{transform:translateY(-50%)}100%{transform:translateY(50%)};}
+      @keyframes flash{0%,100%{opacity:0.04}40%{opacity:0.2}60%{opacity:0.18}100%{opacity:0.04}}
+      .mx-col{position:absolute;top:-50%;font-family:${mono};font-size:12px;white-space:pre;line-height:1.8;pointer-events:none;animation:rain linear infinite;color:rgba(255,255,255,0.04)}
+      .mx-flash{animation:rain linear infinite,flash ease-in-out infinite}
+    `}</style>
+    {matrixCols.map((m,i)=>{
+      const isFlash=i%4===0
+      return<div key={i} className={isFlash?'mx-flash':'mx-col'}
+        style={{left:`${m.left}%`,animationDuration:`${m.dur}s${isFlash?`,${m.flashDur}s`:''}`,animationDelay:`-${m.delay}s${isFlash?`,${m.flashDelay}s`:''}`}}>
+        {m.text}</div>
+    })}
   </div>
 }
