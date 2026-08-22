@@ -383,45 +383,73 @@ const styles:Record<string,React.CSSProperties>={
   expandBtn:{marginTop:12,width:'100%',padding:'8px',background:'#0e0e0e',border:'1px solid #222',color:'#555',cursor:'pointer',fontSize:10,fontFamily:mono,letterSpacing:2},
 }
 
-const matrixCols=(()=>{
-  const c='0123456789:.*=#@$!+'.split('')
-  return Array.from({length:40}).map((_,i)=>({
-    text:Array.from({length:120}).map(()=>c[Math.floor(Math.random()*c.length)]).join('\n'),
-    left:(i/40)*100,
-    dur:25+Math.random()*20,
-    delay:Math.random()*45,
-    isFlash:i%3===0,
-    flashDur:4+Math.random()*8,
-    flashDelay:Math.random()*10,
-  }))
-})()
+const matrixCols:never[]=[]
 
 function MatrixBg(){
-  return<div style={{position:'fixed',top:0,left:0,width:'100vw',height:'100vh',zIndex:0,overflow:'hidden',pointerEvents:'none'}}>
-    <style>{`
-      @keyframes rain{0%{transform:translateY(-50%)}100%{transform:translateY(0)};}
-      @keyframes flash{0%,100%{opacity:0.06}50%{opacity:0.3}}
-    `}</style>
-    {matrixCols.map((m,i)=>
-      <pre key={i} style={{
-        position:'absolute',
-        left:`${m.left}%`,
-        top:0,
-        margin:0,
-        fontFamily:mono,
-        fontSize:11,
-        lineHeight:'1.6em',
-        color:'#fff',
-        opacity:m.isFlash?undefined:0.06,
-        animation:m.isFlash
-          ?`rain ${m.dur}s linear -${m.delay}s infinite, flash ${m.flashDur}s ease-in-out -${m.flashDelay}s infinite`
-          :`rain ${m.dur}s linear -${m.delay}s infinite`,
-        pointerEvents:'none',
-        userSelect:'none',
-        width:'1ch',
-        overflow:'hidden',
-        height:'200vh',
-      }}>{m.text}</pre>
-    )}
-  </div>
+  const canvasRef=useRef<HTMLCanvasElement>(null)
+  useEffect(()=>{
+    const canvas=canvasRef.current
+    if(!canvas)return
+    const ctx=canvas.getContext('2d')
+    if(!ctx)return
+
+    let W=window.innerWidth, H=window.innerHeight
+    canvas.width=W; canvas.height=H
+
+    const fontSize=14
+    const cols=Math.floor(W/fontSize)
+    const drops:number[]=Array.from({length:cols},()=>Math.random()*-100)
+    const speeds:number[]=Array.from({length:cols},()=>0.3+Math.random()*0.7)
+    const chars='0123456789ABCDEFabcdef@#$%&*:;+=<>?!~^'.split('')
+
+    const draw=()=>{
+      ctx.fillStyle='rgba(10,10,10,0.12)'
+      ctx.fillRect(0,0,W,H)
+
+      for(let i=0;i<cols;i++){
+        const x=i*fontSize
+        const y=drops[i]*fontSize
+
+        // Bright head character
+        const ch=chars[Math.floor(Math.random()*chars.length)]
+        ctx.font=`${fontSize}px "JetBrains Mono",monospace`
+        ctx.fillStyle='rgba(255,255,255,0.9)'
+        ctx.shadowColor='#ffffff'
+        ctx.shadowBlur=8
+        ctx.fillText(ch,x,y)
+
+        // Trail characters (dimmer)
+        ctx.shadowBlur=0
+        for(let t=1;t<8;t++){
+          const ty=y-t*fontSize
+          if(ty<0)continue
+          const tc=chars[Math.floor(Math.random()*chars.length)]
+          const alpha=0.4*(1-t/8)
+          ctx.fillStyle=`rgba(${180+Math.floor(Math.random()*30)},${180+Math.floor(Math.random()*30)},${180+Math.floor(Math.random()*30)},${alpha})`
+          ctx.fillText(tc,x,ty)
+        }
+
+        drops[i]+=speeds[i]
+
+        if(y>H && Math.random()>0.98){
+          drops[i]=Math.random()*-20
+          speeds[i]=0.3+Math.random()*0.7
+        }
+      }
+
+      requestAnimationFrame(draw)
+    }
+
+    const id=requestAnimationFrame(draw)
+
+    const onResize=()=>{
+      W=window.innerWidth;H=window.innerHeight
+      canvas.width=W;canvas.height=H
+    }
+    window.addEventListener('resize',onResize)
+
+    return()=>{cancelAnimationFrame(id);window.removeEventListener('resize',onResize)}
+  },[])
+
+  return<canvas ref={canvasRef} style={{position:'fixed',top:0,left:0,width:'100vw',height:'100vh',zIndex:0,pointerEvents:'none',opacity:0.4}}/>
 }
