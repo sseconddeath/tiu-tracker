@@ -95,7 +95,7 @@ export default function Page(){
       <header style={styles.header}>
         <div className="glitch" data-text="ТИУ://ТРЕКЕР" style={styles.logo}>ТИУ://ТРЕКЕР</div>
         <div style={styles.headerSub}>СИСТЕМА МОНИТОРИНГА КОНКУРСНЫХ СПИСКОВ</div>
-        {ts&&<div style={styles.headerTime}><span style={styles.dot}/>SYNC: {ts} МСК</div>}
+        {ts&&<div style={styles.headerTime}><span style={styles.dot}/>SYNC: {ts}</div>}
       </header>
 
       {/* Search */}
