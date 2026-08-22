@@ -384,30 +384,41 @@ const styles:Record<string,React.CSSProperties>={
 }
 
 const matrixCols=(()=>{
-  const c='@#$%&*!=+<>{}[]|/\\~^;:.░▒▓'.split('')
-  return Array.from({length:35}).map((_,i)=>({
-    text:Array.from({length:100}).map(()=>c[Math.floor(Math.random()*c.length)]).join('\n'),
-    left:(i/35)*100,
-    dur:18+Math.random()*22,
+  const c='0123456789:.*+=#@&%$!'.split('')
+  return Array.from({length:40}).map((_,i)=>({
+    text:Array.from({length:80}).map(()=>c[Math.floor(Math.random()*c.length)]).join('\n'),
+    left:(i/40)*100,
+    dur:20+Math.random()*20,
     delay:Math.random()*40,
-    flashDelay:Math.random()*20,
-    flashDur:8+Math.random()*12,
+    isFlash:i%5===0,
+    flashDur:6+Math.random()*10,
+    flashDelay:Math.random()*15,
   }))
 })()
 
 function MatrixBg(){
-  return<div style={{position:'fixed',top:0,left:0,width:'100%',height:'100%',zIndex:0,overflow:'hidden',pointerEvents:'none'}}>
+  return<div style={{position:'fixed',top:0,left:0,width:'100vw',height:'100vh',zIndex:0,overflow:'hidden',pointerEvents:'none'}}>
     <style>{`
-      @keyframes rain{0%{transform:translateY(-50%)}100%{transform:translateY(50%)};}
-      @keyframes flash{0%,100%{opacity:0.04}40%{opacity:0.2}60%{opacity:0.18}100%{opacity:0.04}}
-      .mx-col{position:absolute;top:-50%;font-family:${mono};font-size:12px;white-space:pre;line-height:1.8;pointer-events:none;animation:rain linear infinite;color:rgba(255,255,255,0.04)}
-      .mx-flash{animation:rain linear infinite,flash ease-in-out infinite}
+      @keyframes rain{0%{transform:translateY(-50%)}100%{transform:translateY(0%)};}
+      @keyframes flash{0%,100%{opacity:0.03}50%{opacity:0.15}}
     `}</style>
-    {matrixCols.map((m,i)=>{
-      const isFlash=i%4===0
-      return<div key={i} className={isFlash?'mx-flash':'mx-col'}
-        style={{left:`${m.left}%`,animationDuration:`${m.dur}s${isFlash?`,${m.flashDur}s`:''}`,animationDelay:`-${m.delay}s${isFlash?`,${m.flashDelay}s`:''}`}}>
-        {m.text}</div>
-    })}
+    {matrixCols.map((m,i)=>
+      <pre key={i} style={{
+        position:'absolute',
+        left:`${m.left}%`,
+        top:'-50%',
+        margin:0,
+        fontFamily:mono,
+        fontSize:11,
+        lineHeight:'1.6em',
+        color:'#fff',
+        opacity:m.isFlash?undefined:0.03,
+        animation:m.isFlash?`rain ${m.dur}s linear infinite, flash ${m.flashDur}s ease-in-out ${m.flashDelay}s infinite`:`rain ${m.dur}s linear -${m.delay}s infinite`,
+        pointerEvents:'none',
+        userSelect:'none',
+        width:'1ch',
+        overflow:'hidden',
+      }}>{m.text}</pre>
+    )}
   </div>
 }
