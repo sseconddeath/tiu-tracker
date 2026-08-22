@@ -399,7 +399,7 @@ function MatrixBg(){
     const fontSize=14
     const cols=Math.floor(W/fontSize)
     const drops:number[]=Array.from({length:cols},()=>Math.random()*-100)
-    const speeds:number[]=Array.from({length:cols},()=>0.3+Math.random()*0.7)
+    const speeds:number[]=Array.from({length:cols},()=>0.08+Math.random()*0.2)
     const chars='0123456789ABCDEFabcdef@#$%&*:;+=<>?!~^'.split('')
 
     const draw=()=>{
