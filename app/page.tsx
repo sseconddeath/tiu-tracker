@@ -397,8 +397,8 @@ function MatrixBg(){
     canvas.width=W; canvas.height=H
 
     const fontSize=13
-    const colW=9 // actual monospace char width at 14px
-    const cols=Math.ceil(W/colW)+2
+    const colW=12
+    const cols=Math.ceil(W/colW)
     const drops:number[]=Array.from({length:cols},()=>Math.random()*(H/fontSize+tailLen)-tailLen)
     const speed=0.12
     const tailLen=12
