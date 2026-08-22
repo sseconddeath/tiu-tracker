@@ -385,15 +385,18 @@ const styles:Record<string,React.CSSProperties>={
 
 const matrixCols=(()=>{
   const c='0123456789:.*=#@$!+'.split('')
-  return Array.from({length:40}).map((_,i)=>({
-    text:Array.from({length:120}).map(()=>c[Math.floor(Math.random()*c.length)]).join('\n'),
-    left:(i/40)*100,
-    dur:25+Math.random()*20,
-    delay:Math.random()*45,
-    isFlash:i%3===0,
-    flashDur:4+Math.random()*8,
-    flashDelay:Math.random()*10,
-  }))
+  return Array.from({length:40}).map((_,i)=>{
+    const half=Array.from({length:60}).map(()=>c[Math.floor(Math.random()*c.length)]).join('\n')
+    return {
+      text:half+'\n'+half,
+      left:(i/40)*100,
+      dur:25+Math.random()*20,
+      delay:Math.random()*45,
+      isFlash:i%3===0,
+      flashDur:4+Math.random()*8,
+      flashDelay:Math.random()*10,
+    }
+  })
 })()
 
 function MatrixBg(){
