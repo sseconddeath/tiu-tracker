@@ -397,8 +397,9 @@ function MatrixBg(){
     canvas.width=W; canvas.height=H
 
     const fontSize=13
-    const cols=Math.ceil(W/fontSize)+1
-    const drops:number[]=Array.from({length:cols},()=>Math.random()*-50)
+    const colW=9 // actual monospace char width at 14px
+    const cols=Math.ceil(W/colW)+2
+    const drops:number[]=Array.from({length:cols},()=>Math.random()*(H/fontSize+tailLen)-tailLen)
     const speed=0.12
     const tailLen=12
     const chars='0123456789ABCDEF@#$%&*:;+=!'.split('')
@@ -417,7 +418,7 @@ function MatrixBg(){
       ctx.font=`${fontSize}px monospace`
 
       for(let i=0;i<cols;i++){
-        const x=i*fontSize
+        const x=i*colW
         const headY=Math.floor(drops[i])
 
         for(let t=tailLen-1;t>=0;t--){
