@@ -396,57 +396,51 @@ function MatrixBg(){
     let W=window.innerWidth, H=window.innerHeight
     canvas.width=W; canvas.height=H
 
-    const fontSize=14
-    const cols=Math.floor(W/fontSize)
+    const fontSize=13
+    const cols=Math.ceil(W/fontSize)+1
     const drops:number[]=Array.from({length:cols},()=>Math.random()*-50)
     const speed=0.12
     const tailLen=12
-    const chars='0123456789ABCDEFabcdef@#$%&*:;+=!~'.split('')
-    // Store trail chars so they don't flicker
+    const chars='0123456789ABCDEF@#$%&*:;+=!'.split('')
     const trailChars:string[][]=Array.from({length:cols},()=>
       Array.from({length:tailLen},()=>chars[Math.floor(Math.random()*chars.length)])
     )
 
-    const draw=()=>{
-      // Full clear - no grey buildup
+    let lastTime=0
+    const draw=(time:number)=>{
+      // Throttle to ~30fps
+      if(time-lastTime<33){requestAnimationFrame(draw);return}
+      lastTime=time
+
       ctx.fillStyle='#0a0a0a'
       ctx.fillRect(0,0,W,H)
-      ctx.font=`${fontSize}px "JetBrains Mono",monospace`
+      ctx.font=`${fontSize}px monospace`
 
       for(let i=0;i<cols;i++){
         const x=i*fontSize
         const headY=Math.floor(drops[i])
 
-        // Draw tail (dimmer chars above head)
         for(let t=tailLen-1;t>=0;t--){
           const cy=(headY-t)*fontSize
           if(cy<-fontSize||cy>H+fontSize)continue
-          const alpha=0.08+0.25*(1-t/tailLen)
-          const grey=120+Math.floor(80*(1-t/tailLen))
-          ctx.fillStyle=`rgba(${grey},${grey},${grey},${alpha})`
+          const bright=1-t/tailLen
+          const grey=Math.floor(60+160*bright)
+          ctx.fillStyle=`rgba(${grey},${grey},${grey},${0.06+0.35*bright})`
           ctx.fillText(trailChars[i][t],x,cy)
         }
 
-        // Draw bright head
         const hy=headY*fontSize
         if(hy>-fontSize&&hy<H+fontSize){
-          const ch=chars[Math.floor(Math.random()*chars.length)]
-          ctx.fillStyle='rgba(255,255,255,0.85)'
-          ctx.shadowColor='rgba(255,255,255,0.5)'
-          ctx.shadowBlur=6
-          ctx.fillText(ch,x,hy)
-          ctx.shadowBlur=0
+          ctx.fillStyle='rgba(255,255,255,0.9)'
+          ctx.fillText(chars[Math.floor(Math.random()*chars.length)],x,hy)
         }
 
         drops[i]+=speed
 
-        // Reset when off screen
         if(headY*fontSize>H+tailLen*fontSize){
           drops[i]=Math.random()*-30
-          // Refresh trail chars
-          for(let t=0;t<tailLen;t++){
+          for(let t=0;t<tailLen;t++)
             trailChars[i][t]=chars[Math.floor(Math.random()*chars.length)]
-          }
         }
       }
 
