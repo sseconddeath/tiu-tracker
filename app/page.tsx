@@ -80,7 +80,7 @@ export default function Page(){
 
   const savedLabel=savedIds.find(x=>x.id===activeId)?.label||''
   if(loading)return<div style={styles.loadWrap}><style>{globalCSS}</style><div style={styles.loadText}>INITIALIZING<span className="blink">_</span></div></div>
-  const ts=data?.scraped_at?new Date(data.scraped_at).toLocaleString('ru-RU'):null
+  const ts=data?.scraped_at||null
 
   return(
     <div style={styles.root}>

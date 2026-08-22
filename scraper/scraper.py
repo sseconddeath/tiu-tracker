@@ -1,174 +1,406 @@
 """
-TIU Scraper v7.1 — with retry logic for unstable connection.
-5 attempts with increasing delays for initial page load.
+TIU Scraper v3 — pure HTTP (no Playwright, no browser).
+Uses requests + BeautifulSoup to fetch and parse incoming.tyuiu.ru.
+
+Step 1: GET the page, parse form field names and options
+Step 2: POST the form for each institute/specialty combo
+Step 3: Parse the results table from the response HTML
 """
-import json,logging,re,sys,time
-from datetime import datetime
+
+import json
+import logging
+import re
+import sys
+from datetime import datetime, timezone, timedelta
+
+MSK = timezone(timedelta(hours=3))
+def now_msk():
+    return datetime.now(MSK).strftime('%d.%m.%Y %H:%M МСК')
 from pathlib import Path
-from dataclasses import dataclass,asdict,field
-from urllib.parse import quote
+from dataclasses import dataclass, asdict, field
+from urllib.parse import urljoin
+
 try:
     import requests
     from bs4 import BeautifulSoup
 except ImportError:
+    print("Installing dependencies...")
     import subprocess
-    subprocess.check_call([sys.executable,"-m","pip","install","requests","beautifulsoup4","--quiet"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install",
+                           "requests", "beautifulsoup4", "--quiet"])
     import requests
     from bs4 import BeautifulSoup
 
-logging.basicConfig(level=logging.INFO,format="%(asctime)s [%(levelname)s] %(message)s")
-log=logging.getLogger(__name__)
-AJAX="https://incoming.tyuiu.ru/wp-admin/admin-ajax.php"
-BASE="https://incoming.tyuiu.ru/incoming/"
-DATA_DIR=Path(__file__).parent.parent/"public"/"data"
-DATA_DIR.mkdir(parents=True,exist_ok=True)
-HDR={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-     "X-Requested-With":"XMLHttpRequest","Referer":BASE,
-     "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"}
-EDUFORMS={"1":"Очная","2":"Заочная","3":"Очно-заочная"}
-DIRECTIONS={"1":"Договор","2":"Бюджет"}
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+log = logging.getLogger(__name__)
+
+BASE_URL = "https://incoming.tyuiu.ru/incoming/"
+DATA_DIR = Path(__file__).parent.parent / "public" / "data"
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "ru-RU,ru;q=0.9,en;q=0.5",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+}
+
 
 @dataclass
 class Applicant:
-    position:int;uid:str;vi_score:int;id_score:int;total_score:int
-    admission_type:str;priority:int;has_consent:bool
+    position: int
+    uid: str
+    vi_score: int
+    id_score: int
+    total_score: int
+    admission_type: str
+    priority: int
+    has_consent: bool
+
+
+@dataclass
+class CompetitionList:
+    institute: str
+    education_form: str
+    category: str
+    specialty: str
+    total_seats: int = 0
+    budget_seats: int = 0
+    contract_seats: int = 0
+    applicants: list = field(default_factory=list)
+    scraped_at: str = ""
+
 
 class TIUScraper:
     def __init__(self):
-        self.s=requests.Session()
-        self.s.headers.update({"User-Agent":HDR["User-Agent"],"Accept-Language":"ru-RU,ru;q=0.9"})
-        self.results=[];self.institutes={}
+        self.session = requests.Session()
+        self.session.headers.update(HEADERS)
+        self.results: list[CompetitionList] = []
+        self.form_fields: dict = {}   # name -> list of {value, text}
+        self.form_action: str = ""
 
-    def _fetch_with_retry(self,url,max_attempts=5,**kwargs):
-        for attempt in range(1,max_attempts+1):
-            try:
-                log.info("  Loading (attempt %d/%d)...",attempt,max_attempts)
-                r=self.s.get(url,timeout=60,**kwargs);r.raise_for_status()
-                return r
-            except Exception as e:
-                log.warning("  Attempt %d failed: %s",attempt,str(e)[:80])
-                if attempt==max_attempts:raise
-                wait=attempt*15
-                log.info("  Waiting %ds...",wait)
-                time.sleep(wait)
+    def run(self, institutes=None, education_forms=None, categories=None):
+        if education_forms is None:
+            education_forms = ["Очная"]
+        if categories is None:
+            categories = ["Бюджет"]
 
-    def run(self,institute_ids=None,eduform_ids=None,direction_ids=None):
-        if eduform_ids is None:eduform_ids=["1"]
-        if direction_ids is None:direction_ids=["2"]
-        log.info("Fetching page...")
-        r=self._fetch_with_retry(BASE)
-        log.info("Page: %d bytes",len(r.text))
-        soup=BeautifulSoup(r.text,"html.parser")
-        for opt in soup.find("select",{"name":"org"}).find_all("option"):
-            v,t=opt.get("value","0"),opt.get_text(strip=True)
-            if v!="0" and t!="---":self.institutes[v]=t
-        orgs=institute_ids or list(self.institutes.keys())
-        log.info("%d institutes",len(orgs))
-        for org in orgs:
-            for ef in eduform_ids:
-                for di in direction_ids:
-                    try:self._scrape(org,ef,di)
-                    except Exception as e:log.error("Error: %s",e)
+        # Step 1: fetch page, discover form structure
+        log.info("Fetching %s ...", BASE_URL)
+        resp = self.session.get(BASE_URL, timeout=60)
+        resp.raise_for_status()
+        log.info("Page loaded (%d bytes)", len(resp.text))
 
-    def _post(self,data):
-        for attempt in range(1,4):
-            try:
-                r=self.s.post(AJAX,data=data,headers=HDR,timeout=30);r.raise_for_status()
-                return None if r.text.strip()=="0" else r.text
-            except Exception as e:
-                if attempt==3:log.warning("POST failed: %s",str(e)[:60]);return None
-                time.sleep(5*attempt)
+        soup = BeautifulSoup(resp.text, "html.parser")
+        self._discover_form(soup)
 
-    def _scrape(self,org,ef,di):
-        inst=self.institutes.get(org,org)
-        log.info("\n=== %s | %s | %s ===",inst,EDUFORMS.get(ef,ef),DIRECTIONS.get(di,di))
-        form=f"org={org}&eduform={ef}&direction={di}&competitionType=0&prof=&paid=0&originals=1"
-        html=self._post(f"action=disciplines&ratingForm={form}&contractValue=false")
-        if not html:log.info("  No specs");return
-        specs=[{"v":o.get("value",""),"t":o.get_text(strip=True)}
-               for o in BeautifulSoup(html,"html.parser").find_all("option") if o.get("value")]
-        log.info("  %d specialties",len(specs))
-        for sp in specs:
-            log.info("  -> %s",sp["t"][:70])
-            prof=quote(sp["v"],safe="")
-            h1=self._post(f"action=rating&ratingForm=org={org}&eduform={ef}&direction={di}&competitionType=0&prof={prof}&paid=0&originals=1")
-            h2=self._post(f"action=rating&ratingForm=org={org}&eduform={ef}&direction={di}&competitionType=0&prof={prof}&paid=0&originals=2")
-            if not h1 and not h2:log.info("     Empty");continue
-            seats={"total":0,"budget":0,"contract":0}
-            for src in [h2,h1]:
-                if not src:continue
-                txt=BeautifulSoup(src,"html.parser").get_text()
-                m=re.search(r"Всего мест[^:]*:\s*(\d+)",txt)
-                if m and seats["total"]==0:seats["total"]=int(m.group(1))
-                m=re.search(r"Общий конкурс:\s*(\d+)",txt)
-                if m and seats["budget"]==0:seats["budget"]=int(m.group(1))
-                m=re.search(r"По договору:\s*(\d+)",txt)
-                if m and seats["contract"]==0:seats["contract"]=int(m.group(1))
-            full=self._parse(BeautifulSoup(h1,"html.parser")) if h1 else []
-            consent=self._parse(BeautifulSoup(h2,"html.parser")) if h2 else []
-            if full or consent:
-                self.results.append({
-                    "institute":inst,"education_form":EDUFORMS.get(ef,ef),
-                    "category":DIRECTIONS.get(di,di),"specialty":sp["t"],
-                    "total_seats":seats["total"],"budget_seats":seats["budget"],
-                    "contract_seats":seats["contract"],
-                    "applicants":[asdict(a) for a in full],
-                    "consent_applicants":[asdict(a) for a in consent],
-                    "scraped_at":datetime.now().isoformat(),
-                })
-                log.info("     full:%d consent:%d seats:%d/%d",len(full),len(consent),seats["budget"],seats["total"])
+        if not self.form_fields:
+            log.error("No form fields found! The page structure may have changed.")
+            return self.results
 
-    def _parse(self,soup):
-        for table in soup.find_all("table"):
-            rows=table.find_all("tr")
-            if len(rows)<2:continue
-            hdr=[c.get_text(strip=True).lower() for c in rows[0].find_all(["th","td"])]
-            col={}
-            for i,h in enumerate(hdr):
-                if "№" in h or "п/п" in h:col["pos"]=i
-                elif "идентиф" in h or "уникальн" in h:col["uid"]=i
-                elif "вступительн" in h:col["vi"]=i
-                elif "индивидуальн" in h or "достиж" in h:col["id"]=i
-                elif "сумм" in h or "конкурсн" in h:col["total"]=i
-                elif "вид" in h and ("приём" in h or "прием" in h):col["adm"]=i
-                elif "приоритет" in h:col["pri"]=i
-                elif "согласи" in h or "зачисл" in h:col["con"]=i
-            if "uid" not in col:col={"pos":0,"uid":1,"vi":2,"id":3,"total":4,"adm":5,"pri":6,"con":7}
-            apps=[]
-            for row in rows[1:]:
-                cells=[c.get_text(strip=True) for c in row.find_all("td")]
-                if len(cells)<5:continue
-                def g(k,d=""):return cells[col[k]] if k in col and col[k]<len(cells) else d
+        # Show discovered structure
+        log.info("=== Form structure ===")
+        for name, opts in self.form_fields.items():
+            log.info("  [%s] %d options", name, len(opts))
+            for o in opts[:3]:
+                log.info("    - %s = %s", o["value"], o["text"][:50])
+            if len(opts) > 3:
+                log.info("    ... and %d more", len(opts) - 3)
+
+        # Step 2: iterate combinations
+        field_names = list(self.form_fields.keys())
+        log.info("Field names: %s", field_names)
+
+        # Find institute field (first select with many options)
+        inst_field = field_names[0] if field_names else None
+        inst_options = self.form_fields.get(inst_field, [])
+
+        if institutes:
+            inst_options = [o for o in inst_options
+                           if any(t.lower() in o["text"].lower() for t in institutes)]
+
+        log.info("Institutes to scrape: %d", len(inst_options))
+
+        for inst_opt in inst_options:
+            for edu_form in education_forms:
+                for category in categories:
+                    self._scrape_combo(
+                        inst_opt, edu_form, category,
+                        field_names, soup
+                    )
+
+        return self.results
+
+    def _discover_form(self, soup: BeautifulSoup):
+        """Parse the HTML form to find field names and options."""
+        # Find the form containing "Отправить"
+        forms = soup.find_all("form")
+        target_form = None
+        for f in forms:
+            if f.find("input", {"type": "submit"}) or f.find("button", {"type": "submit"}):
+                target_form = f
+                break
+            if f.find(string=re.compile("Отправить", re.I)):
+                target_form = f
+                break
+
+        if not target_form:
+            # Try all selects on page
+            target_form = soup
+
+        # Get form action
+        self.form_action = target_form.get("action", "") if target_form != soup else ""
+        if not self.form_action:
+            self.form_action = BASE_URL
+
+        # Parse all selects
+        selects = target_form.find_all("select")
+        log.info("Found %d select elements", len(selects))
+
+        for sel in selects:
+            name = sel.get("name") or sel.get("id") or ""
+            if not name:
+                continue
+            options = []
+            for opt in sel.find_all("option"):
+                val = opt.get("value", "")
+                text = opt.get_text(strip=True)
+                if val and text and text != "---":
+                    options.append({"value": val, "text": text})
+            if options:
+                self.form_fields[name] = options
+
+        # Also find hidden inputs
+        for inp in (target_form if target_form != soup else soup).find_all("input", {"type": "hidden"}):
+            name = inp.get("name", "")
+            val = inp.get("value", "")
+            if name:
+                self.form_fields["_hidden_" + name] = [{"value": val, "text": "hidden"}]
+
+    def _scrape_combo(self, inst_opt, edu_form_text, category_text, field_names, soup):
+        """Scrape one institute/edu_form/category combo with all specialties."""
+        log.info("=== %s | %s | %s ===", inst_opt["text"][:40], edu_form_text, category_text)
+
+        # Build base form data
+        form_data = {}
+
+        # Set institute (field 0)
+        if len(field_names) > 0:
+            form_data[field_names[0]] = inst_opt["value"]
+
+        # Set education form (field 1) - find matching option
+        if len(field_names) > 1:
+            for o in self.form_fields.get(field_names[1], []):
+                if edu_form_text.lower() in o["text"].lower():
+                    form_data[field_names[1]] = o["value"]
+                    break
+
+        # Set category (field 2)
+        if len(field_names) > 2:
+            for o in self.form_fields.get(field_names[2], []):
+                if category_text.lower() in o["text"].lower():
+                    form_data[field_names[2]] = o["value"]
+                    break
+
+        # Add hidden fields
+        for k, v in self.form_fields.items():
+            if k.startswith("_hidden_"):
+                real_name = k.replace("_hidden_", "")
+                form_data[real_name] = v[0]["value"]
+
+        # Now we need specialties. They might load dynamically via AJAX
+        # or they might all be in the initial HTML.
+        # First try: get specialties from initial page
+        spec_field = None
+        spec_options = []
+
+        # Specialty is usually field index 4 (after vid_priema at index 3)
+        # But let's find it by checking which field has dynamic or many options
+        for i, fname in enumerate(field_names):
+            opts = self.form_fields.get(fname, [])
+            field_lower = fname.lower()
+            if "spec" in field_lower or "napravl" in field_lower or i == 4:
+                spec_field = fname
+                spec_options = opts
+                break
+
+        # If no spec field found by name, try the last meaningful field
+        if not spec_field and len(field_names) > 3:
+            for i in range(len(field_names) - 1, 2, -1):
+                fname = field_names[i]
+                if not fname.startswith("_hidden_"):
+                    opts = self.form_fields.get(fname, [])
+                    if len(opts) > 1:
+                        spec_field = fname
+                        spec_options = opts
+                        break
+
+        if not spec_options:
+            # Try submitting without specialty to see what happens
+            log.info("  No specialties found in initial HTML, trying POST without spec...")
+            self._try_post(form_data, inst_opt["text"], edu_form_text, category_text, "")
+            return
+
+        # Try posting with specialty from initial page first
+        # If specialties load via AJAX, we might need to try the AJAX endpoint
+        log.info("  Found %d specialties in field '%s'", len(spec_options), spec_field)
+
+        for spec_opt in spec_options:
+            form_data_copy = dict(form_data)
+            form_data_copy[spec_field] = spec_opt["value"]
+
+            # Also try setting vid_priema if it exists (field 3)
+            if len(field_names) > 3 and field_names[3] != spec_field:
+                vid_field = field_names[3]
+                for o in self.form_fields.get(vid_field, []):
+                    if "общий" in o["text"].lower() or "конкурс" in o["text"].lower():
+                        form_data_copy[vid_field] = o["value"]
+                        break
+
+            self._try_post(
+                form_data_copy,
+                inst_opt["text"], edu_form_text, category_text,
+                spec_opt["text"]
+            )
+
+    def _try_post(self, form_data, institute, edu_form, category, specialty):
+        """Submit form and parse results."""
+        log.info("  -> %s", specialty[:60] if specialty else "(no spec)")
+        log.debug("  POST data: %s", form_data)
+
+        try:
+            resp = self.session.post(
+                self.form_action,
+                data=form_data,
+                timeout=60,
+            )
+            resp.raise_for_status()
+        except Exception as e:
+            log.warning("  POST failed: %s", e)
+            return
+
+        soup = BeautifulSoup(resp.text, "html.parser")
+
+        # Parse header: "Всего мест: X  Общий конкурс: Y  По договору: Z"
+        text = soup.get_text()
+        total_seats = budget_seats = contract_seats = 0
+        m = re.search(r"Всего мест[^:]*:\s*(\d+)", text)
+        if m: total_seats = int(m.group(1))
+        m = re.search(r"Общий конкурс:\s*(\d+)", text)
+        if m: budget_seats = int(m.group(1))
+        m = re.search(r"По договору:\s*(\d+)", text)
+        if m: contract_seats = int(m.group(1))
+
+        # Parse table
+        applicants = self._parse_table(soup)
+
+        if applicants:
+            self.results.append(CompetitionList(
+                institute=institute,
+                education_form=edu_form,
+                category=category,
+                specialty=specialty,
+                total_seats=total_seats,
+                budget_seats=budget_seats,
+                contract_seats=contract_seats,
+                applicants=applicants,
+                scraped_at=now_msk(),
+            ))
+            log.info("  OK: %d applicants, %d/%d seats", len(applicants), budget_seats, total_seats)
+        else:
+            log.info("  Empty (no table or no rows)")
+
+    def _parse_table(self, soup: BeautifulSoup) -> list[Applicant]:
+        """
+        Parse the results table.
+        Columns: №, ID, ВИ, ИД, Сумма, Вид приёма, Приоритет, Согласие
+        """
+        tables = soup.find_all("table")
+        if not tables:
+            return []
+
+        # Find the table with applicant data (has numbers in cells)
+        for table in tables:
+            rows = table.find_all("tr")
+            if len(rows) < 2:
+                continue
+
+            applicants = []
+            for row in rows[1:]:  # skip header
+                cells = row.find_all("td")
+                if len(cells) < 7:
+                    continue
+
+                texts = [c.get_text(strip=True) for c in cells]
+
                 try:
-                    uid=g("uid")
-                    if not uid or not uid[0].isdigit():continue
-                    vs=g("vi","0").replace("—","0").replace("-","0")
-                    ids=g("id","0").replace("—","0").replace("-","0")
-                    ts=g("total","0").replace("—","0").replace("-","0")
-                    ps=g("pri","0");cs=g("con","").lower().strip()
-                    apps.append(Applicant(
-                        position=int(g("pos","0")) if g("pos","0").isdigit() else 0,
-                        uid=uid,vi_score=int(vs) if vs.isdigit() else 0,
-                        id_score=int(ids) if ids.isdigit() else 0,
-                        total_score=int(ts) if ts.isdigit() else 0,
-                        admission_type=g("adm"),priority=int(ps) if ps.isdigit() else 0,
-                        has_consent=cs in ("да","+","yes","1"),
+                    pos = int(texts[0]) if texts[0].isdigit() else 0
+                    uid = texts[1].strip()
+                    if not uid or not uid[0].isdigit():
+                        continue
+
+                    vi = int(texts[2]) if texts[2].isdigit() else 0
+                    id_score = int(texts[3]) if texts[3].isdigit() else 0
+                    total = int(texts[4]) if texts[4].isdigit() else 0
+                    adm_type = texts[5] if len(texts) > 5 else ""
+                    priority = int(texts[6]) if len(texts) > 6 and texts[6].isdigit() else 0
+                    consent_text = texts[7].strip().lower() if len(texts) > 7 else ""
+                    has_consent = consent_text in ("да", "+", "yes", "1")
+
+                    applicants.append(Applicant(
+                        position=pos, uid=uid,
+                        vi_score=vi, id_score=id_score, total_score=total,
+                        admission_type=adm_type, priority=priority,
+                        has_consent=has_consent,
                     ))
-                except (ValueError,IndexError):pass
-            if apps:return apps
+                except (ValueError, IndexError) as e:
+                    log.debug("  Skip row: %s", e)
+
+            if applicants:
+                return applicants
+
         return []
 
     def save(self):
-        data={"scraped_at":datetime.now().isoformat(),"total_lists":len(self.results),
-              "total_applicants":sum(len(r["applicants"]) for r in self.results),
-              "lists":self.results}
-        path=DATA_DIR/"latest.json"
-        path.write_text(json.dumps(data,ensure_ascii=False,indent=2),encoding="utf-8")
-        log.info("\n=== DONE: %d lists, %d people ===",data["total_lists"],data["total_applicants"])
+        data = {
+            "scraped_at": now_msk(),
+            "total_lists": len(self.results),
+            "total_applicants": sum(len(r.applicants) for r in self.results),
+            "lists": [
+                {
+                    "institute": r.institute,
+                    "education_form": r.education_form,
+                    "category": r.category,
+                    "specialty": r.specialty,
+                    "total_seats": r.total_seats,
+                    "budget_seats": r.budget_seats,
+                    "contract_seats": r.contract_seats,
+                    "scraped_at": r.scraped_at,
+                    "applicants": [asdict(a) for a in r.applicants],
+                }
+                for r in self.results
+            ],
+        }
+        path = DATA_DIR / "latest.json"
+        path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+        log.info("Saved: %s (%d lists, %d applicants)",
+                 path, data["total_lists"], data["total_applicants"])
+        return data
+
 
 def main():
-    s=TIUScraper()
-    s.run(institute_ids=None,eduform_ids=["1"],direction_ids=["2"])
-    s.save()
+    scraper = TIUScraper()
+    scraper.run(
+        institutes=None,         # None = all, or ["Высшая школа цифровых технологий"]
+        education_forms=["Очная"],
+        categories=["Бюджет"],
+    )
+    scraper.save()
 
-if __name__=="__main__":main()
+    total = sum(len(r.applicants) for r in scraper.results)
+    print(f"\nDone: {len(scraper.results)} lists, {total} applicants")
+
+
+if __name__ == "__main__":
+    main()
