@@ -30,8 +30,8 @@ export default function Page(){
   const editRef=useRef<HTMLInputElement>(null)
 
   useEffect(()=>{
-    fetch('/data/latest.json').then(r=>r.json()).then(d=>{setData(d);setLoading(false)})
-      .catch(()=>fetch('/api/data').then(r=>r.json()).then(d=>{setData(d);setLoading(false)}).catch(()=>setLoading(false)))
+    fetch('/data/latest.json?v='+Date.now()).then(r=>r.json()).then(d=>{setData(d);setLoading(false)})
+      .catch(()=>fetch('/api/data?v='+Date.now()).then(r=>r.json()).then(d=>{setData(d);setLoading(false)}).catch(()=>setLoading(false)))
   },[])
   useEffect(()=>{try{const s=localStorage.getItem('tiu_ids2');if(s)setSavedIds(JSON.parse(s))}catch{}},[])
   useEffect(()=>{if(editingId&&editRef.current)editRef.current.focus()},[editingId])
