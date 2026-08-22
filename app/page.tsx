@@ -384,40 +384,43 @@ const styles:Record<string,React.CSSProperties>={
 }
 
 const matrixCols=(()=>{
-  const c='0123456789:.*+=#@&%$!'.split('')
+  const c='0123456789:.*=#@$!+'.split('')
   return Array.from({length:40}).map((_,i)=>({
-    text:Array.from({length:80}).map(()=>c[Math.floor(Math.random()*c.length)]).join('\n'),
+    text:Array.from({length:120}).map(()=>c[Math.floor(Math.random()*c.length)]).join('\n'),
     left:(i/40)*100,
-    dur:20+Math.random()*20,
-    delay:Math.random()*40,
-    isFlash:i%5===0,
-    flashDur:6+Math.random()*10,
-    flashDelay:Math.random()*15,
+    dur:25+Math.random()*20,
+    delay:Math.random()*45,
+    isFlash:i%3===0,
+    flashDur:4+Math.random()*8,
+    flashDelay:Math.random()*10,
   }))
 })()
 
 function MatrixBg(){
   return<div style={{position:'fixed',top:0,left:0,width:'100vw',height:'100vh',zIndex:0,overflow:'hidden',pointerEvents:'none'}}>
     <style>{`
-      @keyframes rain{0%{transform:translateY(-50%)}100%{transform:translateY(0%)};}
-      @keyframes flash{0%,100%{opacity:0.03}50%{opacity:0.15}}
+      @keyframes rain{0%{transform:translateY(-50%)}100%{transform:translateY(0)};}
+      @keyframes flash{0%,100%{opacity:0.06}50%{opacity:0.3}}
     `}</style>
     {matrixCols.map((m,i)=>
       <pre key={i} style={{
         position:'absolute',
         left:`${m.left}%`,
-        top:'-50%',
+        top:0,
         margin:0,
         fontFamily:mono,
         fontSize:11,
         lineHeight:'1.6em',
         color:'#fff',
-        opacity:m.isFlash?undefined:0.03,
-        animation:m.isFlash?`rain ${m.dur}s linear infinite, flash ${m.flashDur}s ease-in-out ${m.flashDelay}s infinite`:`rain ${m.dur}s linear -${m.delay}s infinite`,
+        opacity:m.isFlash?undefined:0.06,
+        animation:m.isFlash
+          ?`rain ${m.dur}s linear -${m.delay}s infinite, flash ${m.flashDur}s ease-in-out -${m.flashDelay}s infinite`
+          :`rain ${m.dur}s linear -${m.delay}s infinite`,
         pointerEvents:'none',
         userSelect:'none',
         width:'1ch',
         overflow:'hidden',
+        height:'200vh',
       }}>{m.text}</pre>
     )}
   </div>
