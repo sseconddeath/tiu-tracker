@@ -1,7 +1,7 @@
 {
-  "scraped_at": "24.08.2026 08:41 МСК",
+  "scraped_at": "24.08.2026 09:03 МСК",
   "total_lists": 35,
-  "total_applicants": 3984,
+  "total_applicants": 3980,
   "lists": [
     {
       "institute": "Технологический институт (Институт)",
@@ -44,16 +44,26 @@
         },
         {
           "position": 3,
-          "uid": "1131268",
-          "vi_score": 98,
-          "id_score": 6,
-          "total_score": 104,
+          "uid": "2555204",
+          "vi_score": 95,
+          "id_score": 11,
+          "total_score": 106,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": true
         },
         {
           "position": 3,
+          "uid": "2555204",
+          "vi_score": 95,
+          "id_score": 11,
+          "total_score": 106,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": true
+        },
+        {
+          "position": 4,
           "uid": "1131268",
           "vi_score": 98,
           "id_score": 6,
@@ -64,27 +74,17 @@
         },
         {
           "position": 4,
-          "uid": "2479467",
-          "vi_score": 97,
-          "id_score": 0,
-          "total_score": 97,
+          "uid": "1131268",
+          "vi_score": 98,
+          "id_score": 6,
+          "total_score": 104,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 4,
-          "uid": "2479467",
-          "vi_score": 97,
-          "id_score": 0,
-          "total_score": 97,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 5,
-          "uid": "2418179",
+          "uid": "2479467",
           "vi_score": 97,
           "id_score": 0,
           "total_score": 97,
@@ -94,6 +94,16 @@
         },
         {
           "position": 5,
+          "uid": "2479467",
+          "vi_score": 97,
+          "id_score": 0,
+          "total_score": 97,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": true
+        },
+        {
+          "position": 6,
           "uid": "2418179",
           "vi_score": 97,
           "id_score": 0,
@@ -104,16 +114,16 @@
         },
         {
           "position": 6,
-          "uid": "2503998",
-          "vi_score": 96,
+          "uid": "2418179",
+          "vi_score": 97,
           "id_score": 0,
-          "total_score": 96,
+          "total_score": 97,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": true
         },
         {
-          "position": 6,
+          "position": 7,
           "uid": "2503998",
           "vi_score": 96,
           "id_score": 0,
@@ -124,16 +134,16 @@
         },
         {
           "position": 7,
-          "uid": "1995462",
-          "vi_score": 94,
+          "uid": "2503998",
+          "vi_score": 96,
           "id_score": 0,
-          "total_score": 94,
+          "total_score": 96,
           "admission_type": "Общий конкурс",
-          "priority": 2,
-          "has_consent": false
+          "priority": 1,
+          "has_consent": true
         },
         {
-          "position": 7,
+          "position": 8,
           "uid": "1995462",
           "vi_score": 94,
           "id_score": 0,
@@ -144,36 +154,36 @@
         },
         {
           "position": 8,
-          "uid": "2021465",
-          "vi_score": 93,
+          "uid": "1995462",
+          "vi_score": 94,
           "id_score": 0,
-          "total_score": 93,
-          "admission_type": "Общий конкурс",
-          "priority": 2,
-          "has_consent": false
-        },
-        {
-          "position": 8,
-          "uid": "2021465",
-          "vi_score": 93,
-          "id_score": 0,
-          "total_score": 93,
+          "total_score": 94,
           "admission_type": "Общий конкурс",
           "priority": 2,
           "has_consent": false
         },
         {
           "position": 9,
-          "uid": "2610466",
-          "vi_score": 92,
+          "uid": "2021465",
+          "vi_score": 93,
           "id_score": 0,
-          "total_score": 92,
+          "total_score": 93,
           "admission_type": "Общий конкурс",
-          "priority": 1,
+          "priority": 2,
           "has_consent": true
         },
         {
           "position": 9,
+          "uid": "2021465",
+          "vi_score": 93,
+          "id_score": 0,
+          "total_score": 93,
+          "admission_type": "Общий конкурс",
+          "priority": 2,
+          "has_consent": true
+        },
+        {
+          "position": 10,
           "uid": "2610466",
           "vi_score": 92,
           "id_score": 0,
@@ -184,56 +194,56 @@
         },
         {
           "position": 10,
+          "uid": "2610466",
+          "vi_score": 92,
+          "id_score": 0,
+          "total_score": 92,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": true
+        },
+        {
+          "position": 11,
           "uid": "1927801",
           "vi_score": 92,
           "id_score": 0,
           "total_score": 92,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
-          "position": 10,
+          "position": 11,
           "uid": "1927801",
           "vi_score": 92,
           "id_score": 0,
           "total_score": 92,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
-          "position": 11,
+          "position": 12,
           "uid": "2519346",
           "vi_score": 91,
           "id_score": 0,
           "total_score": 91,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
-          "position": 11,
+          "position": 12,
           "uid": "2519346",
           "vi_score": 91,
           "id_score": 0,
           "total_score": 91,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
-          "position": 12,
-          "uid": "2061888",
-          "vi_score": 90,
-          "id_score": 0,
-          "total_score": 90,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 12,
+          "position": 13,
           "uid": "2061888",
           "vi_score": 90,
           "id_score": 0,
@@ -244,16 +254,16 @@
         },
         {
           "position": 13,
-          "uid": "2027864",
-          "vi_score": 89,
+          "uid": "2061888",
+          "vi_score": 90,
           "id_score": 0,
-          "total_score": 89,
+          "total_score": 90,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": false
         },
         {
-          "position": 13,
+          "position": 14,
           "uid": "2027864",
           "vi_score": 89,
           "id_score": 0,
@@ -264,16 +274,16 @@
         },
         {
           "position": 14,
-          "uid": "2479458",
-          "vi_score": 48,
-          "id_score": 40,
-          "total_score": 88,
+          "uid": "2027864",
+          "vi_score": 89,
+          "id_score": 0,
+          "total_score": 89,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": true
+          "has_consent": false
         },
         {
-          "position": 14,
+          "position": 15,
           "uid": "2479458",
           "vi_score": 48,
           "id_score": 40,
@@ -284,29 +294,19 @@
         },
         {
           "position": 15,
-          "uid": "2647925",
-          "vi_score": 85,
-          "id_score": 0,
-          "total_score": 85,
+          "uid": "2479458",
+          "vi_score": 48,
+          "id_score": 40,
+          "total_score": 88,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 15,
-          "uid": "2647925",
-          "vi_score": 85,
-          "id_score": 0,
-          "total_score": 85,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 16,
-          "uid": "2399364",
-          "vi_score": 82,
-          "id_score": 3,
+          "uid": "2647925",
+          "vi_score": 85,
+          "id_score": 0,
           "total_score": 85,
           "admission_type": "Общий конкурс",
           "priority": 1,
@@ -314,6 +314,16 @@
         },
         {
           "position": 16,
+          "uid": "2647925",
+          "vi_score": 85,
+          "id_score": 0,
+          "total_score": 85,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": true
+        },
+        {
+          "position": 17,
           "uid": "2399364",
           "vi_score": 82,
           "id_score": 3,
@@ -324,16 +334,16 @@
         },
         {
           "position": 17,
-          "uid": "1360537",
+          "uid": "2399364",
           "vi_score": 82,
-          "id_score": 0,
-          "total_score": 82,
+          "id_score": 3,
+          "total_score": 85,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": true
         },
         {
-          "position": 17,
+          "position": 18,
           "uid": "1360537",
           "vi_score": 82,
           "id_score": 0,
@@ -344,7 +354,7 @@
         },
         {
           "position": 18,
-          "uid": "2632559",
+          "uid": "1360537",
           "vi_score": 82,
           "id_score": 0,
           "total_score": 82,
@@ -353,7 +363,7 @@
           "has_consent": true
         },
         {
-          "position": 18,
+          "position": 19,
           "uid": "2632559",
           "vi_score": 82,
           "id_score": 0,
@@ -364,29 +374,9 @@
         },
         {
           "position": 19,
-          "uid": "2532801",
+          "uid": "2632559",
           "vi_score": 82,
           "id_score": 0,
-          "total_score": 82,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 19,
-          "uid": "2532801",
-          "vi_score": 82,
-          "id_score": 0,
-          "total_score": 82,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 20,
-          "uid": "2343309",
-          "vi_score": 42,
-          "id_score": 40,
           "total_score": 82,
           "admission_type": "Общий конкурс",
           "priority": 1,
@@ -394,6 +384,26 @@
         },
         {
           "position": 20,
+          "uid": "2532801",
+          "vi_score": 82,
+          "id_score": 0,
+          "total_score": 82,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": true
+        },
+        {
+          "position": 20,
+          "uid": "2532801",
+          "vi_score": 82,
+          "id_score": 0,
+          "total_score": 82,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": true
+        },
+        {
+          "position": 21,
           "uid": "2343309",
           "vi_score": 42,
           "id_score": 40,
@@ -404,16 +414,16 @@
         },
         {
           "position": 21,
-          "uid": "2096618",
-          "vi_score": 79,
-          "id_score": 0,
-          "total_score": 79,
+          "uid": "2343309",
+          "vi_score": 42,
+          "id_score": 40,
+          "total_score": 82,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": true
         },
         {
-          "position": 21,
+          "position": 22,
           "uid": "2096618",
           "vi_score": 79,
           "id_score": 0,
@@ -424,16 +434,16 @@
         },
         {
           "position": 22,
-          "uid": "2523679",
-          "vi_score": 78,
+          "uid": "2096618",
+          "vi_score": 79,
           "id_score": 0,
-          "total_score": 78,
+          "total_score": 79,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": true
         },
         {
-          "position": 22,
+          "position": 23,
           "uid": "2523679",
           "vi_score": 78,
           "id_score": 0,
@@ -444,16 +454,16 @@
         },
         {
           "position": 23,
-          "uid": "1851981",
-          "vi_score": 77,
+          "uid": "2523679",
+          "vi_score": 78,
           "id_score": 0,
-          "total_score": 77,
+          "total_score": 78,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": true
         },
         {
-          "position": 23,
+          "position": 24,
           "uid": "1851981",
           "vi_score": 77,
           "id_score": 0,
@@ -464,16 +474,16 @@
         },
         {
           "position": 24,
-          "uid": "2545104",
-          "vi_score": 75,
+          "uid": "1851981",
+          "vi_score": 77,
           "id_score": 0,
-          "total_score": 75,
+          "total_score": 77,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": true
         },
         {
-          "position": 24,
+          "position": 25,
           "uid": "2545104",
           "vi_score": 75,
           "id_score": 0,
@@ -484,16 +494,16 @@
         },
         {
           "position": 25,
-          "uid": "2525093",
-          "vi_score": 73,
+          "uid": "2545104",
+          "vi_score": 75,
           "id_score": 0,
-          "total_score": 73,
+          "total_score": 75,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
-          "position": 25,
+          "position": 26,
           "uid": "2525093",
           "vi_score": 73,
           "id_score": 0,
@@ -504,16 +514,16 @@
         },
         {
           "position": 26,
-          "uid": "2638907",
+          "uid": "2525093",
           "vi_score": 73,
           "id_score": 0,
           "total_score": 73,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": true
+          "has_consent": false
         },
         {
-          "position": 26,
+          "position": 27,
           "uid": "2638907",
           "vi_score": 73,
           "id_score": 0,
@@ -524,16 +534,16 @@
         },
         {
           "position": 27,
-          "uid": "2187771",
-          "vi_score": 72,
+          "uid": "2638907",
+          "vi_score": 73,
           "id_score": 0,
-          "total_score": 72,
+          "total_score": 73,
           "admission_type": "Общий конкурс",
-          "priority": 3,
+          "priority": 1,
           "has_consent": true
         },
         {
-          "position": 27,
+          "position": 28,
           "uid": "2187771",
           "vi_score": 72,
           "id_score": 0,
@@ -544,16 +554,16 @@
         },
         {
           "position": 28,
-          "uid": "2421677",
+          "uid": "2187771",
           "vi_score": 72,
           "id_score": 0,
           "total_score": 72,
           "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
+          "priority": 3,
+          "has_consent": true
         },
         {
-          "position": 28,
+          "position": 29,
           "uid": "2421677",
           "vi_score": 72,
           "id_score": 0,
@@ -564,16 +574,16 @@
         },
         {
           "position": 29,
-          "uid": "2222872",
-          "vi_score": 71,
+          "uid": "2421677",
+          "vi_score": 72,
           "id_score": 0,
-          "total_score": 71,
+          "total_score": 72,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": false
         },
         {
-          "position": 29,
+          "position": 30,
           "uid": "2222872",
           "vi_score": 71,
           "id_score": 0,
@@ -584,16 +594,16 @@
         },
         {
           "position": 30,
-          "uid": "2377001",
-          "vi_score": 70,
+          "uid": "2222872",
+          "vi_score": 71,
           "id_score": 0,
-          "total_score": 70,
+          "total_score": 71,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": false
         },
         {
-          "position": 30,
+          "position": 31,
           "uid": "2377001",
           "vi_score": 70,
           "id_score": 0,
@@ -604,16 +614,16 @@
         },
         {
           "position": 31,
-          "uid": "2406219",
-          "vi_score": 66,
+          "uid": "2377001",
+          "vi_score": 70,
           "id_score": 0,
-          "total_score": 66,
+          "total_score": 70,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": false
         },
         {
-          "position": 31,
+          "position": 32,
           "uid": "2406219",
           "vi_score": 66,
           "id_score": 0,
@@ -624,16 +634,16 @@
         },
         {
           "position": 32,
-          "uid": "2453385",
-          "vi_score": 65,
+          "uid": "2406219",
+          "vi_score": 66,
           "id_score": 0,
-          "total_score": 65,
+          "total_score": 66,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": true
+          "has_consent": false
         },
         {
-          "position": 32,
+          "position": 33,
           "uid": "2453385",
           "vi_score": 65,
           "id_score": 0,
@@ -644,7 +654,7 @@
         },
         {
           "position": 33,
-          "uid": "2347400",
+          "uid": "2453385",
           "vi_score": 65,
           "id_score": 0,
           "total_score": 65,
@@ -653,7 +663,7 @@
           "has_consent": true
         },
         {
-          "position": 33,
+          "position": 34,
           "uid": "2347400",
           "vi_score": 65,
           "id_score": 0,
@@ -664,16 +674,16 @@
         },
         {
           "position": 34,
-          "uid": "1673435",
-          "vi_score": 63,
+          "uid": "2347400",
+          "vi_score": 65,
           "id_score": 0,
-          "total_score": 63,
+          "total_score": 65,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": true
         },
         {
-          "position": 34,
+          "position": 35,
           "uid": "1673435",
           "vi_score": 63,
           "id_score": 0,
@@ -684,16 +694,16 @@
         },
         {
           "position": 35,
-          "uid": "2203402",
-          "vi_score": 62,
+          "uid": "1673435",
+          "vi_score": 63,
           "id_score": 0,
-          "total_score": 62,
+          "total_score": 63,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": true
         },
         {
-          "position": 35,
+          "position": 36,
           "uid": "2203402",
           "vi_score": 62,
           "id_score": 0,
@@ -704,7 +714,7 @@
         },
         {
           "position": 36,
-          "uid": "2648617",
+          "uid": "2203402",
           "vi_score": 62,
           "id_score": 0,
           "total_score": 62,
@@ -713,7 +723,7 @@
           "has_consent": true
         },
         {
-          "position": 36,
+          "position": 37,
           "uid": "2648617",
           "vi_score": 62,
           "id_score": 0,
@@ -724,16 +734,16 @@
         },
         {
           "position": 37,
-          "uid": "2575094",
-          "vi_score": 56,
-          "id_score": 3,
-          "total_score": 59,
+          "uid": "2648617",
+          "vi_score": 62,
+          "id_score": 0,
+          "total_score": 62,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
-          "position": 37,
+          "position": 38,
           "uid": "2575094",
           "vi_score": 56,
           "id_score": 3,
@@ -744,16 +754,16 @@
         },
         {
           "position": 38,
-          "uid": "2121430",
-          "vi_score": 58,
-          "id_score": 0,
-          "total_score": 58,
+          "uid": "2575094",
+          "vi_score": 56,
+          "id_score": 3,
+          "total_score": 59,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": false
         },
         {
-          "position": 38,
+          "position": 39,
           "uid": "2121430",
           "vi_score": 58,
           "id_score": 0,
@@ -764,16 +774,16 @@
         },
         {
           "position": 39,
-          "uid": "982825",
+          "uid": "2121430",
           "vi_score": 58,
           "id_score": 0,
           "total_score": 58,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": true
+          "has_consent": false
         },
         {
-          "position": 39,
+          "position": 40,
           "uid": "982825",
           "vi_score": 58,
           "id_score": 0,
@@ -784,16 +794,16 @@
         },
         {
           "position": 40,
-          "uid": "2555230",
-          "vi_score": 53,
+          "uid": "982825",
+          "vi_score": 58,
           "id_score": 0,
-          "total_score": 53,
+          "total_score": 58,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
-          "position": 40,
+          "position": 41,
           "uid": "2555230",
           "vi_score": 53,
           "id_score": 0,
@@ -804,16 +814,16 @@
         },
         {
           "position": 41,
-          "uid": "2532989",
-          "vi_score": 52,
+          "uid": "2555230",
+          "vi_score": 53,
           "id_score": 0,
-          "total_score": 52,
+          "total_score": 53,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": false
         },
         {
-          "position": 41,
+          "position": 42,
           "uid": "2532989",
           "vi_score": 52,
           "id_score": 0,
@@ -824,16 +834,16 @@
         },
         {
           "position": 42,
-          "uid": "2642501",
-          "vi_score": 51,
+          "uid": "2532989",
+          "vi_score": 52,
           "id_score": 0,
-          "total_score": 51,
+          "total_score": 52,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": true
+          "has_consent": false
         },
         {
-          "position": 42,
+          "position": 43,
           "uid": "2642501",
           "vi_score": 51,
           "id_score": 0,
@@ -844,16 +854,16 @@
         },
         {
           "position": 43,
-          "uid": "2653681",
-          "vi_score": 49,
+          "uid": "2642501",
+          "vi_score": 51,
           "id_score": 0,
-          "total_score": 49,
+          "total_score": 51,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
-          "position": 43,
+          "position": 44,
           "uid": "2653681",
           "vi_score": 49,
           "id_score": 0,
@@ -864,16 +874,16 @@
         },
         {
           "position": 44,
-          "uid": "2007482",
-          "vi_score": 48,
+          "uid": "2653681",
+          "vi_score": 49,
           "id_score": 0,
-          "total_score": 48,
+          "total_score": 49,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": false
         },
         {
-          "position": 44,
+          "position": 45,
           "uid": "2007482",
           "vi_score": 48,
           "id_score": 0,
@@ -884,16 +894,16 @@
         },
         {
           "position": 45,
-          "uid": "2464798",
+          "uid": "2007482",
           "vi_score": 48,
           "id_score": 0,
           "total_score": 48,
           "admission_type": "Общий конкурс",
-          "priority": 4,
+          "priority": 1,
           "has_consent": false
         },
         {
-          "position": 45,
+          "position": 46,
           "uid": "2464798",
           "vi_score": 48,
           "id_score": 0,
@@ -904,16 +914,16 @@
         },
         {
           "position": 46,
-          "uid": "2630676",
-          "vi_score": 47,
+          "uid": "2464798",
+          "vi_score": 48,
           "id_score": 0,
-          "total_score": 47,
+          "total_score": 48,
           "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": true
+          "priority": 4,
+          "has_consent": false
         },
         {
-          "position": 46,
+          "position": 47,
           "uid": "2630676",
           "vi_score": 47,
           "id_score": 0,
@@ -924,16 +934,16 @@
         },
         {
           "position": 47,
-          "uid": "2640682",
-          "vi_score": 46,
+          "uid": "2630676",
+          "vi_score": 47,
           "id_score": 0,
-          "total_score": 46,
+          "total_score": 47,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
-          "position": 47,
+          "position": 48,
           "uid": "2640682",
           "vi_score": 46,
           "id_score": 0,
@@ -944,16 +954,16 @@
         },
         {
           "position": 48,
-          "uid": "2496390",
-          "vi_score": 44,
+          "uid": "2640682",
+          "vi_score": 46,
           "id_score": 0,
-          "total_score": 44,
+          "total_score": 46,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": true
+          "has_consent": false
         },
         {
-          "position": 48,
+          "position": 49,
           "uid": "2496390",
           "vi_score": 44,
           "id_score": 0,
@@ -964,16 +974,16 @@
         },
         {
           "position": 49,
-          "uid": "2527692",
-          "vi_score": 0,
-          "id_score": 3,
-          "total_score": 3,
+          "uid": "2496390",
+          "vi_score": 44,
+          "id_score": 0,
+          "total_score": 44,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": true
         },
         {
-          "position": 49,
+          "position": 50,
           "uid": "2527692",
           "vi_score": 0,
           "id_score": 3,
@@ -984,16 +994,16 @@
         },
         {
           "position": 50,
-          "uid": "2601563",
+          "uid": "2527692",
           "vi_score": 0,
-          "id_score": 0,
-          "total_score": 0,
+          "id_score": 3,
+          "total_score": 3,
           "admission_type": "Общий конкурс",
-          "priority": 3,
-          "has_consent": false
+          "priority": 1,
+          "has_consent": true
         },
         {
-          "position": 50,
+          "position": 51,
           "uid": "2601563",
           "vi_score": 0,
           "id_score": 0,
@@ -1004,16 +1014,16 @@
         },
         {
           "position": 51,
-          "uid": "2512489",
+          "uid": "2601563",
           "vi_score": 0,
           "id_score": 0,
           "total_score": 0,
           "admission_type": "Общий конкурс",
-          "priority": 1,
+          "priority": 3,
           "has_consent": false
         },
         {
-          "position": 51,
+          "position": 52,
           "uid": "2512489",
           "vi_score": 0,
           "id_score": 0,
@@ -1024,16 +1034,16 @@
         },
         {
           "position": 52,
-          "uid": "1887460",
+          "uid": "2512489",
           "vi_score": 0,
-          "id_score": 15,
-          "total_score": 15,
+          "id_score": 0,
+          "total_score": 0,
           "admission_type": "Общий конкурс",
-          "priority": 3,
+          "priority": 1,
           "has_consent": false
         },
         {
-          "position": 52,
+          "position": 53,
           "uid": "1887460",
           "vi_score": 0,
           "id_score": 15,
@@ -1044,23 +1054,13 @@
         },
         {
           "position": 53,
-          "uid": "2555204",
+          "uid": "1887460",
           "vi_score": 0,
-          "id_score": 11,
-          "total_score": 11,
+          "id_score": 15,
+          "total_score": 15,
           "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": true
-        },
-        {
-          "position": 53,
-          "uid": "2555204",
-          "vi_score": 0,
-          "id_score": 11,
-          "total_score": 11,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": true
+          "priority": 3,
+          "has_consent": false
         },
         {
           "position": 54,
@@ -2276,16 +2276,26 @@
         },
         {
           "position": 2,
-          "uid": "1131268",
-          "vi_score": 98,
-          "id_score": 6,
-          "total_score": 104,
+          "uid": "2555204",
+          "vi_score": 95,
+          "id_score": 11,
+          "total_score": 106,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": false
         },
         {
           "position": 2,
+          "uid": "2555204",
+          "vi_score": 95,
+          "id_score": 11,
+          "total_score": 106,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 3,
           "uid": "1131268",
           "vi_score": 98,
           "id_score": 6,
@@ -2296,17 +2306,17 @@
         },
         {
           "position": 3,
-          "uid": "2418179",
-          "vi_score": 97,
-          "id_score": 0,
-          "total_score": 97,
+          "uid": "1131268",
+          "vi_score": 98,
+          "id_score": 6,
+          "total_score": 104,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": false
         },
         {
-          "position": 3,
-          "uid": "2418179",
+          "position": 4,
+          "uid": "2479467",
           "vi_score": 97,
           "id_score": 0,
           "total_score": 97,
@@ -2316,6 +2326,36 @@
         },
         {
           "position": 4,
+          "uid": "2479467",
+          "vi_score": 97,
+          "id_score": 0,
+          "total_score": 97,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 5,
+          "uid": "2418179",
+          "vi_score": 97,
+          "id_score": 0,
+          "total_score": 97,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 5,
+          "uid": "2418179",
+          "vi_score": 97,
+          "id_score": 0,
+          "total_score": 97,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 6,
           "uid": "2503998",
           "vi_score": 96,
           "id_score": 0,
@@ -2325,7 +2365,7 @@
           "has_consent": false
         },
         {
-          "position": 4,
+          "position": 6,
           "uid": "2503998",
           "vi_score": 96,
           "id_score": 0,
@@ -2335,7 +2375,27 @@
           "has_consent": false
         },
         {
-          "position": 5,
+          "position": 7,
+          "uid": "2021465",
+          "vi_score": 93,
+          "id_score": 0,
+          "total_score": 93,
+          "admission_type": "Общий конкурс",
+          "priority": 2,
+          "has_consent": false
+        },
+        {
+          "position": 7,
+          "uid": "2021465",
+          "vi_score": 93,
+          "id_score": 0,
+          "total_score": 93,
+          "admission_type": "Общий конкурс",
+          "priority": 2,
+          "has_consent": false
+        },
+        {
+          "position": 8,
           "uid": "2610466",
           "vi_score": 92,
           "id_score": 0,
@@ -2345,7 +2405,7 @@
           "has_consent": false
         },
         {
-          "position": 5,
+          "position": 8,
           "uid": "2610466",
           "vi_score": 92,
           "id_score": 0,
@@ -2355,7 +2415,67 @@
           "has_consent": false
         },
         {
-          "position": 6,
+          "position": 9,
+          "uid": "1927801",
+          "vi_score": 92,
+          "id_score": 0,
+          "total_score": 92,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 9,
+          "uid": "1927801",
+          "vi_score": 92,
+          "id_score": 0,
+          "total_score": 92,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 10,
+          "uid": "2519346",
+          "vi_score": 91,
+          "id_score": 0,
+          "total_score": 91,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 10,
+          "uid": "2519346",
+          "vi_score": 91,
+          "id_score": 0,
+          "total_score": 91,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 11,
+          "uid": "2647925",
+          "vi_score": 85,
+          "id_score": 0,
+          "total_score": 85,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 11,
+          "uid": "2647925",
+          "vi_score": 85,
+          "id_score": 0,
+          "total_score": 85,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 12,
           "uid": "2399364",
           "vi_score": 82,
           "id_score": 3,
@@ -2365,7 +2485,7 @@
           "has_consent": false
         },
         {
-          "position": 6,
+          "position": 12,
           "uid": "2399364",
           "vi_score": 82,
           "id_score": 3,
@@ -2375,7 +2495,7 @@
           "has_consent": false
         },
         {
-          "position": 7,
+          "position": 13,
           "uid": "1360537",
           "vi_score": 82,
           "id_score": 0,
@@ -2385,7 +2505,7 @@
           "has_consent": false
         },
         {
-          "position": 7,
+          "position": 13,
           "uid": "1360537",
           "vi_score": 82,
           "id_score": 0,
@@ -2395,7 +2515,7 @@
           "has_consent": false
         },
         {
-          "position": 8,
+          "position": 14,
           "uid": "2632559",
           "vi_score": 82,
           "id_score": 0,
@@ -2405,7 +2525,7 @@
           "has_consent": false
         },
         {
-          "position": 8,
+          "position": 14,
           "uid": "2632559",
           "vi_score": 82,
           "id_score": 0,
@@ -2415,7 +2535,27 @@
           "has_consent": false
         },
         {
-          "position": 9,
+          "position": 15,
+          "uid": "2532801",
+          "vi_score": 82,
+          "id_score": 0,
+          "total_score": 82,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 15,
+          "uid": "2532801",
+          "vi_score": 82,
+          "id_score": 0,
+          "total_score": 82,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 16,
           "uid": "2096618",
           "vi_score": 79,
           "id_score": 0,
@@ -2425,7 +2565,7 @@
           "has_consent": false
         },
         {
-          "position": 9,
+          "position": 16,
           "uid": "2096618",
           "vi_score": 79,
           "id_score": 0,
@@ -2435,27 +2575,7 @@
           "has_consent": false
         },
         {
-          "position": 10,
-          "uid": "2523679",
-          "vi_score": 78,
-          "id_score": 0,
-          "total_score": 78,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 10,
-          "uid": "2523679",
-          "vi_score": 78,
-          "id_score": 0,
-          "total_score": 78,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 11,
+          "position": 17,
           "uid": "1851981",
           "vi_score": 77,
           "id_score": 0,
@@ -2465,7 +2585,7 @@
           "has_consent": false
         },
         {
-          "position": 11,
+          "position": 17,
           "uid": "1851981",
           "vi_score": 77,
           "id_score": 0,
@@ -2475,7 +2595,7 @@
           "has_consent": false
         },
         {
-          "position": 12,
+          "position": 18,
           "uid": "2545104",
           "vi_score": 75,
           "id_score": 0,
@@ -2485,137 +2605,137 @@
           "has_consent": false
         },
         {
-          "position": 12,
+          "position": 18,
           "uid": "2545104",
           "vi_score": 75,
           "id_score": 0,
           "total_score": 75,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 13,
-          "uid": "2638907",
-          "vi_score": 73,
-          "id_score": 0,
-          "total_score": 73,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 13,
-          "uid": "2638907",
-          "vi_score": 73,
-          "id_score": 0,
-          "total_score": 73,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 14,
-          "uid": "2453385",
-          "vi_score": 65,
-          "id_score": 0,
-          "total_score": 65,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 14,
-          "uid": "2453385",
-          "vi_score": 65,
-          "id_score": 0,
-          "total_score": 65,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 15,
-          "uid": "1673435",
-          "vi_score": 63,
-          "id_score": 0,
-          "total_score": 63,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 15,
-          "uid": "1673435",
-          "vi_score": 63,
-          "id_score": 0,
-          "total_score": 63,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 16,
-          "uid": "2203402",
-          "vi_score": 62,
-          "id_score": 0,
-          "total_score": 62,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 16,
-          "uid": "2203402",
-          "vi_score": 62,
-          "id_score": 0,
-          "total_score": 62,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 17,
-          "uid": "2648617",
-          "vi_score": 62,
-          "id_score": 0,
-          "total_score": 62,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 17,
-          "uid": "2648617",
-          "vi_score": 62,
-          "id_score": 0,
-          "total_score": 62,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 18,
-          "uid": "982825",
-          "vi_score": 58,
-          "id_score": 0,
-          "total_score": 58,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 18,
-          "uid": "982825",
-          "vi_score": 58,
-          "id_score": 0,
-          "total_score": 58,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": false
         },
         {
           "position": 19,
+          "uid": "2638907",
+          "vi_score": 73,
+          "id_score": 0,
+          "total_score": 73,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 19,
+          "uid": "2638907",
+          "vi_score": 73,
+          "id_score": 0,
+          "total_score": 73,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 20,
+          "uid": "2453385",
+          "vi_score": 65,
+          "id_score": 0,
+          "total_score": 65,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 20,
+          "uid": "2453385",
+          "vi_score": 65,
+          "id_score": 0,
+          "total_score": 65,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 21,
+          "uid": "1673435",
+          "vi_score": 63,
+          "id_score": 0,
+          "total_score": 63,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 21,
+          "uid": "1673435",
+          "vi_score": 63,
+          "id_score": 0,
+          "total_score": 63,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 22,
+          "uid": "2203402",
+          "vi_score": 62,
+          "id_score": 0,
+          "total_score": 62,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 22,
+          "uid": "2203402",
+          "vi_score": 62,
+          "id_score": 0,
+          "total_score": 62,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 23,
+          "uid": "2648617",
+          "vi_score": 62,
+          "id_score": 0,
+          "total_score": 62,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 23,
+          "uid": "2648617",
+          "vi_score": 62,
+          "id_score": 0,
+          "total_score": 62,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 24,
+          "uid": "982825",
+          "vi_score": 58,
+          "id_score": 0,
+          "total_score": 58,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 24,
+          "uid": "982825",
+          "vi_score": 58,
+          "id_score": 0,
+          "total_score": 58,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 25,
           "uid": "2642501",
           "vi_score": 51,
           "id_score": 0,
@@ -2625,7 +2745,7 @@
           "has_consent": false
         },
         {
-          "position": 19,
+          "position": 25,
           "uid": "2642501",
           "vi_score": 51,
           "id_score": 0,
@@ -2635,7 +2755,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:40 МСК"
+      "scraped_at": "24.08.2026 09:02 МСК"
     },
     {
       "institute": "Технологический институт (Институт)",
@@ -2909,7 +3029,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:40 МСК"
+      "scraped_at": "24.08.2026 09:02 МСК"
     },
     {
       "institute": "Технологический институт (Институт)",
@@ -3198,7 +3318,7 @@
           "total_score": 0,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 15,
@@ -3208,7 +3328,7 @@
           "total_score": 0,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 16,
@@ -3603,7 +3723,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:40 МСК"
+      "scraped_at": "24.08.2026 09:02 МСК"
     },
     {
       "institute": "Технологический институт (Институт)",
@@ -4057,7 +4177,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:40 МСК"
+      "scraped_at": "24.08.2026 09:02 МСК"
     },
     {
       "institute": "Технологический институт (Институт)",
@@ -4731,7 +4851,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:40 МСК"
+      "scraped_at": "24.08.2026 09:02 МСК"
     },
     {
       "institute": "Технологический институт (Институт)",
@@ -4800,7 +4920,7 @@
           "total_score": 85,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 4,
@@ -4810,7 +4930,7 @@
           "total_score": 85,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 5,
@@ -4840,7 +4960,7 @@
           "total_score": 70,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 6,
@@ -4850,7 +4970,7 @@
           "total_score": 70,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 7,
@@ -5206,26 +5326,46 @@
         },
         {
           "position": 3,
-          "uid": "2486060",
-          "vi_score": 84,
+          "uid": "2499525",
+          "vi_score": 85,
           "id_score": 0,
-          "total_score": 84,
+          "total_score": 85,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": false
         },
         {
           "position": 3,
-          "uid": "2486060",
-          "vi_score": 84,
+          "uid": "2499525",
+          "vi_score": 85,
           "id_score": 0,
-          "total_score": 84,
+          "total_score": 85,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 4,
+          "uid": "2118961",
+          "vi_score": 70,
+          "id_score": 0,
+          "total_score": 70,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 4,
+          "uid": "2118961",
+          "vi_score": 70,
+          "id_score": 0,
+          "total_score": 70,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:40 МСК"
+      "scraped_at": "24.08.2026 09:02 МСК"
     },
     {
       "institute": "Технологический институт (Институт)",
@@ -5554,7 +5694,7 @@
           "total_score": 0,
           "admission_type": "Общий конкурс",
           "priority": 3,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 17,
@@ -5564,7 +5704,7 @@
           "total_score": 0,
           "admission_type": "Общий конкурс",
           "priority": 3,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 18,
@@ -5899,7 +6039,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:40 МСК"
+      "scraped_at": "24.08.2026 09:02 МСК"
     },
     {
       "institute": "Технологический институт (Институт)",
@@ -5933,7 +6073,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:40 МСК"
+      "scraped_at": "24.08.2026 09:02 МСК"
     },
     {
       "institute": "Технологический институт (Институт)",
@@ -6052,7 +6192,7 @@
           "total_score": 142,
           "admission_type": "Общий конкурс",
           "priority": 2,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 12,
@@ -8236,22 +8376,22 @@
         },
         {
           "position": 230,
-          "uid": "2071590",
-          "vi_score": 76,
-          "id_score": 0,
-          "total_score": 76,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": true
-        },
-        {
-          "position": 231,
           "uid": "2383072",
           "vi_score": 76,
           "id_score": 0,
           "total_score": 76,
           "admission_type": "Общий конкурс",
           "priority": 2,
+          "has_consent": true
+        },
+        {
+          "position": 231,
+          "uid": "2071590",
+          "vi_score": 76,
+          "id_score": 0,
+          "total_score": 76,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
           "has_consent": true
         },
         {
@@ -8643,16 +8783,6 @@
           "admission_type": "Общий конкурс",
           "priority": 4,
           "has_consent": false
-        },
-        {
-          "position": 271,
-          "uid": "2064805",
-          "vi_score": 0,
-          "id_score": 0,
-          "total_score": 0,
-          "admission_type": "Общий конкурс",
-          "priority": 4,
-          "has_consent": true
         }
       ],
       "consent_applicants": [
@@ -9317,7 +9447,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:40 МСК"
+      "scraped_at": "24.08.2026 09:02 МСК"
     },
     {
       "institute": "Технологический институт (Институт)",
@@ -9586,7 +9716,7 @@
           "total_score": 96,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 27,
@@ -10301,7 +10431,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:40 МСК"
+      "scraped_at": "24.08.2026 09:02 МСК"
     },
     {
       "institute": "Институт архитектуры и дизайна (Институт)",
@@ -11455,7 +11585,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:40 МСК"
+      "scraped_at": "24.08.2026 09:02 МСК"
     },
     {
       "institute": "Строительный институт (Институт)",
@@ -12229,7 +12359,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:40 МСК"
+      "scraped_at": "24.08.2026 09:02 МСК"
     },
     {
       "institute": "Строительный институт (Институт)",
@@ -12578,7 +12708,7 @@
           "total_score": 0,
           "admission_type": "Общий конкурс",
           "priority": 3,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 18,
@@ -12588,7 +12718,7 @@
           "total_score": 0,
           "admission_type": "Общий конкурс",
           "priority": 3,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 19,
@@ -12763,7 +12893,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:40 МСК"
+      "scraped_at": "24.08.2026 09:02 МСК"
     },
     {
       "institute": "Строительный институт (Институт)",
@@ -12957,7 +13087,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:40 МСК"
+      "scraped_at": "24.08.2026 09:02 МСК"
     },
     {
       "institute": "Строительный институт (Институт)",
@@ -13126,7 +13256,7 @@
           "total_score": 152,
           "admission_type": "Общий конкурс",
           "priority": 3,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 17,
@@ -13970,6 +14100,16 @@
         },
         {
           "position": 101,
+          "uid": "2237132",
+          "vi_score": 100,
+          "id_score": 0,
+          "total_score": 100,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": true
+        },
+        {
+          "position": 102,
           "uid": "2104916",
           "vi_score": 100,
           "id_score": 0,
@@ -13979,7 +14119,7 @@
           "has_consent": true
         },
         {
-          "position": 102,
+          "position": 103,
           "uid": "2232368",
           "vi_score": 100,
           "id_score": 0,
@@ -13989,7 +14129,7 @@
           "has_consent": true
         },
         {
-          "position": 103,
+          "position": 104,
           "uid": "2429216",
           "vi_score": 100,
           "id_score": 0,
@@ -13999,7 +14139,7 @@
           "has_consent": true
         },
         {
-          "position": 104,
+          "position": 105,
           "uid": "2115396",
           "vi_score": 100,
           "id_score": 0,
@@ -14009,7 +14149,7 @@
           "has_consent": true
         },
         {
-          "position": 105,
+          "position": 106,
           "uid": "2205917",
           "vi_score": 100,
           "id_score": 0,
@@ -14019,7 +14159,7 @@
           "has_consent": true
         },
         {
-          "position": 106,
+          "position": 107,
           "uid": "2152552",
           "vi_score": 100,
           "id_score": 0,
@@ -14029,7 +14169,7 @@
           "has_consent": true
         },
         {
-          "position": 107,
+          "position": 108,
           "uid": "2010897",
           "vi_score": 100,
           "id_score": 0,
@@ -14039,7 +14179,7 @@
           "has_consent": true
         },
         {
-          "position": 108,
+          "position": 109,
           "uid": "2149387",
           "vi_score": 100,
           "id_score": 0,
@@ -14049,17 +14189,17 @@
           "has_consent": true
         },
         {
-          "position": 109,
+          "position": 110,
           "uid": "2109523",
           "vi_score": 100,
           "id_score": 0,
           "total_score": 100,
           "admission_type": "Общий конкурс",
           "priority": 3,
-          "has_consent": false
+          "has_consent": true
         },
         {
-          "position": 110,
+          "position": 111,
           "uid": "2514268",
           "vi_score": 100,
           "id_score": 0,
@@ -14069,7 +14209,7 @@
           "has_consent": true
         },
         {
-          "position": 111,
+          "position": 112,
           "uid": "2269953",
           "vi_score": 100,
           "id_score": 0,
@@ -14079,7 +14219,7 @@
           "has_consent": true
         },
         {
-          "position": 112,
+          "position": 113,
           "uid": "2066003",
           "vi_score": 100,
           "id_score": 0,
@@ -14089,7 +14229,7 @@
           "has_consent": true
         },
         {
-          "position": 113,
+          "position": 114,
           "uid": "2372457",
           "vi_score": 100,
           "id_score": 0,
@@ -14099,7 +14239,7 @@
           "has_consent": true
         },
         {
-          "position": 114,
+          "position": 115,
           "uid": "2326974",
           "vi_score": 100,
           "id_score": 0,
@@ -14109,7 +14249,7 @@
           "has_consent": true
         },
         {
-          "position": 115,
+          "position": 116,
           "uid": "2317168",
           "vi_score": 100,
           "id_score": 0,
@@ -14119,7 +14259,7 @@
           "has_consent": false
         },
         {
-          "position": 116,
+          "position": 117,
           "uid": "2319461",
           "vi_score": 100,
           "id_score": 0,
@@ -14129,7 +14269,7 @@
           "has_consent": true
         },
         {
-          "position": 117,
+          "position": 118,
           "uid": "2042650",
           "vi_score": 100,
           "id_score": 0,
@@ -14139,7 +14279,7 @@
           "has_consent": true
         },
         {
-          "position": 118,
+          "position": 119,
           "uid": "2019475",
           "vi_score": 100,
           "id_score": 0,
@@ -14149,7 +14289,7 @@
           "has_consent": true
         },
         {
-          "position": 119,
+          "position": 120,
           "uid": "2153105",
           "vi_score": 100,
           "id_score": 0,
@@ -14159,7 +14299,7 @@
           "has_consent": true
         },
         {
-          "position": 120,
+          "position": 121,
           "uid": "2058790",
           "vi_score": 100,
           "id_score": 0,
@@ -14169,7 +14309,7 @@
           "has_consent": true
         },
         {
-          "position": 121,
+          "position": 122,
           "uid": "2031990",
           "vi_score": 100,
           "id_score": 0,
@@ -14179,7 +14319,7 @@
           "has_consent": true
         },
         {
-          "position": 122,
+          "position": 123,
           "uid": "2497781",
           "vi_score": 100,
           "id_score": 0,
@@ -14189,7 +14329,7 @@
           "has_consent": true
         },
         {
-          "position": 123,
+          "position": 124,
           "uid": "2012937",
           "vi_score": 100,
           "id_score": 0,
@@ -14199,7 +14339,7 @@
           "has_consent": true
         },
         {
-          "position": 124,
+          "position": 125,
           "uid": "2513294",
           "vi_score": 100,
           "id_score": 0,
@@ -14209,7 +14349,7 @@
           "has_consent": true
         },
         {
-          "position": 125,
+          "position": 126,
           "uid": "2504152",
           "vi_score": 100,
           "id_score": 0,
@@ -14219,7 +14359,7 @@
           "has_consent": true
         },
         {
-          "position": 126,
+          "position": 127,
           "uid": "2346044",
           "vi_score": 100,
           "id_score": 0,
@@ -14229,7 +14369,7 @@
           "has_consent": true
         },
         {
-          "position": 127,
+          "position": 128,
           "uid": "2341367",
           "vi_score": 100,
           "id_score": 0,
@@ -14239,7 +14379,7 @@
           "has_consent": true
         },
         {
-          "position": 128,
+          "position": 129,
           "uid": "2175713",
           "vi_score": 100,
           "id_score": 0,
@@ -14249,7 +14389,7 @@
           "has_consent": true
         },
         {
-          "position": 129,
+          "position": 130,
           "uid": "2613862",
           "vi_score": 100,
           "id_score": 0,
@@ -14259,7 +14399,7 @@
           "has_consent": true
         },
         {
-          "position": 130,
+          "position": 131,
           "uid": "2572095",
           "vi_score": 100,
           "id_score": 0,
@@ -14269,7 +14409,7 @@
           "has_consent": true
         },
         {
-          "position": 131,
+          "position": 132,
           "uid": "2015589",
           "vi_score": 100,
           "id_score": 0,
@@ -14279,7 +14419,7 @@
           "has_consent": true
         },
         {
-          "position": 132,
+          "position": 133,
           "uid": "2193772",
           "vi_score": 100,
           "id_score": 0,
@@ -14289,7 +14429,7 @@
           "has_consent": true
         },
         {
-          "position": 133,
+          "position": 134,
           "uid": "2070238",
           "vi_score": 100,
           "id_score": 0,
@@ -14299,7 +14439,7 @@
           "has_consent": true
         },
         {
-          "position": 134,
+          "position": 135,
           "uid": "2247616",
           "vi_score": 100,
           "id_score": 0,
@@ -14309,7 +14449,7 @@
           "has_consent": true
         },
         {
-          "position": 135,
+          "position": 136,
           "uid": "1865260",
           "vi_score": 100,
           "id_score": 0,
@@ -14319,7 +14459,7 @@
           "has_consent": true
         },
         {
-          "position": 136,
+          "position": 137,
           "uid": "2068903",
           "vi_score": 100,
           "id_score": 0,
@@ -14329,7 +14469,7 @@
           "has_consent": true
         },
         {
-          "position": 137,
+          "position": 138,
           "uid": "2189343",
           "vi_score": 100,
           "id_score": 0,
@@ -14339,7 +14479,7 @@
           "has_consent": true
         },
         {
-          "position": 138,
+          "position": 139,
           "uid": "2043520",
           "vi_score": 100,
           "id_score": 0,
@@ -14349,7 +14489,7 @@
           "has_consent": true
         },
         {
-          "position": 139,
+          "position": 140,
           "uid": "2488289",
           "vi_score": 100,
           "id_score": 0,
@@ -14359,7 +14499,7 @@
           "has_consent": true
         },
         {
-          "position": 140,
+          "position": 141,
           "uid": "2503293",
           "vi_score": 100,
           "id_score": 0,
@@ -14367,16 +14507,6 @@
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": false
-        },
-        {
-          "position": 141,
-          "uid": "2237132",
-          "vi_score": 100,
-          "id_score": 0,
-          "total_score": 100,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": true
         },
         {
           "position": 142,
@@ -14800,16 +14930,6 @@
         },
         {
           "position": 184,
-          "uid": "2071590",
-          "vi_score": 96,
-          "id_score": 0,
-          "total_score": 96,
-          "admission_type": "Общий конкурс",
-          "priority": 3,
-          "has_consent": true
-        },
-        {
-          "position": 185,
           "uid": "2239402",
           "vi_score": 96,
           "id_score": 0,
@@ -14819,7 +14939,7 @@
           "has_consent": true
         },
         {
-          "position": 186,
+          "position": 185,
           "uid": "2115756",
           "vi_score": 96,
           "id_score": 0,
@@ -14829,7 +14949,7 @@
           "has_consent": false
         },
         {
-          "position": 187,
+          "position": 186,
           "uid": "2282796",
           "vi_score": 96,
           "id_score": 0,
@@ -14839,7 +14959,7 @@
           "has_consent": true
         },
         {
-          "position": 188,
+          "position": 187,
           "uid": "2475237",
           "vi_score": 96,
           "id_score": 0,
@@ -14849,7 +14969,7 @@
           "has_consent": true
         },
         {
-          "position": 189,
+          "position": 188,
           "uid": "2507587",
           "vi_score": 96,
           "id_score": 0,
@@ -14859,7 +14979,7 @@
           "has_consent": true
         },
         {
-          "position": 190,
+          "position": 189,
           "uid": "2125727",
           "vi_score": 96,
           "id_score": 0,
@@ -14869,7 +14989,7 @@
           "has_consent": true
         },
         {
-          "position": 191,
+          "position": 190,
           "uid": "2323660",
           "vi_score": 96,
           "id_score": 0,
@@ -14879,7 +14999,7 @@
           "has_consent": true
         },
         {
-          "position": 192,
+          "position": 191,
           "uid": "2061628",
           "vi_score": 96,
           "id_score": 0,
@@ -14887,6 +15007,16 @@
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": false
+        },
+        {
+          "position": 192,
+          "uid": "2071590",
+          "vi_score": 96,
+          "id_score": 0,
+          "total_score": 96,
+          "admission_type": "Общий конкурс",
+          "priority": 3,
+          "has_consent": true
         },
         {
           "position": 193,
@@ -18122,6 +18252,16 @@
         },
         {
           "position": 82,
+          "uid": "2237132",
+          "vi_score": 100,
+          "id_score": 0,
+          "total_score": 100,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 83,
           "uid": "2104916",
           "vi_score": 100,
           "id_score": 0,
@@ -18131,7 +18271,7 @@
           "has_consent": false
         },
         {
-          "position": 83,
+          "position": 84,
           "uid": "2232368",
           "vi_score": 100,
           "id_score": 0,
@@ -18141,7 +18281,7 @@
           "has_consent": false
         },
         {
-          "position": 84,
+          "position": 85,
           "uid": "2429216",
           "vi_score": 100,
           "id_score": 0,
@@ -18151,7 +18291,7 @@
           "has_consent": false
         },
         {
-          "position": 85,
+          "position": 86,
           "uid": "2115396",
           "vi_score": 100,
           "id_score": 0,
@@ -18161,7 +18301,7 @@
           "has_consent": false
         },
         {
-          "position": 86,
+          "position": 87,
           "uid": "2205917",
           "vi_score": 100,
           "id_score": 0,
@@ -18171,7 +18311,7 @@
           "has_consent": false
         },
         {
-          "position": 87,
+          "position": 88,
           "uid": "2152552",
           "vi_score": 100,
           "id_score": 0,
@@ -18181,7 +18321,7 @@
           "has_consent": false
         },
         {
-          "position": 88,
+          "position": 89,
           "uid": "2010897",
           "vi_score": 100,
           "id_score": 0,
@@ -18191,7 +18331,7 @@
           "has_consent": false
         },
         {
-          "position": 89,
+          "position": 90,
           "uid": "2149387",
           "vi_score": 100,
           "id_score": 0,
@@ -18201,7 +18341,17 @@
           "has_consent": false
         },
         {
-          "position": 90,
+          "position": 91,
+          "uid": "2109523",
+          "vi_score": 100,
+          "id_score": 0,
+          "total_score": 100,
+          "admission_type": "Общий конкурс",
+          "priority": 3,
+          "has_consent": false
+        },
+        {
+          "position": 92,
           "uid": "2514268",
           "vi_score": 100,
           "id_score": 0,
@@ -18211,7 +18361,7 @@
           "has_consent": false
         },
         {
-          "position": 91,
+          "position": 93,
           "uid": "2269953",
           "vi_score": 100,
           "id_score": 0,
@@ -18221,7 +18371,7 @@
           "has_consent": false
         },
         {
-          "position": 92,
+          "position": 94,
           "uid": "2066003",
           "vi_score": 100,
           "id_score": 0,
@@ -18231,7 +18381,7 @@
           "has_consent": false
         },
         {
-          "position": 93,
+          "position": 95,
           "uid": "2372457",
           "vi_score": 100,
           "id_score": 0,
@@ -18241,7 +18391,7 @@
           "has_consent": false
         },
         {
-          "position": 94,
+          "position": 96,
           "uid": "2326974",
           "vi_score": 100,
           "id_score": 0,
@@ -18251,7 +18401,7 @@
           "has_consent": false
         },
         {
-          "position": 95,
+          "position": 97,
           "uid": "2319461",
           "vi_score": 100,
           "id_score": 0,
@@ -18261,7 +18411,7 @@
           "has_consent": false
         },
         {
-          "position": 96,
+          "position": 98,
           "uid": "2042650",
           "vi_score": 100,
           "id_score": 0,
@@ -18271,7 +18421,7 @@
           "has_consent": false
         },
         {
-          "position": 97,
+          "position": 99,
           "uid": "2019475",
           "vi_score": 100,
           "id_score": 0,
@@ -18281,7 +18431,7 @@
           "has_consent": false
         },
         {
-          "position": 98,
+          "position": 100,
           "uid": "2153105",
           "vi_score": 100,
           "id_score": 0,
@@ -18291,7 +18441,7 @@
           "has_consent": false
         },
         {
-          "position": 99,
+          "position": 101,
           "uid": "2058790",
           "vi_score": 100,
           "id_score": 0,
@@ -18301,7 +18451,7 @@
           "has_consent": false
         },
         {
-          "position": 100,
+          "position": 102,
           "uid": "2031990",
           "vi_score": 100,
           "id_score": 0,
@@ -18311,7 +18461,7 @@
           "has_consent": false
         },
         {
-          "position": 101,
+          "position": 103,
           "uid": "2497781",
           "vi_score": 100,
           "id_score": 0,
@@ -18321,7 +18471,7 @@
           "has_consent": false
         },
         {
-          "position": 102,
+          "position": 104,
           "uid": "2012937",
           "vi_score": 100,
           "id_score": 0,
@@ -18331,7 +18481,7 @@
           "has_consent": false
         },
         {
-          "position": 103,
+          "position": 105,
           "uid": "2513294",
           "vi_score": 100,
           "id_score": 0,
@@ -18341,7 +18491,7 @@
           "has_consent": false
         },
         {
-          "position": 104,
+          "position": 106,
           "uid": "2504152",
           "vi_score": 100,
           "id_score": 0,
@@ -18351,7 +18501,7 @@
           "has_consent": false
         },
         {
-          "position": 105,
+          "position": 107,
           "uid": "2346044",
           "vi_score": 100,
           "id_score": 0,
@@ -18361,7 +18511,7 @@
           "has_consent": false
         },
         {
-          "position": 106,
+          "position": 108,
           "uid": "2341367",
           "vi_score": 100,
           "id_score": 0,
@@ -18371,7 +18521,7 @@
           "has_consent": false
         },
         {
-          "position": 107,
+          "position": 109,
           "uid": "2613862",
           "vi_score": 100,
           "id_score": 0,
@@ -18381,17 +18531,7 @@
           "has_consent": false
         },
         {
-          "position": 108,
-          "uid": "2015589",
-          "vi_score": 100,
-          "id_score": 0,
-          "total_score": 100,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 109,
+          "position": 110,
           "uid": "2193772",
           "vi_score": 100,
           "id_score": 0,
@@ -18401,7 +18541,7 @@
           "has_consent": false
         },
         {
-          "position": 110,
+          "position": 111,
           "uid": "1865260",
           "vi_score": 100,
           "id_score": 0,
@@ -18411,18 +18551,8 @@
           "has_consent": false
         },
         {
-          "position": 111,
-          "uid": "2043520",
-          "vi_score": 100,
-          "id_score": 0,
-          "total_score": 100,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
           "position": 112,
-          "uid": "2237132",
+          "uid": "2043520",
           "vi_score": 100,
           "id_score": 0,
           "total_score": 100,
@@ -18891,7 +19021,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:40 МСК"
+      "scraped_at": "24.08.2026 09:02 МСК"
     },
     {
       "institute": "Институт сервиса и отраслевого управления (Институт)",
@@ -19100,7 +19230,7 @@
           "total_score": 0,
           "admission_type": "Общий конкурс",
           "priority": 2,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 11,
@@ -19110,7 +19240,7 @@
           "total_score": 0,
           "admission_type": "Общий конкурс",
           "priority": 2,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 12,
@@ -19145,7 +19275,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:40 МСК"
+      "scraped_at": "24.08.2026 09:02 МСК"
     },
     {
       "institute": "Институт сервиса и отраслевого управления (Институт)",
@@ -19814,7 +19944,7 @@
           "total_score": 76,
           "admission_type": "Общий конкурс",
           "priority": 2,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 67,
@@ -20559,7 +20689,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:40 МСК"
+      "scraped_at": "24.08.2026 09:02 МСК"
     },
     {
       "institute": "Институт сервиса и отраслевого управления (Институт)",
@@ -21973,7 +22103,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:40 МСК"
+      "scraped_at": "24.08.2026 09:02 МСК"
     },
     {
       "institute": "Институт сервиса и отраслевого управления (Институт)",
@@ -22092,7 +22222,7 @@
           "total_score": 136,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 12,
@@ -24742,7 +24872,7 @@
           "total_score": 87,
           "admission_type": "Общий конкурс",
           "priority": 4,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 277,
@@ -26273,16 +26403,6 @@
           "admission_type": "Общий конкурс",
           "priority": 5,
           "has_consent": false
-        },
-        {
-          "position": 430,
-          "uid": "2064805",
-          "vi_score": 0,
-          "id_score": 0,
-          "total_score": 0,
-          "admission_type": "Общий конкурс",
-          "priority": 2,
-          "has_consent": true
         }
       ],
       "consent_applicants": [
@@ -26318,6 +26438,16 @@
         },
         {
           "position": 4,
+          "uid": "2325330",
+          "vi_score": 76,
+          "id_score": 60,
+          "total_score": 136,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 5,
           "uid": "2208006",
           "vi_score": 85,
           "id_score": 30,
@@ -26327,7 +26457,7 @@
           "has_consent": false
         },
         {
-          "position": 5,
+          "position": 6,
           "uid": "2145595",
           "vi_score": 100,
           "id_score": 10,
@@ -26337,7 +26467,7 @@
           "has_consent": false
         },
         {
-          "position": 6,
+          "position": 7,
           "uid": "2506220",
           "vi_score": 99,
           "id_score": 10,
@@ -26347,7 +26477,7 @@
           "has_consent": false
         },
         {
-          "position": 7,
+          "position": 8,
           "uid": "2441562",
           "vi_score": 92,
           "id_score": 10,
@@ -26357,7 +26487,7 @@
           "has_consent": false
         },
         {
-          "position": 8,
+          "position": 9,
           "uid": "2160834",
           "vi_score": 92,
           "id_score": 10,
@@ -26367,7 +26497,7 @@
           "has_consent": false
         },
         {
-          "position": 9,
+          "position": 10,
           "uid": "2326112",
           "vi_score": 92,
           "id_score": 10,
@@ -26377,7 +26507,7 @@
           "has_consent": false
         },
         {
-          "position": 10,
+          "position": 11,
           "uid": "2033116",
           "vi_score": 92,
           "id_score": 10,
@@ -26387,7 +26517,7 @@
           "has_consent": false
         },
         {
-          "position": 11,
+          "position": 12,
           "uid": "2374747",
           "vi_score": 91,
           "id_score": 10,
@@ -26397,7 +26527,7 @@
           "has_consent": false
         },
         {
-          "position": 12,
+          "position": 13,
           "uid": "2232370",
           "vi_score": 100,
           "id_score": 0,
@@ -26407,7 +26537,7 @@
           "has_consent": false
         },
         {
-          "position": 13,
+          "position": 14,
           "uid": "2059629",
           "vi_score": 100,
           "id_score": 0,
@@ -26417,7 +26547,7 @@
           "has_consent": false
         },
         {
-          "position": 14,
+          "position": 15,
           "uid": "2463419",
           "vi_score": 100,
           "id_score": 0,
@@ -26427,7 +26557,7 @@
           "has_consent": false
         },
         {
-          "position": 15,
+          "position": 16,
           "uid": "2222438",
           "vi_score": 100,
           "id_score": 0,
@@ -26437,7 +26567,7 @@
           "has_consent": false
         },
         {
-          "position": 16,
+          "position": 17,
           "uid": "2036013",
           "vi_score": 100,
           "id_score": 0,
@@ -26447,7 +26577,7 @@
           "has_consent": false
         },
         {
-          "position": 17,
+          "position": 18,
           "uid": "2570179",
           "vi_score": 100,
           "id_score": 0,
@@ -26457,7 +26587,7 @@
           "has_consent": false
         },
         {
-          "position": 18,
+          "position": 19,
           "uid": "2572095",
           "vi_score": 100,
           "id_score": 0,
@@ -26467,7 +26597,7 @@
           "has_consent": false
         },
         {
-          "position": 19,
+          "position": 20,
           "uid": "2282796",
           "vi_score": 100,
           "id_score": 0,
@@ -26477,7 +26607,7 @@
           "has_consent": false
         },
         {
-          "position": 20,
+          "position": 21,
           "uid": "2120510",
           "vi_score": 100,
           "id_score": 0,
@@ -26487,7 +26617,7 @@
           "has_consent": false
         },
         {
-          "position": 21,
+          "position": 22,
           "uid": "2025026",
           "vi_score": 100,
           "id_score": 0,
@@ -26497,7 +26627,7 @@
           "has_consent": false
         },
         {
-          "position": 22,
+          "position": 23,
           "uid": "1881793",
           "vi_score": 100,
           "id_score": 0,
@@ -26507,7 +26637,7 @@
           "has_consent": false
         },
         {
-          "position": 23,
+          "position": 24,
           "uid": "2028101",
           "vi_score": 100,
           "id_score": 0,
@@ -26517,7 +26647,7 @@
           "has_consent": false
         },
         {
-          "position": 24,
+          "position": 25,
           "uid": "2063770",
           "vi_score": 100,
           "id_score": 0,
@@ -26527,7 +26657,7 @@
           "has_consent": false
         },
         {
-          "position": 25,
+          "position": 26,
           "uid": "2152693",
           "vi_score": 100,
           "id_score": 0,
@@ -26537,7 +26667,7 @@
           "has_consent": false
         },
         {
-          "position": 26,
+          "position": 27,
           "uid": "2554282",
           "vi_score": 100,
           "id_score": 0,
@@ -26547,7 +26677,7 @@
           "has_consent": false
         },
         {
-          "position": 27,
+          "position": 28,
           "uid": "2116381",
           "vi_score": 100,
           "id_score": 0,
@@ -26557,7 +26687,17 @@
           "has_consent": false
         },
         {
-          "position": 28,
+          "position": 29,
+          "uid": "2389929",
+          "vi_score": 100,
+          "id_score": 0,
+          "total_score": 100,
+          "admission_type": "Общий конкурс",
+          "priority": 3,
+          "has_consent": false
+        },
+        {
+          "position": 30,
           "uid": "2401130",
           "vi_score": 100,
           "id_score": 0,
@@ -26567,7 +26707,7 @@
           "has_consent": false
         },
         {
-          "position": 29,
+          "position": 31,
           "uid": "2072593",
           "vi_score": 100,
           "id_score": 0,
@@ -26577,7 +26717,7 @@
           "has_consent": false
         },
         {
-          "position": 30,
+          "position": 32,
           "uid": "2073689",
           "vi_score": 100,
           "id_score": 0,
@@ -26587,7 +26727,7 @@
           "has_consent": false
         },
         {
-          "position": 31,
+          "position": 33,
           "uid": "2448241",
           "vi_score": 90,
           "id_score": 10,
@@ -26597,7 +26737,7 @@
           "has_consent": false
         },
         {
-          "position": 32,
+          "position": 34,
           "uid": "2145558",
           "vi_score": 90,
           "id_score": 10,
@@ -26607,7 +26747,7 @@
           "has_consent": false
         },
         {
-          "position": 33,
+          "position": 35,
           "uid": "2029576",
           "vi_score": 99,
           "id_score": 0,
@@ -26617,7 +26757,7 @@
           "has_consent": false
         },
         {
-          "position": 34,
+          "position": 36,
           "uid": "2077312",
           "vi_score": 89,
           "id_score": 10,
@@ -26627,7 +26767,7 @@
           "has_consent": false
         },
         {
-          "position": 35,
+          "position": 37,
           "uid": "2189076",
           "vi_score": 98,
           "id_score": 0,
@@ -26637,7 +26777,7 @@
           "has_consent": false
         },
         {
-          "position": 36,
+          "position": 38,
           "uid": "2065411",
           "vi_score": 98,
           "id_score": 0,
@@ -26647,7 +26787,7 @@
           "has_consent": false
         },
         {
-          "position": 37,
+          "position": 39,
           "uid": "1589360",
           "vi_score": 88,
           "id_score": 10,
@@ -26657,7 +26797,7 @@
           "has_consent": false
         },
         {
-          "position": 38,
+          "position": 40,
           "uid": "2125727",
           "vi_score": 97,
           "id_score": 0,
@@ -26667,7 +26807,7 @@
           "has_consent": false
         },
         {
-          "position": 39,
+          "position": 41,
           "uid": "2587125",
           "vi_score": 96,
           "id_score": 0,
@@ -26677,7 +26817,7 @@
           "has_consent": false
         },
         {
-          "position": 40,
+          "position": 42,
           "uid": "2448374",
           "vi_score": 96,
           "id_score": 0,
@@ -26687,7 +26827,7 @@
           "has_consent": false
         },
         {
-          "position": 41,
+          "position": 43,
           "uid": "2208826",
           "vi_score": 96,
           "id_score": 0,
@@ -26697,7 +26837,7 @@
           "has_consent": false
         },
         {
-          "position": 42,
+          "position": 44,
           "uid": "2448273",
           "vi_score": 96,
           "id_score": 0,
@@ -26707,7 +26847,7 @@
           "has_consent": false
         },
         {
-          "position": 43,
+          "position": 45,
           "uid": "2060516",
           "vi_score": 96,
           "id_score": 0,
@@ -26717,7 +26857,7 @@
           "has_consent": false
         },
         {
-          "position": 44,
+          "position": 46,
           "uid": "2327324",
           "vi_score": 96,
           "id_score": 0,
@@ -26727,7 +26867,7 @@
           "has_consent": false
         },
         {
-          "position": 45,
+          "position": 47,
           "uid": "2286372",
           "vi_score": 96,
           "id_score": 0,
@@ -26737,7 +26877,7 @@
           "has_consent": false
         },
         {
-          "position": 46,
+          "position": 48,
           "uid": "2170067",
           "vi_score": 96,
           "id_score": 0,
@@ -26747,7 +26887,7 @@
           "has_consent": false
         },
         {
-          "position": 47,
+          "position": 49,
           "uid": "2115507",
           "vi_score": 96,
           "id_score": 0,
@@ -26757,7 +26897,7 @@
           "has_consent": false
         },
         {
-          "position": 48,
+          "position": 50,
           "uid": "2152826",
           "vi_score": 96,
           "id_score": 0,
@@ -26767,7 +26907,7 @@
           "has_consent": false
         },
         {
-          "position": 49,
+          "position": 51,
           "uid": "1966063",
           "vi_score": 96,
           "id_score": 0,
@@ -26777,28 +26917,8 @@
           "has_consent": false
         },
         {
-          "position": 50,
-          "uid": "2346908",
-          "vi_score": 96,
-          "id_score": 0,
-          "total_score": 96,
-          "admission_type": "Общий конкурс",
-          "priority": 2,
-          "has_consent": false
-        },
-        {
-          "position": 51,
-          "uid": "2152984",
-          "vi_score": 96,
-          "id_score": 0,
-          "total_score": 96,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
           "position": 52,
-          "uid": "2015728",
+          "uid": "2015589",
           "vi_score": 96,
           "id_score": 0,
           "total_score": 96,
@@ -26808,7 +26928,7 @@
         },
         {
           "position": 53,
-          "uid": "2327005",
+          "uid": "2346908",
           "vi_score": 96,
           "id_score": 0,
           "total_score": 96,
@@ -26818,7 +26938,7 @@
         },
         {
           "position": 54,
-          "uid": "2323660",
+          "uid": "2152984",
           "vi_score": 96,
           "id_score": 0,
           "total_score": 96,
@@ -26828,17 +26948,17 @@
         },
         {
           "position": 55,
-          "uid": "2073197",
+          "uid": "2015728",
           "vi_score": 96,
           "id_score": 0,
           "total_score": 96,
           "admission_type": "Общий конкурс",
-          "priority": 4,
+          "priority": 2,
           "has_consent": false
         },
         {
           "position": 56,
-          "uid": "2105300",
+          "uid": "2327005",
           "vi_score": 96,
           "id_score": 0,
           "total_score": 96,
@@ -26848,6 +26968,36 @@
         },
         {
           "position": 57,
+          "uid": "2323660",
+          "vi_score": 96,
+          "id_score": 0,
+          "total_score": 96,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 58,
+          "uid": "2073197",
+          "vi_score": 96,
+          "id_score": 0,
+          "total_score": 96,
+          "admission_type": "Общий конкурс",
+          "priority": 4,
+          "has_consent": false
+        },
+        {
+          "position": 59,
+          "uid": "2105300",
+          "vi_score": 96,
+          "id_score": 0,
+          "total_score": 96,
+          "admission_type": "Общий конкурс",
+          "priority": 2,
+          "has_consent": false
+        },
+        {
+          "position": 60,
           "uid": "2012523",
           "vi_score": 96,
           "id_score": 0,
@@ -26857,7 +27007,7 @@
           "has_consent": false
         },
         {
-          "position": 58,
+          "position": 61,
           "uid": "2521769",
           "vi_score": 96,
           "id_score": 0,
@@ -26867,7 +27017,7 @@
           "has_consent": false
         },
         {
-          "position": 59,
+          "position": 62,
           "uid": "1196672",
           "vi_score": 96,
           "id_score": 0,
@@ -26877,7 +27027,7 @@
           "has_consent": false
         },
         {
-          "position": 60,
+          "position": 63,
           "uid": "2491503",
           "vi_score": 96,
           "id_score": 0,
@@ -26887,7 +27037,7 @@
           "has_consent": false
         },
         {
-          "position": 61,
+          "position": 64,
           "uid": "2404742",
           "vi_score": 96,
           "id_score": 0,
@@ -26897,7 +27047,7 @@
           "has_consent": false
         },
         {
-          "position": 62,
+          "position": 65,
           "uid": "2176060",
           "vi_score": 96,
           "id_score": 0,
@@ -26907,7 +27057,7 @@
           "has_consent": false
         },
         {
-          "position": 63,
+          "position": 66,
           "uid": "2181701",
           "vi_score": 96,
           "id_score": 0,
@@ -26917,7 +27067,7 @@
           "has_consent": false
         },
         {
-          "position": 64,
+          "position": 67,
           "uid": "2392697",
           "vi_score": 96,
           "id_score": 0,
@@ -26927,7 +27077,7 @@
           "has_consent": false
         },
         {
-          "position": 65,
+          "position": 68,
           "uid": "2339153",
           "vi_score": 96,
           "id_score": 0,
@@ -26937,7 +27087,7 @@
           "has_consent": false
         },
         {
-          "position": 66,
+          "position": 69,
           "uid": "2294993",
           "vi_score": 96,
           "id_score": 0,
@@ -26947,7 +27097,7 @@
           "has_consent": false
         },
         {
-          "position": 67,
+          "position": 70,
           "uid": "2394262",
           "vi_score": 96,
           "id_score": 0,
@@ -26957,7 +27107,7 @@
           "has_consent": false
         },
         {
-          "position": 68,
+          "position": 71,
           "uid": "2358667",
           "vi_score": 96,
           "id_score": 0,
@@ -26967,7 +27117,7 @@
           "has_consent": false
         },
         {
-          "position": 69,
+          "position": 72,
           "uid": "1921525",
           "vi_score": 86,
           "id_score": 10,
@@ -26977,17 +27127,7 @@
           "has_consent": false
         },
         {
-          "position": 70,
-          "uid": "1379983",
-          "vi_score": 66,
-          "id_score": 30,
-          "total_score": 96,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 71,
+          "position": 73,
           "uid": "2465070",
           "vi_score": 95,
           "id_score": 0,
@@ -26997,7 +27137,7 @@
           "has_consent": false
         },
         {
-          "position": 72,
+          "position": 74,
           "uid": "2027003",
           "vi_score": 95,
           "id_score": 0,
@@ -27007,7 +27147,7 @@
           "has_consent": false
         },
         {
-          "position": 73,
+          "position": 75,
           "uid": "2527401",
           "vi_score": 95,
           "id_score": 0,
@@ -27017,7 +27157,7 @@
           "has_consent": false
         },
         {
-          "position": 74,
+          "position": 76,
           "uid": "2290269",
           "vi_score": 95,
           "id_score": 0,
@@ -27027,7 +27167,7 @@
           "has_consent": false
         },
         {
-          "position": 75,
+          "position": 77,
           "uid": "2481991",
           "vi_score": 94,
           "id_score": 0,
@@ -27037,7 +27177,7 @@
           "has_consent": false
         },
         {
-          "position": 76,
+          "position": 78,
           "uid": "2067929",
           "vi_score": 94,
           "id_score": 0,
@@ -27047,7 +27187,7 @@
           "has_consent": false
         },
         {
-          "position": 77,
+          "position": 79,
           "uid": "2589532",
           "vi_score": 84,
           "id_score": 10,
@@ -27057,7 +27197,7 @@
           "has_consent": false
         },
         {
-          "position": 78,
+          "position": 80,
           "uid": "2072911",
           "vi_score": 93,
           "id_score": 0,
@@ -27067,7 +27207,7 @@
           "has_consent": false
         },
         {
-          "position": 79,
+          "position": 81,
           "uid": "2322658",
           "vi_score": 93,
           "id_score": 0,
@@ -27077,7 +27217,7 @@
           "has_consent": false
         },
         {
-          "position": 80,
+          "position": 82,
           "uid": "2106980",
           "vi_score": 92,
           "id_score": 0,
@@ -27087,7 +27227,7 @@
           "has_consent": false
         },
         {
-          "position": 81,
+          "position": 83,
           "uid": "2034137",
           "vi_score": 92,
           "id_score": 0,
@@ -27097,7 +27237,7 @@
           "has_consent": false
         },
         {
-          "position": 82,
+          "position": 84,
           "uid": "2135056",
           "vi_score": 92,
           "id_score": 0,
@@ -27107,7 +27247,7 @@
           "has_consent": false
         },
         {
-          "position": 83,
+          "position": 85,
           "uid": "1663762",
           "vi_score": 92,
           "id_score": 0,
@@ -27117,7 +27257,7 @@
           "has_consent": false
         },
         {
-          "position": 84,
+          "position": 86,
           "uid": "2367623",
           "vi_score": 92,
           "id_score": 0,
@@ -27127,7 +27267,7 @@
           "has_consent": false
         },
         {
-          "position": 85,
+          "position": 87,
           "uid": "2111177",
           "vi_score": 92,
           "id_score": 0,
@@ -27137,7 +27277,7 @@
           "has_consent": false
         },
         {
-          "position": 86,
+          "position": 88,
           "uid": "2149756",
           "vi_score": 92,
           "id_score": 0,
@@ -27147,7 +27287,7 @@
           "has_consent": false
         },
         {
-          "position": 87,
+          "position": 89,
           "uid": "2474601",
           "vi_score": 92,
           "id_score": 0,
@@ -27157,7 +27297,7 @@
           "has_consent": false
         },
         {
-          "position": 88,
+          "position": 90,
           "uid": "2189343",
           "vi_score": 92,
           "id_score": 0,
@@ -27167,7 +27307,7 @@
           "has_consent": false
         },
         {
-          "position": 89,
+          "position": 91,
           "uid": "2389478",
           "vi_score": 92,
           "id_score": 0,
@@ -27177,7 +27317,7 @@
           "has_consent": false
         },
         {
-          "position": 90,
+          "position": 92,
           "uid": "2289734",
           "vi_score": 92,
           "id_score": 0,
@@ -27187,7 +27327,7 @@
           "has_consent": false
         },
         {
-          "position": 91,
+          "position": 93,
           "uid": "2404505",
           "vi_score": 92,
           "id_score": 0,
@@ -27197,7 +27337,7 @@
           "has_consent": false
         },
         {
-          "position": 92,
+          "position": 94,
           "uid": "2260571",
           "vi_score": 92,
           "id_score": 0,
@@ -27207,7 +27347,7 @@
           "has_consent": false
         },
         {
-          "position": 93,
+          "position": 95,
           "uid": "2599553",
           "vi_score": 82,
           "id_score": 10,
@@ -27217,7 +27357,7 @@
           "has_consent": false
         },
         {
-          "position": 94,
+          "position": 96,
           "uid": "2145709",
           "vi_score": 82,
           "id_score": 10,
@@ -27227,7 +27367,7 @@
           "has_consent": false
         },
         {
-          "position": 95,
+          "position": 97,
           "uid": "2164318",
           "vi_score": 91,
           "id_score": 0,
@@ -27237,7 +27377,7 @@
           "has_consent": false
         },
         {
-          "position": 96,
+          "position": 98,
           "uid": "2519663",
           "vi_score": 81,
           "id_score": 10,
@@ -27247,7 +27387,7 @@
           "has_consent": false
         },
         {
-          "position": 97,
+          "position": 99,
           "uid": "2240743",
           "vi_score": 90,
           "id_score": 0,
@@ -27257,7 +27397,7 @@
           "has_consent": false
         },
         {
-          "position": 98,
+          "position": 100,
           "uid": "2077582",
           "vi_score": 90,
           "id_score": 0,
@@ -27267,7 +27407,7 @@
           "has_consent": false
         },
         {
-          "position": 99,
+          "position": 101,
           "uid": "1946130",
           "vi_score": 90,
           "id_score": 0,
@@ -27277,7 +27417,7 @@
           "has_consent": false
         },
         {
-          "position": 100,
+          "position": 102,
           "uid": "2120561",
           "vi_score": 90,
           "id_score": 0,
@@ -27287,7 +27427,7 @@
           "has_consent": false
         },
         {
-          "position": 101,
+          "position": 103,
           "uid": "2483874",
           "vi_score": 90,
           "id_score": 0,
@@ -27297,7 +27437,7 @@
           "has_consent": false
         },
         {
-          "position": 102,
+          "position": 104,
           "uid": "2355074",
           "vi_score": 90,
           "id_score": 0,
@@ -27307,7 +27447,7 @@
           "has_consent": false
         },
         {
-          "position": 103,
+          "position": 105,
           "uid": "2506301",
           "vi_score": 89,
           "id_score": 0,
@@ -27317,7 +27457,7 @@
           "has_consent": false
         },
         {
-          "position": 104,
+          "position": 106,
           "uid": "2419674",
           "vi_score": 88,
           "id_score": 0,
@@ -27327,7 +27467,7 @@
           "has_consent": false
         },
         {
-          "position": 105,
+          "position": 107,
           "uid": "1009586",
           "vi_score": 88,
           "id_score": 0,
@@ -27337,7 +27477,7 @@
           "has_consent": false
         },
         {
-          "position": 106,
+          "position": 108,
           "uid": "1929736",
           "vi_score": 86,
           "id_score": 0,
@@ -27347,7 +27487,7 @@
           "has_consent": false
         },
         {
-          "position": 107,
+          "position": 109,
           "uid": "2066625",
           "vi_score": 86,
           "id_score": 0,
@@ -27357,7 +27497,7 @@
           "has_consent": false
         },
         {
-          "position": 108,
+          "position": 110,
           "uid": "2423750",
           "vi_score": 85,
           "id_score": 0,
@@ -27367,7 +27507,7 @@
           "has_consent": false
         },
         {
-          "position": 109,
+          "position": 111,
           "uid": "2355069",
           "vi_score": 85,
           "id_score": 0,
@@ -27377,7 +27517,7 @@
           "has_consent": false
         },
         {
-          "position": 110,
+          "position": 112,
           "uid": "1870857",
           "vi_score": 85,
           "id_score": 0,
@@ -27387,7 +27527,7 @@
           "has_consent": false
         },
         {
-          "position": 111,
+          "position": 113,
           "uid": "2010663",
           "vi_score": 84,
           "id_score": 0,
@@ -27397,7 +27537,7 @@
           "has_consent": false
         },
         {
-          "position": 112,
+          "position": 114,
           "uid": "2516724",
           "vi_score": 84,
           "id_score": 0,
@@ -27407,7 +27547,7 @@
           "has_consent": false
         },
         {
-          "position": 113,
+          "position": 115,
           "uid": "2154404",
           "vi_score": 83,
           "id_score": 0,
@@ -27417,7 +27557,7 @@
           "has_consent": false
         },
         {
-          "position": 114,
+          "position": 116,
           "uid": "2265042",
           "vi_score": 81,
           "id_score": 0,
@@ -27427,7 +27567,7 @@
           "has_consent": false
         },
         {
-          "position": 115,
+          "position": 117,
           "uid": "2100220",
           "vi_score": 79,
           "id_score": 0,
@@ -27437,7 +27577,7 @@
           "has_consent": false
         },
         {
-          "position": 116,
+          "position": 118,
           "uid": "2610059",
           "vi_score": 78,
           "id_score": 0,
@@ -27447,7 +27587,7 @@
           "has_consent": false
         },
         {
-          "position": 117,
+          "position": 119,
           "uid": "2115591",
           "vi_score": 78,
           "id_score": 0,
@@ -27457,7 +27597,7 @@
           "has_consent": false
         },
         {
-          "position": 118,
+          "position": 120,
           "uid": "2591045",
           "vi_score": 78,
           "id_score": 0,
@@ -27467,7 +27607,7 @@
           "has_consent": false
         },
         {
-          "position": 119,
+          "position": 121,
           "uid": "2607163",
           "vi_score": 78,
           "id_score": 0,
@@ -27477,7 +27617,7 @@
           "has_consent": false
         },
         {
-          "position": 120,
+          "position": 122,
           "uid": "2311809",
           "vi_score": 77,
           "id_score": 0,
@@ -27487,7 +27627,7 @@
           "has_consent": false
         },
         {
-          "position": 121,
+          "position": 123,
           "uid": "1293157",
           "vi_score": 76,
           "id_score": 0,
@@ -27497,7 +27637,7 @@
           "has_consent": false
         },
         {
-          "position": 122,
+          "position": 124,
           "uid": "2077481",
           "vi_score": 76,
           "id_score": 0,
@@ -27507,7 +27647,7 @@
           "has_consent": false
         },
         {
-          "position": 123,
+          "position": 125,
           "uid": "1971616",
           "vi_score": 76,
           "id_score": 0,
@@ -27517,7 +27657,7 @@
           "has_consent": false
         },
         {
-          "position": 124,
+          "position": 126,
           "uid": "2220339",
           "vi_score": 76,
           "id_score": 0,
@@ -27527,7 +27667,7 @@
           "has_consent": false
         },
         {
-          "position": 125,
+          "position": 127,
           "uid": "2434278",
           "vi_score": 74,
           "id_score": 0,
@@ -27537,7 +27677,7 @@
           "has_consent": false
         },
         {
-          "position": 126,
+          "position": 128,
           "uid": "2203779",
           "vi_score": 73,
           "id_score": 0,
@@ -27547,7 +27687,7 @@
           "has_consent": false
         },
         {
-          "position": 127,
+          "position": 129,
           "uid": "1995826",
           "vi_score": 73,
           "id_score": 0,
@@ -27557,7 +27697,7 @@
           "has_consent": false
         },
         {
-          "position": 128,
+          "position": 130,
           "uid": "2078291",
           "vi_score": 71,
           "id_score": 0,
@@ -27567,7 +27707,7 @@
           "has_consent": false
         },
         {
-          "position": 129,
+          "position": 131,
           "uid": "2324352",
           "vi_score": 70,
           "id_score": 0,
@@ -27577,7 +27717,7 @@
           "has_consent": false
         },
         {
-          "position": 130,
+          "position": 132,
           "uid": "2287047",
           "vi_score": 67,
           "id_score": 0,
@@ -27587,7 +27727,7 @@
           "has_consent": false
         },
         {
-          "position": 131,
+          "position": 133,
           "uid": "2567761",
           "vi_score": 60,
           "id_score": 0,
@@ -27597,7 +27737,7 @@
           "has_consent": false
         },
         {
-          "position": 132,
+          "position": 134,
           "uid": "2511016",
           "vi_score": 58,
           "id_score": 0,
@@ -27607,7 +27747,7 @@
           "has_consent": false
         },
         {
-          "position": 133,
+          "position": 135,
           "uid": "1039129",
           "vi_score": 58,
           "id_score": 0,
@@ -27617,7 +27757,7 @@
           "has_consent": false
         },
         {
-          "position": 134,
+          "position": 136,
           "uid": "1991225",
           "vi_score": 54,
           "id_score": 0,
@@ -27627,7 +27767,7 @@
           "has_consent": false
         },
         {
-          "position": 135,
+          "position": 137,
           "uid": "2009633",
           "vi_score": 53,
           "id_score": 0,
@@ -27637,7 +27777,7 @@
           "has_consent": false
         },
         {
-          "position": 136,
+          "position": 138,
           "uid": "1162892",
           "vi_score": 51,
           "id_score": 0,
@@ -27647,7 +27787,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:41 МСК"
+      "scraped_at": "24.08.2026 09:02 МСК"
     },
     {
       "institute": "Институт сервиса и отраслевого управления (Институт)",
@@ -28006,7 +28146,7 @@
           "total_score": 92,
           "admission_type": "Общий конкурс",
           "priority": 3,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 36,
@@ -28952,17 +29092,17 @@
         },
         {
           "position": 14,
-          "uid": "2147311",
+          "uid": "2350783",
           "vi_score": 92,
           "id_score": 0,
           "total_score": 92,
           "admission_type": "Общий конкурс",
-          "priority": 2,
+          "priority": 3,
           "has_consent": false
         },
         {
           "position": 15,
-          "uid": "2071590",
+          "uid": "2147311",
           "vi_score": 92,
           "id_score": 0,
           "total_score": 92,
@@ -29071,7 +29211,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:41 МСК"
+      "scraped_at": "24.08.2026 09:02 МСК"
     },
     {
       "institute": "Институт сервиса и отраслевого управления (Институт)",
@@ -29590,7 +29730,7 @@
           "total_score": 90,
           "admission_type": "Общий конкурс",
           "priority": 2,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 52,
@@ -31205,7 +31345,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:41 МСК"
+      "scraped_at": "24.08.2026 09:03 МСК"
     },
     {
       "institute": "Высшая школа цифровых технологий (Институт)",
@@ -31724,7 +31864,7 @@
           "total_score": 100,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 52,
@@ -34195,16 +34335,6 @@
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": false
-        },
-        {
-          "position": 299,
-          "uid": "2064805",
-          "vi_score": 0,
-          "id_score": 0,
-          "total_score": 0,
-          "admission_type": "Общий конкурс",
-          "priority": 3,
-          "has_consent": true
         }
       ],
       "consent_applicants": [
@@ -34530,6 +34660,16 @@
         },
         {
           "position": 33,
+          "uid": "2159550",
+          "vi_score": 100,
+          "id_score": 0,
+          "total_score": 100,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 34,
           "uid": "2072062",
           "vi_score": 100,
           "id_score": 0,
@@ -34539,7 +34679,7 @@
           "has_consent": false
         },
         {
-          "position": 34,
+          "position": 35,
           "uid": "1594013",
           "vi_score": 100,
           "id_score": 0,
@@ -34549,7 +34689,7 @@
           "has_consent": false
         },
         {
-          "position": 35,
+          "position": 36,
           "uid": "2133313",
           "vi_score": 100,
           "id_score": 0,
@@ -34559,7 +34699,7 @@
           "has_consent": false
         },
         {
-          "position": 36,
+          "position": 37,
           "uid": "2300336",
           "vi_score": 100,
           "id_score": 0,
@@ -34569,7 +34709,7 @@
           "has_consent": false
         },
         {
-          "position": 37,
+          "position": 38,
           "uid": "2258567",
           "vi_score": 100,
           "id_score": 0,
@@ -34579,7 +34719,7 @@
           "has_consent": false
         },
         {
-          "position": 38,
+          "position": 39,
           "uid": "2400805",
           "vi_score": 100,
           "id_score": 0,
@@ -34589,7 +34729,7 @@
           "has_consent": false
         },
         {
-          "position": 39,
+          "position": 40,
           "uid": "2148310",
           "vi_score": 100,
           "id_score": 0,
@@ -34599,7 +34739,7 @@
           "has_consent": false
         },
         {
-          "position": 40,
+          "position": 41,
           "uid": "2467085",
           "vi_score": 88,
           "id_score": 10,
@@ -34609,7 +34749,7 @@
           "has_consent": false
         },
         {
-          "position": 41,
+          "position": 42,
           "uid": "2588850",
           "vi_score": 88,
           "id_score": 10,
@@ -34619,7 +34759,7 @@
           "has_consent": false
         },
         {
-          "position": 42,
+          "position": 43,
           "uid": "2508446",
           "vi_score": 88,
           "id_score": 10,
@@ -34629,7 +34769,7 @@
           "has_consent": false
         },
         {
-          "position": 43,
+          "position": 44,
           "uid": "2412828",
           "vi_score": 88,
           "id_score": 10,
@@ -34639,7 +34779,7 @@
           "has_consent": false
         },
         {
-          "position": 44,
+          "position": 45,
           "uid": "2159972",
           "vi_score": 88,
           "id_score": 10,
@@ -34649,7 +34789,7 @@
           "has_consent": false
         },
         {
-          "position": 45,
+          "position": 46,
           "uid": "2444044",
           "vi_score": 88,
           "id_score": 10,
@@ -34659,7 +34799,7 @@
           "has_consent": false
         },
         {
-          "position": 46,
+          "position": 47,
           "uid": "2024402",
           "vi_score": 96,
           "id_score": 0,
@@ -34669,7 +34809,7 @@
           "has_consent": false
         },
         {
-          "position": 47,
+          "position": 48,
           "uid": "2303807",
           "vi_score": 96,
           "id_score": 0,
@@ -34679,7 +34819,7 @@
           "has_consent": false
         },
         {
-          "position": 48,
+          "position": 49,
           "uid": "2189675",
           "vi_score": 96,
           "id_score": 0,
@@ -34689,7 +34829,7 @@
           "has_consent": false
         },
         {
-          "position": 49,
+          "position": 50,
           "uid": "2015550",
           "vi_score": 96,
           "id_score": 0,
@@ -34699,7 +34839,7 @@
           "has_consent": false
         },
         {
-          "position": 50,
+          "position": 51,
           "uid": "2460068",
           "vi_score": 96,
           "id_score": 0,
@@ -34709,7 +34849,7 @@
           "has_consent": false
         },
         {
-          "position": 51,
+          "position": 52,
           "uid": "2113227",
           "vi_score": 96,
           "id_score": 0,
@@ -34719,7 +34859,7 @@
           "has_consent": false
         },
         {
-          "position": 52,
+          "position": 53,
           "uid": "2234950",
           "vi_score": 96,
           "id_score": 0,
@@ -34729,7 +34869,7 @@
           "has_consent": false
         },
         {
-          "position": 53,
+          "position": 54,
           "uid": "2466988",
           "vi_score": 84,
           "id_score": 10,
@@ -34739,7 +34879,7 @@
           "has_consent": false
         },
         {
-          "position": 54,
+          "position": 55,
           "uid": "2291576",
           "vi_score": 84,
           "id_score": 10,
@@ -34749,7 +34889,7 @@
           "has_consent": false
         },
         {
-          "position": 55,
+          "position": 56,
           "uid": "2118476",
           "vi_score": 92,
           "id_score": 0,
@@ -34759,7 +34899,7 @@
           "has_consent": false
         },
         {
-          "position": 56,
+          "position": 57,
           "uid": "2161858",
           "vi_score": 92,
           "id_score": 0,
@@ -34769,7 +34909,7 @@
           "has_consent": false
         },
         {
-          "position": 57,
+          "position": 58,
           "uid": "2357926",
           "vi_score": 92,
           "id_score": 0,
@@ -34779,7 +34919,7 @@
           "has_consent": false
         },
         {
-          "position": 58,
+          "position": 59,
           "uid": "2293735",
           "vi_score": 92,
           "id_score": 0,
@@ -34789,7 +34929,7 @@
           "has_consent": false
         },
         {
-          "position": 59,
+          "position": 60,
           "uid": "2625575",
           "vi_score": 92,
           "id_score": 0,
@@ -34799,7 +34939,7 @@
           "has_consent": false
         },
         {
-          "position": 60,
+          "position": 61,
           "uid": "2157193",
           "vi_score": 80,
           "id_score": 10,
@@ -34809,7 +34949,7 @@
           "has_consent": false
         },
         {
-          "position": 61,
+          "position": 62,
           "uid": "2159920",
           "vi_score": 88,
           "id_score": 0,
@@ -34819,7 +34959,7 @@
           "has_consent": false
         },
         {
-          "position": 62,
+          "position": 63,
           "uid": "2036465",
           "vi_score": 88,
           "id_score": 0,
@@ -34829,7 +34969,7 @@
           "has_consent": false
         },
         {
-          "position": 63,
+          "position": 64,
           "uid": "2074216",
           "vi_score": 88,
           "id_score": 0,
@@ -34839,7 +34979,7 @@
           "has_consent": false
         },
         {
-          "position": 64,
+          "position": 65,
           "uid": "2246909",
           "vi_score": 88,
           "id_score": 0,
@@ -34849,7 +34989,7 @@
           "has_consent": false
         },
         {
-          "position": 65,
+          "position": 66,
           "uid": "2158842",
           "vi_score": 88,
           "id_score": 0,
@@ -34859,7 +34999,7 @@
           "has_consent": false
         },
         {
-          "position": 66,
+          "position": 67,
           "uid": "2360213",
           "vi_score": 88,
           "id_score": 0,
@@ -34869,7 +35009,7 @@
           "has_consent": false
         },
         {
-          "position": 67,
+          "position": 68,
           "uid": "2328757",
           "vi_score": 88,
           "id_score": 0,
@@ -34879,7 +35019,7 @@
           "has_consent": false
         },
         {
-          "position": 68,
+          "position": 69,
           "uid": "2150905",
           "vi_score": 88,
           "id_score": 0,
@@ -34889,7 +35029,7 @@
           "has_consent": false
         },
         {
-          "position": 69,
+          "position": 70,
           "uid": "2338067",
           "vi_score": 84,
           "id_score": 0,
@@ -34899,7 +35039,7 @@
           "has_consent": false
         },
         {
-          "position": 70,
+          "position": 71,
           "uid": "2160407",
           "vi_score": 84,
           "id_score": 0,
@@ -34909,7 +35049,7 @@
           "has_consent": false
         },
         {
-          "position": 71,
+          "position": 72,
           "uid": "2535841",
           "vi_score": 84,
           "id_score": 0,
@@ -34919,7 +35059,7 @@
           "has_consent": false
         },
         {
-          "position": 72,
+          "position": 73,
           "uid": "2253584",
           "vi_score": 84,
           "id_score": 0,
@@ -34929,7 +35069,7 @@
           "has_consent": false
         },
         {
-          "position": 73,
+          "position": 74,
           "uid": "2010874",
           "vi_score": 84,
           "id_score": 0,
@@ -34939,7 +35079,7 @@
           "has_consent": false
         },
         {
-          "position": 74,
+          "position": 75,
           "uid": "2488289",
           "vi_score": 84,
           "id_score": 0,
@@ -34949,7 +35089,7 @@
           "has_consent": false
         },
         {
-          "position": 75,
+          "position": 76,
           "uid": "2110892",
           "vi_score": 84,
           "id_score": 0,
@@ -34959,7 +35099,7 @@
           "has_consent": false
         },
         {
-          "position": 76,
+          "position": 77,
           "uid": "2136871",
           "vi_score": 84,
           "id_score": 0,
@@ -34969,7 +35109,7 @@
           "has_consent": false
         },
         {
-          "position": 77,
+          "position": 78,
           "uid": "2389391",
           "vi_score": 84,
           "id_score": 0,
@@ -34979,7 +35119,7 @@
           "has_consent": false
         },
         {
-          "position": 78,
+          "position": 79,
           "uid": "2473172",
           "vi_score": 80,
           "id_score": 0,
@@ -34989,7 +35129,7 @@
           "has_consent": false
         },
         {
-          "position": 79,
+          "position": 80,
           "uid": "2185687",
           "vi_score": 80,
           "id_score": 0,
@@ -34999,7 +35139,7 @@
           "has_consent": false
         },
         {
-          "position": 80,
+          "position": 81,
           "uid": "2068903",
           "vi_score": 80,
           "id_score": 0,
@@ -35009,7 +35149,7 @@
           "has_consent": false
         },
         {
-          "position": 81,
+          "position": 82,
           "uid": "2482721",
           "vi_score": 80,
           "id_score": 0,
@@ -35019,7 +35159,7 @@
           "has_consent": false
         },
         {
-          "position": 82,
+          "position": 83,
           "uid": "2080630",
           "vi_score": 76,
           "id_score": 0,
@@ -35029,7 +35169,7 @@
           "has_consent": false
         },
         {
-          "position": 83,
+          "position": 84,
           "uid": "2325684",
           "vi_score": 64,
           "id_score": 10,
@@ -35039,7 +35179,7 @@
           "has_consent": false
         },
         {
-          "position": 84,
+          "position": 85,
           "uid": "2395336",
           "vi_score": 72,
           "id_score": 0,
@@ -35049,7 +35189,7 @@
           "has_consent": false
         },
         {
-          "position": 85,
+          "position": 86,
           "uid": "2429980",
           "vi_score": 72,
           "id_score": 0,
@@ -35059,7 +35199,7 @@
           "has_consent": false
         },
         {
-          "position": 86,
+          "position": 87,
           "uid": "2443244",
           "vi_score": 56,
           "id_score": 10,
@@ -35069,7 +35209,7 @@
           "has_consent": false
         },
         {
-          "position": 87,
+          "position": 88,
           "uid": "2159617",
           "vi_score": 48,
           "id_score": 0,
@@ -35079,7 +35219,7 @@
           "has_consent": false
         },
         {
-          "position": 88,
+          "position": 89,
           "uid": "2565534",
           "vi_score": 48,
           "id_score": 0,
@@ -35089,7 +35229,7 @@
           "has_consent": false
         },
         {
-          "position": 89,
+          "position": 90,
           "uid": "2352621",
           "vi_score": 44,
           "id_score": 0,
@@ -35099,7 +35239,7 @@
           "has_consent": false
         },
         {
-          "position": 90,
+          "position": 91,
           "uid": "2613696",
           "vi_score": 36,
           "id_score": 0,
@@ -35109,7 +35249,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:41 МСК"
+      "scraped_at": "24.08.2026 09:03 МСК"
     },
     {
       "institute": "Нефтегазовый институт (Институт)",
@@ -35403,7 +35543,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:41 МСК"
+      "scraped_at": "24.08.2026 09:03 МСК"
     },
     {
       "institute": "Нефтегазовый институт (Институт)",
@@ -35452,7 +35592,7 @@
           "total_score": 92,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 3,
@@ -35462,7 +35602,7 @@
           "total_score": 92,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 4,
@@ -35798,16 +35938,26 @@
         },
         {
           "position": 3,
-          "uid": "2086981",
-          "vi_score": 91,
+          "uid": "2073777",
+          "vi_score": 92,
           "id_score": 0,
-          "total_score": 91,
+          "total_score": 92,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": false
         },
         {
           "position": 3,
+          "uid": "2073777",
+          "vi_score": 92,
+          "id_score": 0,
+          "total_score": 92,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 4,
           "uid": "2086981",
           "vi_score": 91,
           "id_score": 0,
@@ -35818,16 +35968,16 @@
         },
         {
           "position": 4,
-          "uid": "1972300",
-          "vi_score": 88,
+          "uid": "2086981",
+          "vi_score": 91,
           "id_score": 0,
-          "total_score": 88,
+          "total_score": 91,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": false
         },
         {
-          "position": 4,
+          "position": 5,
           "uid": "1972300",
           "vi_score": 88,
           "id_score": 0,
@@ -35838,16 +35988,16 @@
         },
         {
           "position": 5,
-          "uid": "2523270",
-          "vi_score": 80,
+          "uid": "1972300",
+          "vi_score": 88,
           "id_score": 0,
-          "total_score": 80,
+          "total_score": 88,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": false
         },
         {
-          "position": 5,
+          "position": 6,
           "uid": "2523270",
           "vi_score": 80,
           "id_score": 0,
@@ -35858,6 +36008,16 @@
         },
         {
           "position": 6,
+          "uid": "2523270",
+          "vi_score": 80,
+          "id_score": 0,
+          "total_score": 80,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 7,
           "uid": "2290698",
           "vi_score": 76,
           "id_score": 0,
@@ -35867,7 +36027,7 @@
           "has_consent": false
         },
         {
-          "position": 6,
+          "position": 7,
           "uid": "2290698",
           "vi_score": 76,
           "id_score": 0,
@@ -35877,7 +36037,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:41 МСК"
+      "scraped_at": "24.08.2026 09:03 МСК"
     },
     {
       "institute": "Нефтегазовый институт (Институт)",
@@ -36189,9 +36349,29 @@
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": false
+        },
+        {
+          "position": 2,
+          "uid": "2486060",
+          "vi_score": 87,
+          "id_score": 0,
+          "total_score": 87,
+          "admission_type": "Общий конкурс",
+          "priority": 5,
+          "has_consent": false
+        },
+        {
+          "position": 2,
+          "uid": "2486060",
+          "vi_score": 87,
+          "id_score": 0,
+          "total_score": 87,
+          "admission_type": "Общий конкурс",
+          "priority": 5,
+          "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:41 МСК"
+      "scraped_at": "24.08.2026 09:03 МСК"
     },
     {
       "institute": "Нефтегазовый институт (Институт)",
@@ -36845,7 +37025,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:41 МСК"
+      "scraped_at": "24.08.2026 09:03 МСК"
     },
     {
       "institute": "Нефтегазовый институт (Институт)",
@@ -37957,9 +38137,29 @@
           "admission_type": "Общий конкурс",
           "priority": 3,
           "has_consent": false
+        },
+        {
+          "position": 4,
+          "uid": "2523679",
+          "vi_score": 72,
+          "id_score": 0,
+          "total_score": 72,
+          "admission_type": "Общий конкурс",
+          "priority": 3,
+          "has_consent": false
+        },
+        {
+          "position": 4,
+          "uid": "2523679",
+          "vi_score": 72,
+          "id_score": 0,
+          "total_score": 72,
+          "admission_type": "Общий конкурс",
+          "priority": 3,
+          "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:41 МСК"
+      "scraped_at": "24.08.2026 09:03 МСК"
     },
     {
       "institute": "Нефтегазовый институт (Институт)",
@@ -38853,7 +39053,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:41 МСК"
+      "scraped_at": "24.08.2026 09:03 МСК"
     },
     {
       "institute": "Нефтегазовый институт (Институт)",
@@ -39862,7 +40062,7 @@
           "total_score": 0,
           "admission_type": "Общий конкурс",
           "priority": 2,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 51,
@@ -39872,7 +40072,7 @@
           "total_score": 0,
           "admission_type": "Общий конкурс",
           "priority": 2,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 52,
@@ -40228,26 +40428,16 @@
         },
         {
           "position": 2,
-          "uid": "2555204",
-          "vi_score": 91,
-          "id_score": 11,
-          "total_score": 102,
+          "uid": "2624653",
+          "vi_score": 92,
+          "id_score": 9,
+          "total_score": 101,
           "admission_type": "Общий конкурс",
-          "priority": 2,
+          "priority": 3,
           "has_consent": false
         },
         {
           "position": 2,
-          "uid": "2555204",
-          "vi_score": 91,
-          "id_score": 11,
-          "total_score": 102,
-          "admission_type": "Общий конкурс",
-          "priority": 2,
-          "has_consent": false
-        },
-        {
-          "position": 3,
           "uid": "2624653",
           "vi_score": 92,
           "id_score": 9,
@@ -40258,16 +40448,16 @@
         },
         {
           "position": 3,
-          "uid": "2624653",
-          "vi_score": 92,
-          "id_score": 9,
-          "total_score": 101,
+          "uid": "2518160",
+          "vi_score": 88,
+          "id_score": 0,
+          "total_score": 88,
           "admission_type": "Общий конкурс",
-          "priority": 3,
+          "priority": 2,
           "has_consent": false
         },
         {
-          "position": 4,
+          "position": 3,
           "uid": "2518160",
           "vi_score": 88,
           "id_score": 0,
@@ -40278,16 +40468,16 @@
         },
         {
           "position": 4,
-          "uid": "2518160",
-          "vi_score": 88,
+          "uid": "2365452",
+          "vi_score": 86,
           "id_score": 0,
-          "total_score": 88,
+          "total_score": 86,
           "admission_type": "Общий конкурс",
-          "priority": 2,
+          "priority": 3,
           "has_consent": false
         },
         {
-          "position": 5,
+          "position": 4,
           "uid": "2365452",
           "vi_score": 86,
           "id_score": 0,
@@ -40298,16 +40488,16 @@
         },
         {
           "position": 5,
-          "uid": "2365452",
-          "vi_score": 86,
+          "uid": "2597302",
+          "vi_score": 80,
           "id_score": 0,
-          "total_score": 86,
+          "total_score": 80,
           "admission_type": "Общий конкурс",
           "priority": 3,
           "has_consent": false
         },
         {
-          "position": 6,
+          "position": 5,
           "uid": "2597302",
           "vi_score": 80,
           "id_score": 0,
@@ -40318,16 +40508,16 @@
         },
         {
           "position": 6,
-          "uid": "2597302",
+          "uid": "2612086",
           "vi_score": 80,
           "id_score": 0,
           "total_score": 80,
           "admission_type": "Общий конкурс",
-          "priority": 3,
+          "priority": 1,
           "has_consent": false
         },
         {
-          "position": 7,
+          "position": 6,
           "uid": "2612086",
           "vi_score": 80,
           "id_score": 0,
@@ -40338,16 +40528,16 @@
         },
         {
           "position": 7,
-          "uid": "2612086",
-          "vi_score": 80,
+          "uid": "2122196",
+          "vi_score": 76,
           "id_score": 0,
-          "total_score": 80,
+          "total_score": 76,
           "admission_type": "Общий конкурс",
           "priority": 1,
           "has_consent": false
         },
         {
-          "position": 8,
+          "position": 7,
           "uid": "2122196",
           "vi_score": 76,
           "id_score": 0,
@@ -40358,16 +40548,6 @@
         },
         {
           "position": 8,
-          "uid": "2122196",
-          "vi_score": 76,
-          "id_score": 0,
-          "total_score": 76,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 9,
           "uid": "2157861",
           "vi_score": 60,
           "id_score": 0,
@@ -40377,7 +40557,7 @@
           "has_consent": false
         },
         {
-          "position": 9,
+          "position": 8,
           "uid": "2157861",
           "vi_score": 60,
           "id_score": 0,
@@ -40387,7 +40567,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:41 МСК"
+      "scraped_at": "24.08.2026 09:03 МСК"
     },
     {
       "institute": "Нефтегазовый институт (Институт)",
@@ -40896,7 +41076,7 @@
           "total_score": 0,
           "admission_type": "Общий конкурс",
           "priority": 4,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 26,
@@ -40906,7 +41086,7 @@
           "total_score": 0,
           "admission_type": "Общий конкурс",
           "priority": 4,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 27,
@@ -41121,7 +41301,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:41 МСК"
+      "scraped_at": "24.08.2026 09:03 МСК"
     },
     {
       "institute": "Нефтегазовый институт (Институт)",
@@ -42615,7 +42795,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:41 МСК"
+      "scraped_at": "24.08.2026 09:03 МСК"
     },
     {
       "institute": "Нефтегазовый институт (Институт)",
@@ -42693,7 +42873,7 @@
           "id_score": 10,
           "total_score": 92,
           "admission_type": "Общий конкурс",
-          "priority": 1,
+          "priority": 2,
           "has_consent": true
         },
         {
@@ -43110,16 +43290,6 @@
         },
         {
           "position": 3,
-          "uid": "2460514",
-          "vi_score": 82,
-          "id_score": 10,
-          "total_score": 92,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
-          "position": 4,
           "uid": "2494392",
           "vi_score": 91,
           "id_score": 0,
@@ -43129,7 +43299,7 @@
           "has_consent": false
         },
         {
-          "position": 5,
+          "position": 4,
           "uid": "1709061",
           "vi_score": 88,
           "id_score": 0,
@@ -43139,7 +43309,7 @@
           "has_consent": false
         },
         {
-          "position": 6,
+          "position": 5,
           "uid": "1951102",
           "vi_score": 87,
           "id_score": 0,
@@ -43149,7 +43319,7 @@
           "has_consent": false
         },
         {
-          "position": 7,
+          "position": 6,
           "uid": "2137741",
           "vi_score": 85,
           "id_score": 0,
@@ -43159,7 +43329,7 @@
           "has_consent": false
         },
         {
-          "position": 8,
+          "position": 7,
           "uid": "2129592",
           "vi_score": 81,
           "id_score": 0,
@@ -43169,7 +43339,7 @@
           "has_consent": false
         },
         {
-          "position": 9,
+          "position": 8,
           "uid": "1926229",
           "vi_score": 61,
           "id_score": 0,
@@ -43179,7 +43349,7 @@
           "has_consent": false
         },
         {
-          "position": 10,
+          "position": 9,
           "uid": "1780821",
           "vi_score": 51,
           "id_score": 0,
@@ -43189,7 +43359,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:41 МСК"
+      "scraped_at": "24.08.2026 09:03 МСК"
     },
     {
       "institute": "Нефтегазовый институт (Институт)",
@@ -43893,7 +44063,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:41 МСК"
+      "scraped_at": "24.08.2026 09:03 МСК"
     },
     {
       "institute": "Нефтегазовый институт (Институт)",
@@ -44747,7 +44917,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:41 МСК"
+      "scraped_at": "24.08.2026 09:03 МСК"
     },
     {
       "institute": "Нефтегазовый институт (Институт)",
@@ -44856,7 +45026,7 @@
           "total_score": 148,
           "admission_type": "Общий конкурс",
           "priority": 4,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 11,
@@ -45085,7 +45255,7 @@
           "id_score": 10,
           "total_score": 110,
           "admission_type": "Общий конкурс",
-          "priority": 2,
+          "priority": 1,
           "has_consent": true
         },
         {
@@ -46756,7 +46926,7 @@
           "total_score": 88,
           "admission_type": "Общий конкурс",
           "priority": 1,
-          "has_consent": false
+          "has_consent": true
         },
         {
           "position": 201,
@@ -48657,16 +48827,6 @@
           "admission_type": "Общий конкурс",
           "priority": 9,
           "has_consent": false
-        },
-        {
-          "position": 391,
-          "uid": "2064805",
-          "vi_score": 0,
-          "id_score": 0,
-          "total_score": 0,
-          "admission_type": "Общий конкурс",
-          "priority": 5,
-          "has_consent": true
         }
       ],
       "consent_applicants": [
@@ -48692,6 +48852,16 @@
         },
         {
           "position": 3,
+          "uid": "1379983",
+          "vi_score": 48,
+          "id_score": 30,
+          "total_score": 78,
+          "admission_type": "Целевой прием",
+          "priority": 3,
+          "has_consent": false
+        },
+        {
+          "position": 4,
           "uid": "2403872",
           "vi_score": 100,
           "id_score": 60,
@@ -48701,7 +48871,7 @@
           "has_consent": false
         },
         {
-          "position": 4,
+          "position": 5,
           "uid": "2138828",
           "vi_score": 88,
           "id_score": 70,
@@ -48711,7 +48881,7 @@
           "has_consent": false
         },
         {
-          "position": 5,
+          "position": 6,
           "uid": "2402423",
           "vi_score": 96,
           "id_score": 50,
@@ -48721,7 +48891,7 @@
           "has_consent": false
         },
         {
-          "position": 6,
+          "position": 7,
           "uid": "2266874",
           "vi_score": 96,
           "id_score": 40,
@@ -48731,7 +48901,7 @@
           "has_consent": false
         },
         {
-          "position": 7,
+          "position": 8,
           "uid": "2069076",
           "vi_score": 96,
           "id_score": 30,
@@ -48741,7 +48911,7 @@
           "has_consent": false
         },
         {
-          "position": 8,
+          "position": 9,
           "uid": "2030469",
           "vi_score": 92,
           "id_score": 30,
@@ -48751,7 +48921,7 @@
           "has_consent": false
         },
         {
-          "position": 9,
+          "position": 10,
           "uid": "2377653",
           "vi_score": 100,
           "id_score": 20,
@@ -48761,7 +48931,7 @@
           "has_consent": false
         },
         {
-          "position": 10,
+          "position": 11,
           "uid": "2238785",
           "vi_score": 100,
           "id_score": 20,
@@ -48771,7 +48941,7 @@
           "has_consent": false
         },
         {
-          "position": 11,
+          "position": 12,
           "uid": "2422826",
           "vi_score": 96,
           "id_score": 20,
@@ -48781,7 +48951,7 @@
           "has_consent": false
         },
         {
-          "position": 12,
+          "position": 13,
           "uid": "2503317",
           "vi_score": 96,
           "id_score": 20,
@@ -48791,7 +48961,7 @@
           "has_consent": false
         },
         {
-          "position": 13,
+          "position": 14,
           "uid": "2209441",
           "vi_score": 96,
           "id_score": 20,
@@ -48801,7 +48971,7 @@
           "has_consent": false
         },
         {
-          "position": 14,
+          "position": 15,
           "uid": "2175377",
           "vi_score": 84,
           "id_score": 30,
@@ -48811,7 +48981,7 @@
           "has_consent": false
         },
         {
-          "position": 15,
+          "position": 16,
           "uid": "1703884",
           "vi_score": 100,
           "id_score": 10,
@@ -48821,7 +48991,7 @@
           "has_consent": false
         },
         {
-          "position": 16,
+          "position": 17,
           "uid": "2142951",
           "vi_score": 100,
           "id_score": 10,
@@ -48831,18 +49001,8 @@
           "has_consent": false
         },
         {
-          "position": 17,
-          "uid": "2378946",
-          "vi_score": 100,
-          "id_score": 10,
-          "total_score": 110,
-          "admission_type": "Общий конкурс",
-          "priority": 1,
-          "has_consent": false
-        },
-        {
           "position": 18,
-          "uid": "2495262",
+          "uid": "2460514",
           "vi_score": 100,
           "id_score": 10,
           "total_score": 110,
@@ -48852,7 +49012,7 @@
         },
         {
           "position": 19,
-          "uid": "2264354",
+          "uid": "2378946",
           "vi_score": 100,
           "id_score": 10,
           "total_score": 110,
@@ -48862,7 +49022,7 @@
         },
         {
           "position": 20,
-          "uid": "1831105",
+          "uid": "2495262",
           "vi_score": 100,
           "id_score": 10,
           "total_score": 110,
@@ -48872,7 +49032,7 @@
         },
         {
           "position": 21,
-          "uid": "2595408",
+          "uid": "2264354",
           "vi_score": 100,
           "id_score": 10,
           "total_score": 110,
@@ -48882,6 +49042,26 @@
         },
         {
           "position": 22,
+          "uid": "1831105",
+          "vi_score": 100,
+          "id_score": 10,
+          "total_score": 110,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 23,
+          "uid": "2595408",
+          "vi_score": 100,
+          "id_score": 10,
+          "total_score": 110,
+          "admission_type": "Общий конкурс",
+          "priority": 1,
+          "has_consent": false
+        },
+        {
+          "position": 24,
           "uid": "1191973",
           "vi_score": 96,
           "id_score": 10,
@@ -48891,7 +49071,7 @@
           "has_consent": false
         },
         {
-          "position": 23,
+          "position": 25,
           "uid": "2508224",
           "vi_score": 96,
           "id_score": 10,
@@ -48901,7 +49081,7 @@
           "has_consent": false
         },
         {
-          "position": 24,
+          "position": 26,
           "uid": "2355850",
           "vi_score": 96,
           "id_score": 10,
@@ -48911,7 +49091,7 @@
           "has_consent": false
         },
         {
-          "position": 25,
+          "position": 27,
           "uid": "2107381",
           "vi_score": 96,
           "id_score": 10,
@@ -48921,7 +49101,7 @@
           "has_consent": false
         },
         {
-          "position": 26,
+          "position": 28,
           "uid": "2177481",
           "vi_score": 96,
           "id_score": 10,
@@ -48931,7 +49111,7 @@
           "has_consent": false
         },
         {
-          "position": 27,
+          "position": 29,
           "uid": "2419300",
           "vi_score": 84,
           "id_score": 20,
@@ -48941,7 +49121,7 @@
           "has_consent": false
         },
         {
-          "position": 28,
+          "position": 30,
           "uid": "2178197",
           "vi_score": 92,
           "id_score": 10,
@@ -48951,7 +49131,7 @@
           "has_consent": false
         },
         {
-          "position": 29,
+          "position": 31,
           "uid": "2253939",
           "vi_score": 92,
           "id_score": 10,
@@ -48961,7 +49141,7 @@
           "has_consent": false
         },
         {
-          "position": 30,
+          "position": 32,
           "uid": "2466121",
           "vi_score": 92,
           "id_score": 10,
@@ -48971,7 +49151,7 @@
           "has_consent": false
         },
         {
-          "position": 31,
+          "position": 33,
           "uid": "2161464",
           "vi_score": 92,
           "id_score": 10,
@@ -48981,7 +49161,7 @@
           "has_consent": false
         },
         {
-          "position": 32,
+          "position": 34,
           "uid": "2400859",
           "vi_score": 100,
           "id_score": 0,
@@ -48991,7 +49171,7 @@
           "has_consent": false
         },
         {
-          "position": 33,
+          "position": 35,
           "uid": "2205045",
           "vi_score": 100,
           "id_score": 0,
@@ -49001,7 +49181,7 @@
           "has_consent": false
         },
         {
-          "position": 34,
+          "position": 36,
           "uid": "2377849",
           "vi_score": 100,
           "id_score": 0,
@@ -49011,7 +49191,7 @@
           "has_consent": false
         },
         {
-          "position": 35,
+          "position": 37,
           "uid": "2145548",
           "vi_score": 100,
           "id_score": 0,
@@ -49021,7 +49201,7 @@
           "has_consent": false
         },
         {
-          "position": 36,
+          "position": 38,
           "uid": "2160728",
           "vi_score": 100,
           "id_score": 0,
@@ -49031,7 +49211,7 @@
           "has_consent": false
         },
         {
-          "position": 37,
+          "position": 39,
           "uid": "1118753",
           "vi_score": 100,
           "id_score": 0,
@@ -49041,7 +49221,7 @@
           "has_consent": false
         },
         {
-          "position": 38,
+          "position": 40,
           "uid": "2145193",
           "vi_score": 100,
           "id_score": 0,
@@ -49051,7 +49231,7 @@
           "has_consent": false
         },
         {
-          "position": 39,
+          "position": 41,
           "uid": "1739626",
           "vi_score": 100,
           "id_score": 0,
@@ -49061,7 +49241,7 @@
           "has_consent": false
         },
         {
-          "position": 40,
+          "position": 42,
           "uid": "2321791",
           "vi_score": 100,
           "id_score": 0,
@@ -49071,7 +49251,7 @@
           "has_consent": false
         },
         {
-          "position": 41,
+          "position": 43,
           "uid": "2447551",
           "vi_score": 100,
           "id_score": 0,
@@ -49081,7 +49261,7 @@
           "has_consent": false
         },
         {
-          "position": 42,
+          "position": 44,
           "uid": "2058875",
           "vi_score": 100,
           "id_score": 0,
@@ -49091,7 +49271,7 @@
           "has_consent": false
         },
         {
-          "position": 43,
+          "position": 45,
           "uid": "2198197",
           "vi_score": 100,
           "id_score": 0,
@@ -49101,7 +49281,7 @@
           "has_consent": false
         },
         {
-          "position": 44,
+          "position": 46,
           "uid": "2175713",
           "vi_score": 100,
           "id_score": 0,
@@ -49111,7 +49291,7 @@
           "has_consent": false
         },
         {
-          "position": 45,
+          "position": 47,
           "uid": "2430347",
           "vi_score": 100,
           "id_score": 0,
@@ -49121,7 +49301,7 @@
           "has_consent": false
         },
         {
-          "position": 46,
+          "position": 48,
           "uid": "2544172",
           "vi_score": 100,
           "id_score": 0,
@@ -49131,7 +49311,7 @@
           "has_consent": false
         },
         {
-          "position": 47,
+          "position": 49,
           "uid": "2107433",
           "vi_score": 100,
           "id_score": 0,
@@ -49141,7 +49321,7 @@
           "has_consent": false
         },
         {
-          "position": 48,
+          "position": 50,
           "uid": "2147128",
           "vi_score": 100,
           "id_score": 0,
@@ -49151,7 +49331,7 @@
           "has_consent": false
         },
         {
-          "position": 49,
+          "position": 51,
           "uid": "2595477",
           "vi_score": 100,
           "id_score": 0,
@@ -49161,7 +49341,17 @@
           "has_consent": false
         },
         {
-          "position": 50,
+          "position": 52,
+          "uid": "2071590",
+          "vi_score": 100,
+          "id_score": 0,
+          "total_score": 100,
+          "admission_type": "Общий конкурс",
+          "priority": 5,
+          "has_consent": false
+        },
+        {
+          "position": 53,
           "uid": "2292238",
           "vi_score": 100,
           "id_score": 0,
@@ -49171,7 +49361,7 @@
           "has_consent": false
         },
         {
-          "position": 51,
+          "position": 54,
           "uid": "2590401",
           "vi_score": 100,
           "id_score": 0,
@@ -49181,7 +49371,7 @@
           "has_consent": false
         },
         {
-          "position": 52,
+          "position": 55,
           "uid": "2105420",
           "vi_score": 100,
           "id_score": 0,
@@ -49191,7 +49381,7 @@
           "has_consent": false
         },
         {
-          "position": 53,
+          "position": 56,
           "uid": "2550169",
           "vi_score": 100,
           "id_score": 0,
@@ -49201,7 +49391,7 @@
           "has_consent": false
         },
         {
-          "position": 54,
+          "position": 57,
           "uid": "2013864",
           "vi_score": 100,
           "id_score": 0,
@@ -49211,7 +49401,7 @@
           "has_consent": false
         },
         {
-          "position": 55,
+          "position": 58,
           "uid": "2397471",
           "vi_score": 100,
           "id_score": 0,
@@ -49221,7 +49411,7 @@
           "has_consent": false
         },
         {
-          "position": 56,
+          "position": 59,
           "uid": "2156340",
           "vi_score": 100,
           "id_score": 0,
@@ -49231,7 +49421,7 @@
           "has_consent": false
         },
         {
-          "position": 57,
+          "position": 60,
           "uid": "2322660",
           "vi_score": 100,
           "id_score": 0,
@@ -49241,7 +49431,7 @@
           "has_consent": false
         },
         {
-          "position": 58,
+          "position": 61,
           "uid": "2258872",
           "vi_score": 100,
           "id_score": 0,
@@ -49251,17 +49441,7 @@
           "has_consent": false
         },
         {
-          "position": 59,
-          "uid": "2389929",
-          "vi_score": 100,
-          "id_score": 0,
-          "total_score": 100,
-          "admission_type": "Общий конкурс",
-          "priority": 2,
-          "has_consent": false
-        },
-        {
-          "position": 60,
+          "position": 62,
           "uid": "2073107",
           "vi_score": 96,
           "id_score": 0,
@@ -49271,7 +49451,7 @@
           "has_consent": false
         },
         {
-          "position": 61,
+          "position": 63,
           "uid": "2105161",
           "vi_score": 96,
           "id_score": 0,
@@ -49281,7 +49461,7 @@
           "has_consent": false
         },
         {
-          "position": 62,
+          "position": 64,
           "uid": "2567188",
           "vi_score": 92,
           "id_score": 0,
@@ -49291,7 +49471,7 @@
           "has_consent": false
         },
         {
-          "position": 63,
+          "position": 65,
           "uid": "2176098",
           "vi_score": 92,
           "id_score": 0,
@@ -49301,7 +49481,7 @@
           "has_consent": false
         },
         {
-          "position": 64,
+          "position": 66,
           "uid": "1979964",
           "vi_score": 92,
           "id_score": 0,
@@ -49311,7 +49491,7 @@
           "has_consent": false
         },
         {
-          "position": 65,
+          "position": 67,
           "uid": "2013650",
           "vi_score": 92,
           "id_score": 0,
@@ -49321,7 +49501,7 @@
           "has_consent": false
         },
         {
-          "position": 66,
+          "position": 68,
           "uid": "2006669",
           "vi_score": 92,
           "id_score": 0,
@@ -49331,7 +49511,7 @@
           "has_consent": false
         },
         {
-          "position": 67,
+          "position": 69,
           "uid": "2515342",
           "vi_score": 92,
           "id_score": 0,
@@ -49341,7 +49521,7 @@
           "has_consent": false
         },
         {
-          "position": 68,
+          "position": 70,
           "uid": "2023240",
           "vi_score": 92,
           "id_score": 0,
@@ -49351,7 +49531,7 @@
           "has_consent": false
         },
         {
-          "position": 69,
+          "position": 71,
           "uid": "1935923",
           "vi_score": 92,
           "id_score": 0,
@@ -49361,7 +49541,7 @@
           "has_consent": false
         },
         {
-          "position": 70,
+          "position": 72,
           "uid": "2061813",
           "vi_score": 92,
           "id_score": 0,
@@ -49371,7 +49551,7 @@
           "has_consent": false
         },
         {
-          "position": 71,
+          "position": 73,
           "uid": "1189322",
           "vi_score": 88,
           "id_score": 0,
@@ -49381,7 +49561,7 @@
           "has_consent": false
         },
         {
-          "position": 72,
+          "position": 74,
           "uid": "2010108",
           "vi_score": 88,
           "id_score": 0,
@@ -49391,7 +49571,7 @@
           "has_consent": false
         },
         {
-          "position": 73,
+          "position": 75,
           "uid": "2512465",
           "vi_score": 88,
           "id_score": 0,
@@ -49401,7 +49581,7 @@
           "has_consent": false
         },
         {
-          "position": 74,
+          "position": 76,
           "uid": "2400875",
           "vi_score": 88,
           "id_score": 0,
@@ -49411,7 +49591,7 @@
           "has_consent": false
         },
         {
-          "position": 75,
+          "position": 77,
           "uid": "2453993",
           "vi_score": 76,
           "id_score": 10,
@@ -49421,7 +49601,7 @@
           "has_consent": false
         },
         {
-          "position": 76,
+          "position": 78,
           "uid": "2236318",
           "vi_score": 84,
           "id_score": 0,
@@ -49431,7 +49611,7 @@
           "has_consent": false
         },
         {
-          "position": 77,
+          "position": 79,
           "uid": "2379521",
           "vi_score": 84,
           "id_score": 0,
@@ -49441,7 +49621,7 @@
           "has_consent": false
         },
         {
-          "position": 78,
+          "position": 80,
           "uid": "2330005",
           "vi_score": 84,
           "id_score": 0,
@@ -49451,7 +49631,7 @@
           "has_consent": false
         },
         {
-          "position": 79,
+          "position": 81,
           "uid": "2438188",
           "vi_score": 80,
           "id_score": 0,
@@ -49461,7 +49641,7 @@
           "has_consent": false
         },
         {
-          "position": 80,
+          "position": 82,
           "uid": "2450207",
           "vi_score": 80,
           "id_score": 0,
@@ -49471,7 +49651,7 @@
           "has_consent": false
         },
         {
-          "position": 81,
+          "position": 83,
           "uid": "982740",
           "vi_score": 80,
           "id_score": 0,
@@ -49481,7 +49661,7 @@
           "has_consent": false
         },
         {
-          "position": 82,
+          "position": 84,
           "uid": "2108549",
           "vi_score": 80,
           "id_score": 0,
@@ -49491,7 +49671,7 @@
           "has_consent": false
         },
         {
-          "position": 83,
+          "position": 85,
           "uid": "2344185",
           "vi_score": 80,
           "id_score": 0,
@@ -49501,7 +49681,7 @@
           "has_consent": false
         },
         {
-          "position": 84,
+          "position": 86,
           "uid": "2560413",
           "vi_score": 76,
           "id_score": 0,
@@ -49511,7 +49691,7 @@
           "has_consent": false
         },
         {
-          "position": 85,
+          "position": 87,
           "uid": "2383072",
           "vi_score": 76,
           "id_score": 0,
@@ -49521,7 +49701,7 @@
           "has_consent": false
         },
         {
-          "position": 86,
+          "position": 88,
           "uid": "1742236",
           "vi_score": 72,
           "id_score": 0,
@@ -49531,7 +49711,7 @@
           "has_consent": false
         },
         {
-          "position": 87,
+          "position": 89,
           "uid": "2107809",
           "vi_score": 68,
           "id_score": 0,
@@ -49541,7 +49721,7 @@
           "has_consent": false
         },
         {
-          "position": 88,
+          "position": 90,
           "uid": "2453262",
           "vi_score": 56,
           "id_score": 10,
@@ -49551,7 +49731,7 @@
           "has_consent": false
         },
         {
-          "position": 89,
+          "position": 91,
           "uid": "1306746",
           "vi_score": 64,
           "id_score": 0,
@@ -49561,7 +49741,7 @@
           "has_consent": false
         },
         {
-          "position": 90,
+          "position": 92,
           "uid": "1969114",
           "vi_score": 44,
           "id_score": 0,
@@ -49571,7 +49751,7 @@
           "has_consent": false
         },
         {
-          "position": 91,
+          "position": 93,
           "uid": "2321251",
           "vi_score": 44,
           "id_score": 0,
@@ -49581,7 +49761,7 @@
           "has_consent": false
         },
         {
-          "position": 92,
+          "position": 94,
           "uid": "2380401",
           "vi_score": 40,
           "id_score": 0,
@@ -49591,7 +49771,7 @@
           "has_consent": false
         },
         {
-          "position": 93,
+          "position": 95,
           "uid": "2021068",
           "vi_score": 40,
           "id_score": 0,
@@ -49601,7 +49781,7 @@
           "has_consent": false
         }
       ],
-      "scraped_at": "24.08.2026 08:41 МСК"
+      "scraped_at": "24.08.2026 09:03 МСК"
     }
   ]
 }
