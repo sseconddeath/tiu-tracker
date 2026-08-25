@@ -1,5 +1,5 @@
-"""Checks if enrollment orders have been published on TIU website."""
-import json, sys, os
+"""Checks for magistratura enrollment orders on TIU website."""
+import json, sys
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
 
@@ -23,43 +23,54 @@ def check():
     })
     r.raise_for_status()
     soup = BeautifulSoup(r.text, "html.parser")
-    text = soup.get_text().lower()
 
-    # Look for PDF links (orders are published as PDFs)
-    pdfs = []
-    for a in soup.find_all("a", href=True):
-        href = a["href"]
-        if ".pdf" in href.lower():
-            title = a.get_text(strip=True) or href.split("/")[-1]
-            if not href.startswith("http"):
-                href = "https://www.tyuiu.ru" + href
-            pdfs.append({"title": title, "url": href})
+    # Find the "Магистратура" section and collect PDFs after it
+    mag_pdfs = []
+    in_magistratura = False
 
-    # Check for keywords indicating orders are published
-    has_orders = bool(pdfs) or "приказ" in text and ("зачисл" in text) and ("магистр" in text or "2026" in text)
+    content = soup.find("div", class_="content")
+    if not content:
+        content = soup
+
+    for el in content.find_all(["p", "div", "strong", "b"]):
+        text = el.get_text(strip=True).lower()
+
+        # Detect section headers
+        if el.name in ("strong", "b") or (el.name == "div" and el.find("strong")):
+            if "магистратур" in text:
+                in_magistratura = True
+                continue
+            elif in_magistratura and any(w in text for w in ["кадры", "бакалавр", "специалит", "среднее", "общежити", "форма"]):
+                in_magistratura = False
+                continue
+
+        # Collect PDFs in magistratura section
+        if in_magistratura:
+            for a in el.find_all("a", href=True):
+                href = a["href"]
+                if ".pdf" in href.lower():
+                    title = a.get_text(strip=True)
+                    if not href.startswith("http"):
+                        href = "https://old.tyuiu.ru" + href
+                    mag_pdfs.append({"title": title, "url": href})
 
     status = {
         "checked_at": datetime.now(MSK).strftime("%d.%m.%Y %H:%M МСК"),
-        "has_orders": has_orders,
-        "pdfs": pdfs,
-        "message": f"Найдено {len(pdfs)} документов" if pdfs else "Приказы пока не опубликованы"
+        "has_orders": len(mag_pdfs) > 0,
+        "pdfs": mag_pdfs,
+        "message": f"Магистратура: {len(mag_pdfs)} приказов" if mag_pdfs else "Приказы магистратуры пока не опубликованы"
     }
 
-    # Save to orders.json
     DATA_DIR.mkdir(parents=True, exist_ok=True)
-    path = DATA_DIR / "orders.json"
-    path.write_text(json.dumps(status, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"Status: {status['message']} ({status['checked_at']})")
-
-    # Also update latest.json if it exists
     latest_path = DATA_DIR / "latest.json"
     if latest_path.exists():
         data = json.loads(latest_path.read_text(encoding="utf-8"))
         data["orders"] = status
         latest_path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
-        print("Updated latest.json")
 
-    return has_orders
+    print(f"Status: {status['message']} ({status['checked_at']})")
+    for p in mag_pdfs:
+        print(f"  -> {p['title']}")
 
 if __name__ == "__main__":
     check()
