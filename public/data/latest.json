@@ -42267,5 +42267,16 @@
       ],
       "scraped_at": "25.08.2026 13:01 МСК"
     }
-  ]
+  ],
+  "orders": {
+    "checked_at": "25.08.2026 13:20 МСК",
+    "has_orders": true,
+    "pdfs": [
+      {
+        "title": "5175 о/п — В пределах квоты на образование иностранных граждан",
+        "url": "https://old.tyuiu.ru/wp-content/uploads/2021/07/5175-op-V-predelah-kvoty-na-obrazovanie-inostrannyh-grazhdan.pdf"
+      }
+    ],
+    "message": "Магистратура: 1 приказов"
+  }
 }
