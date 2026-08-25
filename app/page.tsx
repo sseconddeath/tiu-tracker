@@ -80,7 +80,7 @@ export default function Page(){
 
   const savedLabel=savedIds.find(x=>x.id===activeId)?.label||''
   if(loading)return<div style={styles.loadWrap}><style>{globalCSS}</style><div style={styles.loadText}>INITIALIZING<span className="blink">_</span></div></div>
-  const ts=data?.scraped_at||null
+  const ts=data?.scraped_at?(data.scraped_at.includes('МСК')?data.scraped_at:new Date(data.scraped_at).toLocaleString('ru-RU')):null
 
   return(
     <div style={styles.root}>
@@ -96,6 +96,20 @@ export default function Page(){
         <div className="glitch" data-text="ТИУ://ТРЕКЕР" style={styles.logo}>ТИУ://ТРЕКЕР</div>
         <div style={styles.headerSub}>СИСТЕМА МОНИТОРИНГА КОНКУРСНЫХ СПИСКОВ</div>
         {ts&&<div style={styles.headerTime}><span style={styles.dot}/>SYNC: {ts}</div>}
+        {(data as any)?.orders&&<div style={{marginTop:8,textAlign:'center'}}>
+          {(data as any).orders.has_orders?<div>
+            <div style={{fontSize:11,fontFamily:mono,padding:'6px 14px',background:'rgba(74,222,128,0.15)',border:'1px solid rgba(74,222,128,0.3)',color:'#4ade80',letterSpacing:1,display:'inline-block',marginBottom:8}}>📋 ПРИКАЗЫ ОПУБЛИКОВАНЫ</div>
+            {(data as any).orders.pdfs?.map((p:{title:string,url:string},i:number)=>
+              <a key={i} href={p.url} target="_blank" rel="noopener noreferrer" style={{display:'block',padding:'8px 14px',margin:'4px auto',maxWidth:500,background:'#111',border:'1px solid #222',color:'#4ade80',fontSize:12,fontFamily:mono,textDecoration:'none',transition:'border-color 0.2s'}}
+                onMouseEnter={e=>e.currentTarget.style.borderColor='#4ade80'}
+                onMouseLeave={e=>e.currentTarget.style.borderColor='#222'}>
+                📄 {p.title}
+              </a>
+            )}
+          </div>
+          :<span style={{fontSize:10,fontFamily:mono,color:'#444'}}>Приказы: ожидание · {(data as any).orders.checked_at}</span>
+          }
+        </div>}
       </header>
 
       {/* Search */}
